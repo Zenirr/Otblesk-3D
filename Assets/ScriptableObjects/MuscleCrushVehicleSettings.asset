@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6d3eb2f194acb478f276d19beb6fc2, type: 3}
+  m_Name: MuscleCrushVehicleSettings
+  m_EditorClassIdentifier: 
+  m_Width: 0.38
+  m_Height: 0.2
+  m_Length: 1.35
+  m_WheelsPaddingX: 0.052
+  m_WheelsPaddingZ: 0.155
+  m_ChassiMass: 60
+  m_TireMass: 1
+  m_SpringRestLength: 0.19
+  m_SpringStrength: 1400
+  m_SpringDamper: 75.7
+  m_AcceleratePower: 100
+  m_BrakesPower: 1.5
+  m_MaxSpeed: 9
+  m_MaxReverseSpeed: 12
+  m_SteerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0029348582
+      value: 14.8913555
+      inSlope: -1.8298213
+      outSlope: -1.8298213
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.031229706
+    - serializedVersion: 3
+      time: 3.4165623
+      value: 9.1317005
+      inSlope: -1.1066662
+      outSlope: -1.1066662
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.40733606
+      outWeight: 0.10552927
+    - serializedVersion: 3
+      time: 14.425048
+      value: 3.4252105
+      inSlope: -0.08049268
+      outSlope: -0.08049268
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3091562
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_FrontWheelsGripFactor: 1
+  m_RearWheelsGripFactor: 1
+  m_AirResistance: 7.04

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f764753acbea94d8df16c716356f50, type: 3}
+  m_Name: StraightBiom
+  m_EditorClassIdentifier: 
+  biomName: StraightBiom
+  chunkPrefabs:
+  - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
+  straightChunk:
+  - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
+  environmentPrefabs:
+  - {fileID: 2271653266772487079, guid: 1d42ad963710a3143a64e2fc468e6d03, type: 3}
+  - {fileID: 6162967994138022421, guid: 86cc0ec315c18734eb5847f0919f9ddf, type: 3}
+  - {fileID: 8172665801570220066, guid: dd4d2309ebb24ca4eaa7292dbdc8fac5, type: 3}
+  - {fileID: 7706328237368217235, guid: 1c1542a7cdbd1eb499323715fc69d4e1, type: 3}
+  sunPosition: {fileID: 0}
