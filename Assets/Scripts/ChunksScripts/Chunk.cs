@@ -20,9 +20,18 @@ public class Chunk : MonoBehaviour
             {
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 378), 0));
                 ChunkEnvironment chunkEnvironment = objects[Random.Range(0, objects.Length)];
-                Vector3 position = _environmentObjectsPlacement[i].transform.position;
-
-                ChunkEnvironment currentEnvironmentObject = Instantiate(chunkEnvironment, position, rotation);
+                Transform environmentObjectPlacementTransform = _environmentObjectsPlacement[i].transform;
+                
+                Vector3 position = environmentObjectPlacementTransform.position;
+                ChunkEnvironment currentEnvironmentObject;
+                if (chunkEnvironment.isRotatable)
+                {
+                    currentEnvironmentObject = Instantiate(chunkEnvironment, position, rotation);
+                }
+                else
+                {
+                    currentEnvironmentObject = Instantiate(chunkEnvironment, position, environmentObjectPlacementTransform.rotation);
+                }
                 _environmentObjects.Add(currentEnvironmentObject);
             }
         }

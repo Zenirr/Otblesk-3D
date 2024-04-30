@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public string musicPath { get; private set; }
     public string playerName { get; private set; }
     public float highScore { get; private set; }
+    public bool isNew { get; private set; }
 
     public static GameManager Instance { get; private set; }
     public static GameState State { get; private set; }
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 State = state;
-                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore);
+                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew);
                 break;
             case GameState.CutscenePlaying:
                 State = state;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
         musicPath = save._musicPath;
         playerName = save._playerName;
         highScore = save._highScore;
+        isNew = save._isNew;
         SaveSetted?.Invoke(this, EventArgs.Empty);
     }
 }
