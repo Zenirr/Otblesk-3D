@@ -11,13 +11,22 @@ public class NewSaveCreateMenu : MonoBehaviour,IMenu
 {
     [SerializeField] private TMP_InputField _inputField;
     [SerializeField] private Button _createButton;
+    [SerializeField] private Button _cancelButton;
     [SerializeField] private CanvasGroup _wrongNameAlert;
 
     public event EventHandler NewSaveCreated;
+    public event EventHandler CancelButtonClicked;
 
     private void Start()
     {
         _createButton.onClick.AddListener(CreateSave);
+        _cancelButton.onClick.AddListener(OnCancelButtonClicked);
+    }
+
+    private void OnCancelButtonClicked()
+    {
+        _inputField.text = "";
+        CancelButtonClicked?.Invoke(this, EventArgs.Empty);
     }
 
     public void CreateSave()
@@ -67,6 +76,7 @@ public class NewSaveCreateMenu : MonoBehaviour,IMenu
     private void OnDestroy()
     {
         _createButton.onClick.RemoveAllListeners();
+        _cancelButton.onClick.RemoveAllListeners();
     }
 
     public void ToggleVisible()

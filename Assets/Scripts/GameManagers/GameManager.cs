@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     public string musicPath { get; private set; }
     public string playerName { get; private set; }
     public float highScore { get; private set; }
+    public bool isNew { get; private set; }
+    public float musicVolume { get; private set; }
+    public GameSave currentSave { get; private set; }
 
     public static GameManager Instance { get; private set; }
     public static GameState State { get; private set; }
@@ -51,7 +54,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 State = state;
-                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore);
+                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, musicVolume);
                 break;
             case GameState.CutscenePlaying:
                 State = state;
@@ -64,12 +67,23 @@ public class GameManager : MonoBehaviour
         StateForInspector = State;
     }
 
+    /// <summary>
+    /// Устанавливает сохранение и все необходимые данные из него в текущий GameManager
+    /// </summary>
+    /// <param name="save"> Устанавливаемое сохранение</param>
+    /// <param name="fireTheEvent">Активировать ли событие о установке сохранения? используется так как в глвном меню на этом завязано переключение между гланым меню и меню сохранения</param>
     public void SetSave(GameSave save)
     {
         saveName = save._saveName;
         musicPath = save._musicPath;
         playerName = save._playerName;
         highScore = save._highScore;
-        SaveSetted?.Invoke(this, EventArgs.Empty);
+        isNew = save._isNew;
+        musicVolume = save._musicVolume;
+        MusicManager.Instance.SetCurrentAudioVolume(save._musicVolume);
+        currentSave = save;
+
+        SaveSetted?.Invoke(this, EventArgs.Empty); 
+
     }
 }

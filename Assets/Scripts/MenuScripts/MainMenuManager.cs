@@ -10,25 +10,33 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private SettingsMenu _settingsMenu;
     [SerializeField] private PlaylistMenu _musicMenu;
     [SerializeField] private SaveMenu _saveMenu;
+    [SerializeField] private LeaderBoardMenu _leaderBoardMenu;
 
+    
     private void Start()
     {
         _mainMenu.MusicButtonClicked += MainMenu_MusicButtonClicked;
         _mainMenu.SettingsButtonClicked += MainMenu_SettingsButtonClicked;
         _mainMenu.ChangeSaveButtonClicked += MainMenu_ChangeSaveButtonClicked;
+        _mainMenu.LeaderBoardButtonClicked += MainMenu_LeaderBoardButtonClicked;
 
         _settingsMenu.CloseButtonClicked += MainMenu_SettingsButtonClicked;
         _musicMenu.CloseButtonClicked += MainMenu_MusicButtonClicked;
-        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
-
-        if (!string.IsNullOrEmpty(GameManager.Instance.saveName))
-        {
-            GameManager_SaveSetted(this,EventArgs.Empty);
-        }
+        _leaderBoardMenu.CancelButtonClicked += MainMenu_LeaderBoardButtonClicked;
+        _saveMenu._saveChooseMenu.SaveChoosed += _saveChooseMenu_SaveChoosed;
     }
 
+
+
+
     #region click events
-    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    private void MainMenu_LeaderBoardButtonClicked(object sender, EventArgs e)
+    {
+        _leaderBoardMenu.ToggleVisible();
+        _mainMenu.ToggleVisible();
+    }
+
+    private void _saveChooseMenu_SaveChoosed(object sender, EventArgs e)
     {
         _saveMenu.ToggleVisible();
         _mainMenu.ToggleVisible();
@@ -60,6 +68,7 @@ public class MainMenuManager : MonoBehaviour
         _settingsMenu.CloseButtonClicked -= MainMenu_SettingsButtonClicked;
         _musicMenu.CloseButtonClicked -= MainMenu_MusicButtonClicked;
         _mainMenu.ChangeSaveButtonClicked -= MainMenu_ChangeSaveButtonClicked;
+        _leaderBoardMenu.CancelButtonClicked -= MainMenu_LeaderBoardButtonClicked;
 
     }
 }

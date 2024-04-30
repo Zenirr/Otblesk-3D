@@ -7,12 +7,27 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour, IMenu
 {
     [SerializeField] private Button _closeButton;
+    [SerializeField] private Slider _musicSlider;
 
     public event EventHandler CloseButtonClicked;
 
     private void Start()
     {
         _closeButton.onClick.AddListener(CloseButton_clicked);
+        _musicSlider.onValueChanged.AddListener(OnMusicSliderValueChanged);
+        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+    }
+
+    private void GameManager_SaveSetted(object sender, EventArgs e)
+    {
+        float volume = GameManager.Instance.musicVolume;
+        MusicManager.Instance.SetCurrentAudioVolume(volume);
+        _musicSlider.value = volume;
+    }
+
+    private void OnMusicSliderValueChanged(float volume)
+    {
+        MusicManager.Instance.SetCurrentAudioVolume(volume);
     }
 
     private void CloseButton_clicked()
@@ -28,5 +43,18 @@ public class SettingsMenu : MonoBehaviour, IMenu
     private void OnDestroy()
     {
         _closeButton.onClick.RemoveAllListeners();
+        GameManager.Instance.SaveSetted -= GameManager_SaveSetted;
+    }
+
+    private void OnEnable()
+    {
+        _musicSlider.value = GameManager.Instance.musicVolume;
+    }
+
+    private void OnDisable()
+    {
+        GameSave save = GameManager.Instance.currentSave;
+        SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, save._highScore, save._isNew, _musicSlider.value);
+        GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
     }
 }

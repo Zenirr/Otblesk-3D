@@ -46,7 +46,7 @@ public class MusicManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _currentState = MusicState.MusicIsPaused;
         _startVolume = _audioSource.volume;
-
+        
     }
 
     #region pause and continue Methods
@@ -77,6 +77,11 @@ public class MusicManager : MonoBehaviour
     }
     #endregion
     
+    public void SetCurrentAudioVolume(float volume)
+    {
+        _audioSource.volume = volume;
+    }
+
     /// <summary>
     /// ¬ключает прошлый трек из заданного плейлиста
     /// </summary>
