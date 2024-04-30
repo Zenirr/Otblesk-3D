@@ -7,7 +7,7 @@ public static class SceneLoader
 {
     public enum Scenes{
         MainGame,
-        MainMenu
+        ArcadeMachineRoom
     }
 
     public static void Load(Scenes scene){

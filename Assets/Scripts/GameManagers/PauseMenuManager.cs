@@ -43,7 +43,7 @@ public class PauseMenuManager : MonoBehaviour
     {
         Time.timeScale = 1.0f;
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
-        SceneLoader.Load(SceneLoader.Scenes.MainMenu);
+        SceneLoader.Load(SceneLoader.Scenes.ArcadeMachineRoom);
     }
 
     private void OnDestroy()
