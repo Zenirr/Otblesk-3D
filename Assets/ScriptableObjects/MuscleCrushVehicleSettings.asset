@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Width: 0.38
   m_Height: 0.2
-  m_Length: 1.35
+  m_Length: 0.97
   m_WheelsPaddingX: 0.052
   m_WheelsPaddingZ: 0.155
   m_ChassiMass: 60
   m_TireMass: 1
-  m_SpringRestLength: 0.19
+  m_SpringRestLength: 0.16
   m_SpringStrength: 1400
-  m_SpringDamper: 75.7
+  m_SpringDamper: 113.8
   m_AcceleratePower: 100
   m_BrakesPower: 1.5
   m_MaxSpeed: 9

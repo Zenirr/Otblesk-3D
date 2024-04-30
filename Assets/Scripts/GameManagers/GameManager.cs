@@ -15,11 +15,13 @@ public class GameManager : MonoBehaviour
     }
 
     public event EventHandler SaveSetted;
-
+    
+    //текущие статистики игрока, ибо всегда есть GameManager к которому можно обратиться
     public string saveName { get; private set; }
     public string musicPath { get; private set; }
     public string playerName { get; private set; }
     public float highScore { get; private set; }
+    public bool isNew { get; private set; }
 
     public static GameManager Instance { get; private set; }
     public static GameState State { get; private set; }
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 State = state;
-                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore);
+                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew);
                 break;
             case GameState.CutscenePlaying:
                 State = state;
