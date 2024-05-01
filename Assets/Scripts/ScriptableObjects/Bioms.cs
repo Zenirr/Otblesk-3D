@@ -13,9 +13,9 @@ public class Bioms : ScriptableObject
     public Chunk[] chunkPrefabs;
     public Chunk[] straightChunk;
     public ChunkEnvironment[] environmentPrefabs;
-    
+    public int chunkMaxCount;
 
     [Header("Visual Options")]
-    public Transform sunPosition;
-    
+    public Light lightOptions;
+    public Material skyboxMaterial;
 }

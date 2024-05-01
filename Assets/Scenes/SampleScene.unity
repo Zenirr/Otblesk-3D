@@ -495,6 +495,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: "TrianglePortalForm\u0421onvex2"
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4de3908c5e084234897a7542650b854d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -588,6 +593,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrianglePortalFormBorder
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f62793b149e08c749aa8b7c470a403ff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -655,6 +665,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: "TrianglePortalForm\u0421onvex"
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0203314282a4bd548be6190a95cc6176,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -729,6 +744,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TrianglePortalForm
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5a3ba7e5c0e6abb41a7be223e87ec78e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
