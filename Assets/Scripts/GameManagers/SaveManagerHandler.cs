@@ -50,7 +50,7 @@ public static class SaveManagerHandler
     /// <param name="musicPath">Строка пути к музыки выбранной пользователем</param>
     /// <param name="playerName">Строка имени пользователя</param>
     /// <param name="highScore">Лучший счёт игрока</param>
-    public static void Save(string saveName, string musicPath, string playerName, float highScore,bool isNew,float musicVolume = 0.3f)
+    public static void Save(string saveName, string musicPath, string playerName, float highScore,bool isNew,float musicVolume = 0.1f)
     {
         GameSave gameSave = new GameSave()
         {

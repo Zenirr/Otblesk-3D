@@ -13,7 +13,7 @@ public class Barrier : MonoBehaviour, IObstacle
     {
         if (collision.gameObject.TryGetComponent(out Vehicle PlayerVehicle))
         {
-            if (!PlayerVehicle.TryGetComponent(out Rigidbody machineRigidbody) && machineRigidbody.velocity.magnitude > 5)
+            if (PlayerVehicle.TryGetComponent(out Rigidbody machineRigidbody) && machineRigidbody.velocity.magnitude > 1)
             {
                 GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameOver);
             }

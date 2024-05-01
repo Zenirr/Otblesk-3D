@@ -27,4 +27,4 @@ MonoBehaviour:
   chunkMaxCount: 150
   isRandomGenerated: 1
   lightOptions: {fileID: 0}
-  skyboxMaterial: {fileID: 0}
+  skyboxMaterial: {fileID: 2100000, guid: 993e757c3af28c44f8d06de5e9818a07, type: 2}
