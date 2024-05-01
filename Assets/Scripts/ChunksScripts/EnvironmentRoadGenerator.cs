@@ -70,7 +70,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
             }
             else
             {
-                ChunkSpawn(_chunks);
+                ChunkSpawn(_chunks, _chunksQueue.Count - 1);
             }
         }
         else
@@ -96,7 +96,26 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         ChunkCreated?.Invoke(this,chunk);
         _currentChunksLength += _lastCreatedChunk.GetLength();
     }
-    
+
+    /// <summary>
+    /// Создаёт и размещает чанк который определён индексом. 
+    /// Также заносит его в очередь уже созданных чанков.
+    /// </summary>
+    /// <param name="chunks">Массив чанков для выбора случайного чанка</param>
+    /// <param name="index">Индекс чанка, для реализации параметра есть список существующих чанков</param>
+    private void ChunkSpawn(Chunk[] chunks,int index)
+    {
+        Chunk chunk = Instantiate(chunks[index]);
+        chunk.gameObject.SetActive(true);
+        chunk.transform.position = _lastCreatedChunk._end.transform.position + (chunk.transform.position - chunk._start.transform.position);
+        chunk.SetEnvironmentObjects(_environment);
+        _lastCreatedChunk = chunk;
+        _chunksQueue.Enqueue(chunk);
+        _chunksCreated++;
+        ChunkCreated?.Invoke(this, chunk);
+        _currentChunksLength += _lastCreatedChunk.GetLength();
+    }
+
     /// <summary>
     /// Уничтожает все чанки со сцены и очищает список чанков, также задаёт нулевой чанк - последним созданным
     /// </summary>
@@ -122,11 +141,12 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         return _lastCreatedChunk.transform.position.z < _car.transform.position.z + _newChunkGenerateOffset;
     }
 
-    public void SetCurrentChunkListAndEnvironmentList(Chunk[] straightChunk, Chunk[] chunks, ChunkEnvironment[] environments)
+    public void SetCurrentChunkListAndEnvironmentList(Chunk[] straightChunk, Chunk[] chunks, ChunkEnvironment[] environments,int maxChunksCount)
     {
         _straightChunks = straightChunk;
         _chunks = chunks;
         _environment = environments;
+        _chunksCountGenerationLimit = maxChunksCount;
         _chunksCreated = 0;
     }
 

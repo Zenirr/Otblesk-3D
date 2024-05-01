@@ -8,12 +8,17 @@ using Random = UnityEngine.Random;
 public class BiomController : MonoBehaviour
 {
     [Header("Variables")]
+    [SerializeField] private Bioms tutorialBiom;
     [SerializeField] private List<Bioms> _bioms;
     [SerializeField] private Bioms _currentBiom;
     [SerializeField] private bool _isEndlessRegime;
+    [SerializeField] private bool _isRandomGenerated;
+    [SerializeField] private ScoreManager _scoreManager;
+
     [Header("References")]
     [SerializeField] private Teleporter _teleportFrom;
     [SerializeField] private EnvironmentRoadGenerator _environmentGenerator;
+    [SerializeField] private Light _lightObject;
 
     public event EventHandler<EventArgs> BiomsChanged;
 
@@ -21,10 +26,21 @@ public class BiomController : MonoBehaviour
     private void Start()
     {
         _teleportFrom.Teleported += Teleport_Teleported;
+        if (GameManager.Instance.isNew)
+        {
+            SetCurrentBiom(tutorialBiom);
+        }
     }
 
     private void Teleport_Teleported(object sender, System.EventArgs e)
     {
+        GameSave save = GameManager.Instance.currentSave;
+        if(save._highScore< _scoreManager.currentScore)
+        {
+            SaveManagerHandler.Save(save._saveName,save._musicPath, save._playerName, _scoreManager.currentScore,false, save._musicVolume);
+            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName));
+        }
+
         if (_isEndlessRegime)
         {
             EndlessBiomsRegimeSetter();
@@ -36,6 +52,15 @@ public class BiomController : MonoBehaviour
         BiomsChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    private void SetCurrentBiom(Bioms biom)
+    {
+        _currentBiom = biom;
+        _environmentGenerator.SetCurrentChunkListAndEnvironmentList(biom.straightChunk,biom.chunkPrefabs,biom.environmentPrefabs,biom.chunkMaxCount);
+        RenderSettings.skybox = biom.skyboxMaterial;
+        _lightObject = biom.lightOptions;
+        BiomsChanged?.Invoke(_currentBiom, EventArgs.Empty);
+    }
+
     private void EndlessBiomsRegimeSetter()
     {
         Bioms newBiom = _bioms[Random.Range(0, _bioms.Count)];
@@ -44,8 +69,10 @@ public class BiomController : MonoBehaviour
             newBiom = _bioms[Random.Range(0, _bioms.Count)];
         }
         _currentBiom = newBiom;
-        BiomsChanged?.Invoke(this,EventArgs.Empty);
-        _environmentGenerator.SetCurrentChunkListAndEnvironmentList(newBiom.straightChunk,newBiom.chunkPrefabs, newBiom.environmentPrefabs);
+        _environmentGenerator.SetCurrentChunkListAndEnvironmentList(newBiom.straightChunk,newBiom.chunkPrefabs, newBiom.environmentPrefabs,newBiom.chunkMaxCount);
+        RenderSettings.skybox = newBiom.skyboxMaterial;
+        _lightObject = newBiom.lightOptions;
+        BiomsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void IsntEndlessBiomsRegimeSetter()
