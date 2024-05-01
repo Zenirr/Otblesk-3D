@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private EnvironmentRoadGenerator _roadGenerator;
     public float currentScore { get; private set; }
 
     public void AddToCurrentScore(float score)

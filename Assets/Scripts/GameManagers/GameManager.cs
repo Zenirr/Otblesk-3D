@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     }
 
     public event EventHandler SaveSetted;
+    public event EventHandler GameOver;
 
     public string saveName { get; private set; }
     public string musicPath { get; private set; }
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
             case GameState.GameOver:
                 State = state;
                 SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, musicVolume);
+                GameOver?.Invoke(this, EventArgs.Empty);
                 break;
             case GameState.CutscenePlaying:
                 State = state;

@@ -14,6 +14,7 @@ public class Bioms : ScriptableObject
     public Chunk[] straightChunk;
     public ChunkEnvironment[] environmentPrefabs;
     public int chunkMaxCount;
+    public bool isRandomGenerated;
 
     [Header("Visual Options")]
     public Light lightOptions;
