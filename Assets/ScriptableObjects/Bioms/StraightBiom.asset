@@ -22,6 +22,8 @@ MonoBehaviour:
   - {fileID: 6162967994138022421, guid: 86cc0ec315c18734eb5847f0919f9ddf, type: 3}
   - {fileID: 8172665801570220066, guid: dd4d2309ebb24ca4eaa7292dbdc8fac5, type: 3}
   - {fileID: 7706328237368217235, guid: 1c1542a7cdbd1eb499323715fc69d4e1, type: 3}
+  - {fileID: 4896088725339226453, guid: 71c5417e3ba772f429f244a4729f82c4, type: 3}
+  - {fileID: 1512604365665502536, guid: 598ea5beaee95c84b98bc2c391e9a9b3, type: 3}
   chunkMaxCount: 150
   isRandomGenerated: 1
   lightOptions: {fileID: 0}

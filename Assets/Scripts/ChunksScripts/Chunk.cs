@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Chunk : MonoBehaviour
 {
@@ -20,9 +21,17 @@ public class Chunk : MonoBehaviour
             {
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 378), 0));
                 ChunkEnvironment chunkEnvironment = objects[Random.Range(0, objects.Length)];
-                Vector3 position = _environmentObjectsPlacement[i].transform.position;
-
-                ChunkEnvironment currentEnvironmentObject = Instantiate(chunkEnvironment, position, rotation);
+                Transform transform = _environmentObjectsPlacement[i].transform;
+                Vector3 position = transform.position;
+                ChunkEnvironment currentEnvironmentObject;
+                if (chunkEnvironment._isRotatable)
+                {
+                    currentEnvironmentObject = Instantiate(chunkEnvironment, position, rotation);
+                }
+                else
+                {
+                    currentEnvironmentObject = Instantiate(chunkEnvironment, position, transform.rotation);
+                }
                 _environmentObjects.Add(currentEnvironmentObject);
             }
         }
