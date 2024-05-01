@@ -11,6 +11,7 @@ public class SaveChooseUI : MonoBehaviour,IMenu
     [SerializeField] private SavePanel _savePanel;
     [SerializeField] private Button _createSaveButton;
     [SerializeField] private GameObject _savePanelsContentHolder;
+    [SerializeField] private Button _exitButton;
 
     public event EventHandler SaveChoosed;
     private void Start()
@@ -21,7 +22,12 @@ public class SaveChooseUI : MonoBehaviour,IMenu
         }
         UpdateData();
         _createSaveButton.onClick.AddListener(SaveButtonOnClick);
-        
+        _exitButton.onClick.AddListener(OnExitButtonClicked);
+    }
+
+    private void OnExitButtonClicked()
+    {
+        Application.Quit();
     }
 
     public void SaveButtonOnClick()
@@ -62,6 +68,7 @@ public class SaveChooseUI : MonoBehaviour,IMenu
     private void OnDestroy()
     {
         _createSaveButton.onClick.RemoveAllListeners();
+        _exitButton.onClick.RemoveAllListeners();
         foreach (SavePanel sp in _savePanelsContentHolder.transform.GetComponentsInChildren<SavePanel>())
         {
             sp.SaveChoosed -= SavePanel_SaveChoosed;

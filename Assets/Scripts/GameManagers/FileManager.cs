@@ -192,4 +192,8 @@ public class FileManager : MonoBehaviour
             clip[index] = myClip;
         }
     }
+    private void OnDestroy()
+    {
+        GameManager.Instance.SaveSetted -= GameManager_SaveSetted;
+    }
 }
