@@ -13,9 +13,23 @@ MonoBehaviour:
   m_Name: TutorialBiom
   m_EditorClassIdentifier: 
   biomName: TutorialBiom
-  chunkPrefabs: []
+  chunkPrefabs:
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: 32828a581b5e74544a8ea32f9444b5de, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: 54d772d4bf05df14fa7c0cf0f98cced3, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: b271f221bf87d054abbcd436455bf612, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: f46c5febbf7127a4bb85e6f9025deacb, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: ed318d107ec8e22409f27c92bec95036, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   straightChunk: []
   environmentPrefabs: []
-  chunkMaxCount: 0
+  chunkMaxCount: 50
+  isRandomGenerated: 0
   lightOptions: {fileID: 0}
   skyboxMaterial: {fileID: 0}

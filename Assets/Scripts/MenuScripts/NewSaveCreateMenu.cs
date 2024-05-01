@@ -80,7 +80,10 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
         {
             if (FilePathHandler.GetFileExtension(file) == ".json")
             {
-                isNameUnique = !(SaveManagerHandler.Load(file)._playerName == name.Trim());
+                isNameUnique = !(SaveManagerHandler.Load(FilePathHandler.GetFileName(file))._playerName == name.Trim());
+                if (!isNameUnique)
+                    break;
+
             }
         }
 

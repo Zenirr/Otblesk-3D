@@ -24,4 +24,7 @@ MonoBehaviour:
   - {fileID: 2271653266772487079, guid: 1d42ad963710a3143a64e2fc468e6d03, type: 3}
   - {fileID: 6162967994138022421, guid: 86cc0ec315c18734eb5847f0919f9ddf, type: 3}
   - {fileID: 2727669541460043988, guid: e08731622057ce94fb417c1d99034270, type: 3}
-  sunPosition: {fileID: 0}
+  chunkMaxCount: 150
+  isRandomGenerated: 1
+  lightOptions: {fileID: 0}
+  skyboxMaterial: {fileID: 0}

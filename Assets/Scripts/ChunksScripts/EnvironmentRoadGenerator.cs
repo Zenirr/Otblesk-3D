@@ -16,6 +16,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     [SerializeField] private float _newChunkGenerateOffset; //Расстояние от машины на котором будут спавниться новые чанки
     [SerializeField] private int _chunksCountGenerationLimit; //Сколько чанков должно пройти чтобы появилась вероятность заспавнить портал вместо следующего чанка
     [SerializeField] private float _startLineLength; //Длина стартовой линии из прямых чвнков, советую ставить где0то 100 - 150
+    [SerializeField] private bool _randomGenerationIsOn;
 
     [Header("Объекты на сцене")]
     [SerializeField] private Chunk _lastCreatedChunk;//последний созданный чанк, в самом начале - нулевой
@@ -23,6 +24,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     [SerializeField] private Teleporter _teleporter; // Телепорт который будет спавнится в конце дороги
     [SerializeField] private BiomController _biomeController;
     [SerializeField] private Chunk _zeroPointChunk; // Чанк который стоит в нулевой точке и является точкой отсчёта для всех других
+    [SerializeField] private ScoreManager _scoreManager;
 
     public event EventHandler<Chunk> ChunkCreated;
 
@@ -64,13 +66,20 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     {
         if (_chunksCreated < _chunksCountGenerationLimit)
         {
-            if (_currentChunksLength < _startLineLength)
+            if (_currentChunksLength < _startLineLength && _straightChunks.Length != 0)
             {
                 ChunkSpawn(_straightChunks);
             }
             else
             {
-                ChunkSpawn(_chunks, _chunksQueue.Count - 1);
+                if (_randomGenerationIsOn)
+                {
+                    ChunkSpawn(_chunks);
+                }
+                else
+                {
+                    ChunkSpawn(_chunks, _chunksQueue.Count );
+                }
             }
         }
         else
@@ -95,6 +104,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         _chunksCreated++;
         ChunkCreated?.Invoke(this,chunk);
         _currentChunksLength += _lastCreatedChunk.GetLength();
+        _scoreManager.AddToCurrentScore(chunk._score);
     }
 
     /// <summary>
@@ -114,6 +124,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         _chunksCreated++;
         ChunkCreated?.Invoke(this, chunk);
         _currentChunksLength += _lastCreatedChunk.GetLength();
+        _scoreManager.AddToCurrentScore(chunk._score);
     }
 
     /// <summary>
@@ -141,18 +152,27 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         return _lastCreatedChunk.transform.position.z < _car.transform.position.z + _newChunkGenerateOffset;
     }
 
-    public void SetCurrentChunkListAndEnvironmentList(Chunk[] straightChunk, Chunk[] chunks, ChunkEnvironment[] environments,int maxChunksCount)
+    public void SetCurrentBiomGenerationParametrs(Chunk[] straightChunk, Chunk[] chunks, ChunkEnvironment[] environments,int maxChunksCount,bool isGenerationRandom)
     {
         _straightChunks = straightChunk;
         _chunks = chunks;
         _environment = environments;
-        _chunksCountGenerationLimit = maxChunksCount;
+
+        if (isGenerationRandom)
+        {
+            _chunksCountGenerationLimit = maxChunksCount;
+        }
+        else
+        {
+            _chunksCountGenerationLimit = _chunks.Length;
+        }
         _chunksCreated = 0;
+        _randomGenerationIsOn = isGenerationRandom;
     }
 
     private void BackOnTheRoad()
     {
-        Chunk currentChunk = (Chunk)_chunksQueue.First();
+        Chunk currentChunk = _chunksQueue.First();
         _car.transform.SetPositionAndRotation(currentChunk._start.transform.position + Vector3.forward + Vector3.up, Quaternion.Euler(0, 0, 0));
         _car.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }

@@ -35,10 +35,10 @@ public class BiomController : MonoBehaviour
     private void Teleport_Teleported(object sender, System.EventArgs e)
     {
         GameSave save = GameManager.Instance.currentSave;
-        if(save._highScore< _scoreManager.currentScore)
+        if (save._highScore < _scoreManager.currentScore)
         {
-            SaveManagerHandler.Save(save._saveName,save._musicPath, save._playerName, _scoreManager.currentScore,false, save._musicVolume);
-            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName));
+            SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, _scoreManager.currentScore, false, save._musicVolume);
+            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
         }
 
         if (_isEndlessRegime)
@@ -55,23 +55,35 @@ public class BiomController : MonoBehaviour
     private void SetCurrentBiom(Bioms biom)
     {
         _currentBiom = biom;
-        _environmentGenerator.SetCurrentChunkListAndEnvironmentList(biom.straightChunk,biom.chunkPrefabs,biom.environmentPrefabs,biom.chunkMaxCount);
-        RenderSettings.skybox = biom.skyboxMaterial;
-        _lightObject = biom.lightOptions;
+        _environmentGenerator.SetCurrentBiomGenerationParametrs(biom.straightChunk, biom.chunkPrefabs, biom.environmentPrefabs, biom.chunkMaxCount,biom.isRandomGenerated);
+        if (biom.skyboxMaterial != null) 
+        {
+            RenderSettings.skybox = biom.skyboxMaterial; 
+        }
+        if (biom.lightOptions != null)
+        {
+            _lightObject = biom.lightOptions;
+        }
         BiomsChanged?.Invoke(_currentBiom, EventArgs.Empty);
     }
 
     private void EndlessBiomsRegimeSetter()
     {
         Bioms newBiom = _bioms[Random.Range(0, _bioms.Count)];
-        while (newBiom == _currentBiom) 
+        while (newBiom == _currentBiom)
         {
             newBiom = _bioms[Random.Range(0, _bioms.Count)];
         }
         _currentBiom = newBiom;
-        _environmentGenerator.SetCurrentChunkListAndEnvironmentList(newBiom.straightChunk,newBiom.chunkPrefabs, newBiom.environmentPrefabs,newBiom.chunkMaxCount);
-        RenderSettings.skybox = newBiom.skyboxMaterial;
-        _lightObject = newBiom.lightOptions;
+        _environmentGenerator.SetCurrentBiomGenerationParametrs(newBiom.straightChunk, newBiom.chunkPrefabs, newBiom.environmentPrefabs, newBiom.chunkMaxCount, newBiom.isRandomGenerated);
+        if (newBiom.skyboxMaterial != null)
+        {
+            RenderSettings.skybox = newBiom.skyboxMaterial;
+        }
+        if (newBiom.lightOptions != null)
+        {
+            _lightObject = newBiom.lightOptions;
+        }
         BiomsChanged?.Invoke(this, EventArgs.Empty);
     }
 
