@@ -17481,7 +17481,7 @@ MonoBehaviour:
     type: 3}
   _createSaveButton: {fileID: 1401124495774070420}
   _savePanelsContentHolder: {fileID: 5550808924573131524}
-  _exitButton: {fileID: 0}
+  _exitButton: {fileID: 1792828684}
 --- !u!224 &9209439005530382986
 RectTransform:
   m_ObjectHideFlags: 0
