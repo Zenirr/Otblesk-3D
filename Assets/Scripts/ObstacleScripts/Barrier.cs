@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Barrier : MonoBehaviour, IObstacle
 {
-    public void OnObstacleHit()
+    public void OnObstacleHit(GameObject gameObject)
     {
     }
 

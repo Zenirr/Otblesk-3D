@@ -5,5 +5,5 @@ using UnityEngine;
 
 public interface IObstacle 
 {
-    void OnObstacleHit();
+    void OnObstacleHit(GameObject gameObject);
 }

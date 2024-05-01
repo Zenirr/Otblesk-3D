@@ -154,6 +154,7 @@ public class MusicManager : MonoBehaviour
 
     public void SetCustomPlaylist(AudioClip[] clips)
     {
+        _customPlaylist = null;
         _customPlaylist = clips;
         _currentTrackIndex = 0;
     }
