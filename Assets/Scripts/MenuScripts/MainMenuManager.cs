@@ -12,7 +12,6 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private SaveMenu _saveMenu;
     [SerializeField] private LeaderBoardMenu _leaderBoardMenu;
 
-    
     private void Start()
     {
         _mainMenu.MusicButtonClicked += MainMenu_MusicButtonClicked;
@@ -21,6 +20,7 @@ public class MainMenuManager : MonoBehaviour
         _mainMenu.LeaderBoardButtonClicked += MainMenu_LeaderBoardButtonClicked;
 
         _settingsMenu.CloseButtonClicked += MainMenu_SettingsButtonClicked;
+        _settingsMenu.SaveDeleted += SettingsMenu_SaveDeleted;
         _musicMenu.CloseButtonClicked += MainMenu_MusicButtonClicked;
         _leaderBoardMenu.CancelButtonClicked += MainMenu_LeaderBoardButtonClicked;
         _saveMenu._saveChooseMenu.SaveChoosed += SaveChooseMenu_SaveChoosed;
@@ -30,6 +30,12 @@ public class MainMenuManager : MonoBehaviour
             _saveMenu.ToggleVisible();
             _mainMenu.ToggleVisible();
         }
+    }
+
+    private void SettingsMenu_SaveDeleted(object sender, EventArgs e)
+    {
+        _saveMenu.ToggleVisible();
+        _settingsMenu.ToggleVisible();
     }
 
     #region click events

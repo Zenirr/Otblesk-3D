@@ -44,7 +44,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
 
         if (Directory.Exists(_folderInputField.text))
         {
-            SaveManagerHandler.Save(save._saveName,_folderInputField.text,save._playerName,save._highScore,save._isNew,save._musicVolume);
+            SaveManagerHandler.Save(save._saveName, _folderInputField.text, save._playerName, save._highScore, save._isNew, save._playerPassword, save._musicVolume, save._useBuiltInPlaylist);
         }
         else
         {

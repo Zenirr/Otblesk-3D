@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public float highScore { get; private set; }
     public bool isNew { get; private set; }
     public float musicVolume { get; private set; }
+    public string playerPassword { get; private set; }
+    public bool useBuiltInMusic { get; private set; }
     public GameSave currentSave { get; private set; }
 
     public static GameManager Instance { get; private set; }
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 State = state;
-                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, musicVolume);
+                SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, playerPassword, musicVolume, useBuiltInMusic);
                 GameOver?.Invoke(this, EventArgs.Empty);
                 break;
             case GameState.CutscenePlaying:
@@ -82,10 +84,11 @@ public class GameManager : MonoBehaviour
         highScore = save._highScore;
         isNew = save._isNew;
         musicVolume = save._musicVolume;
+        playerPassword = save._playerPassword;
+        useBuiltInMusic = save._useBuiltInPlaylist;
         MusicManager.Instance.SetCurrentAudioVolume(save._musicVolume);
         currentSave = save;
 
-        SaveSetted?.Invoke(this, EventArgs.Empty); 
-
+        SaveSetted?.Invoke(this, EventArgs.Empty);
     }
 }

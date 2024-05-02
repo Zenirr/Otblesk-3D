@@ -7,10 +7,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 public class NewSaveCreateMenu : MonoBehaviour, IMenu
 {
-    [SerializeField] private TMP_InputField _inputField;
+    [SerializeField] private TMP_InputField _loginInputField;
+    [SerializeField] private TMP_InputField _passwordInputField;
     [SerializeField] private Button _createButton;
     [SerializeField] private Button _cancelButton;
     [SerializeField] private CanvasGroup _wrongNameAlert;
@@ -26,18 +28,22 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
 
     private void OnCancelButtonClicked()
     {
-        _inputField.text = "";
+        _loginInputField.text = string.Empty;
+        _passwordInputField.text = string.Empty;
+        _wrongNameAlert.gameObject.SetActive(false);
         CancelButtonClicked?.Invoke(this, EventArgs.Empty);
     }
 
     public void CreateSave()
     {
-        string userName = _inputField.text.Trim();
+        string username = _loginInputField.text.Trim();
+        string password = _passwordInputField.text.Trim();
 
-        if (CheckNameForIssues(userName))
+        if (CheckNameForIssues(username) && CheckPasswordForIssues(password))
         {
-            SaveManagerHandler.Save(SaveManagerHandler.STANDART_MUSIC_FOLDER_PATH, userName, 0f);
-            _inputField.text = string.Empty;
+            SaveManagerHandler.Save(SaveManagerHandler.STANDART_MUSIC_FOLDER_PATH, username, 0f, password);
+            _loginInputField.text = string.Empty;
+            _passwordInputField.text = string.Empty;
             NewSaveCreated?.Invoke(this, EventArgs.Empty);
         }
         else
@@ -87,7 +93,12 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
             }
         }
 
-        return !string.IsNullOrEmpty(name) && Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") && isNameUnique;
+        return !string.IsNullOrEmpty(name) && Regex.IsMatch(name, @"^[a-zA-Z_Р-пр-џЈИ]\w*$") && isNameUnique;
+    }
+
+    private bool CheckPasswordForIssues(string password)
+    {
+        return !string.IsNullOrEmpty(password) && Regex.IsMatch(password, @"^[a-zA-Z_Р-пр-џЈИ]\w*$");
     }
 
     private void OnDestroy()

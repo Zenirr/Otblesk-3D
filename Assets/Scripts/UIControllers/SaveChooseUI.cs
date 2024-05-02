@@ -75,6 +75,11 @@ public class SaveChooseUI : MonoBehaviour,IMenu
         }
     }
 
+    private void OnEnable()
+    {
+        UpdateData();
+    }
+
     public void ToggleVisible()
     {
         gameObject.SetActive(!gameObject.activeSelf);
