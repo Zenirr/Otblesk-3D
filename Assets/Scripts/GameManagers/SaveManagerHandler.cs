@@ -15,7 +15,7 @@ public static class SaveManagerHandler
     /// <param name="musicPath">Строка пути к музыки выбранной пользователем</param>
     /// <param name="playerName">Строка имени пользователя</param>
     /// <param name="highScore">Лучший счёт игрока</param>
-    public static void Save(string musicPath , string playerName, float highScore,float musicVolume = 0.3f)
+    public static void Save(string musicPath , string playerName, float highScore,float musicVolume = 0.1f,bool useBuiltInPlaylist = false)
     {
         int saveCount = 1;
 
@@ -32,7 +32,8 @@ public static class SaveManagerHandler
             _playerName = playerName,
             _highScore = highScore,
             _isNew = true,
-            _musicVolume = musicVolume
+            _musicVolume = musicVolume,
+            _useBuiltInPlaylist = useBuiltInPlaylist
         };
         
         string resultPath = SAVE_FOLDER + SAVE_NAME + saveCount + ".json";
@@ -50,7 +51,7 @@ public static class SaveManagerHandler
     /// <param name="musicPath">Строка пути к музыки выбранной пользователем</param>
     /// <param name="playerName">Строка имени пользователя</param>
     /// <param name="highScore">Лучший счёт игрока</param>
-    public static void Save(string saveName, string musicPath, string playerName, float highScore,bool isNew,float musicVolume = 0.1f)
+    public static void Save(string saveName, string musicPath, string playerName, float highScore, bool isNew, float musicVolume = 0.1f, bool useBuiltInPlaylist = false)
     {
         GameSave gameSave = new GameSave()
         {
@@ -59,7 +60,8 @@ public static class SaveManagerHandler
             _playerName = playerName,
             _highScore = highScore,
             _isNew = isNew,
-            _musicVolume = musicVolume
+            _musicVolume = musicVolume,
+            _useBuiltInPlaylist = useBuiltInPlaylist
         };
 
         string resultPath = SAVE_FOLDER + saveName + ".json";
@@ -94,4 +96,5 @@ public class GameSave
     public float _highScore;
     public bool _isNew;
     public float _musicVolume;
+    public bool _useBuiltInPlaylist;
 }

@@ -19,8 +19,8 @@ MonoBehaviour:
   m_WheelsPaddingZ: 0.154
   m_ChassiMass: 60
   m_TireMass: 1
-  m_SpringRestLength: 0.17
-  m_SpringStrength: 1249.4
+  m_SpringRestLength: 0.15
+  m_SpringStrength: 1400
   m_SpringDamper: 75.7
   m_AcceleratePower: 100
   m_BrakesPower: 1.5

@@ -23,11 +23,14 @@ public class MainMenuManager : MonoBehaviour
         _settingsMenu.CloseButtonClicked += MainMenu_SettingsButtonClicked;
         _musicMenu.CloseButtonClicked += MainMenu_MusicButtonClicked;
         _leaderBoardMenu.CancelButtonClicked += MainMenu_LeaderBoardButtonClicked;
-        _saveMenu._saveChooseMenu.SaveChoosed += _saveChooseMenu_SaveChoosed;
+        _saveMenu._saveChooseMenu.SaveChoosed += SaveChooseMenu_SaveChoosed;
+
+        if(GameManager.Instance.currentSave != null)
+        {
+            _saveMenu.ToggleVisible();
+            _mainMenu.ToggleVisible();
+        }
     }
-
-
-
 
     #region click events
     private void MainMenu_LeaderBoardButtonClicked(object sender, EventArgs e)
@@ -36,7 +39,7 @@ public class MainMenuManager : MonoBehaviour
         _mainMenu.ToggleVisible();
     }
 
-    private void _saveChooseMenu_SaveChoosed(object sender, EventArgs e)
+    private void SaveChooseMenu_SaveChoosed(object sender, EventArgs e)
     {
         _saveMenu.ToggleVisible();
         _mainMenu.ToggleVisible();
@@ -69,6 +72,6 @@ public class MainMenuManager : MonoBehaviour
         _musicMenu.CloseButtonClicked -= MainMenu_MusicButtonClicked;
         _mainMenu.ChangeSaveButtonClicked -= MainMenu_ChangeSaveButtonClicked;
         _leaderBoardMenu.CancelButtonClicked -= MainMenu_LeaderBoardButtonClicked;
-
+        _saveMenu._saveChooseMenu.SaveChoosed -= SaveChooseMenu_SaveChoosed;
     }
 }

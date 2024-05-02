@@ -19,10 +19,9 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance;
 
     [SerializeField] private AudioClip[] _customPlaylist;
-
+    [SerializeField] private AudioClip[] _buildInPlaylist;
     public MusicState _currentState { get; private set; }
     private AudioSource _audioSource;
-    private Playlist _standartPlaylist;
     private bool _useStandartPlaylist;
     private float _startVolume;
     private int _currentTrackIndex;
@@ -46,7 +45,12 @@ public class MusicManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _currentState = MusicState.MusicIsPaused;
         _startVolume = _audioSource.volume;
-        
+        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+    }
+
+    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    {
+
     }
 
     #region pause and continue Methods
@@ -166,5 +170,7 @@ public class MusicManager : MonoBehaviour
 
         PlayNextTrack();
     }
+
+    
 
 }

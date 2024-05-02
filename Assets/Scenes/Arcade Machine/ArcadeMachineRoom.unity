@@ -8815,6 +8815,7 @@ GameObject:
   - component: {fileID: 1647819183}
   - component: {fileID: 1647819182}
   - component: {fileID: 1647819185}
+  - component: {fileID: 1647819186}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8890,7 +8891,7 @@ Transform:
   m_GameObject: {fileID: 1647819181}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.34, z: 21.78}
+  m_LocalPosition: {x: 0, y: 1.2, z: 6.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8940,6 +8941,22 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &1647819186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647819181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499d975866f8adb4db82c2ffbf5d500b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
+  _endPosition: {x: 0, y: 1.34, z: 21.78}
+  _endFOV: 17.18215
+  _duration: 2
 --- !u!1 &1655923053
 GameObject:
   m_ObjectHideFlags: 0
@@ -12808,6 +12825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _customPlaylist: []
+  _buildInPlaylist: []
 --- !u!114 &1221950209506726744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13675,6 +13693,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 3963029282560472438}
+  _changeMusicFolderButton: {fileID: 7289298558132270809}
+  _folderInputField: {fileID: 7878669786842851468}
 --- !u!222 &2448775628484380501
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15231,7 +15251,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.309
+  m_Volume: 0.08
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -16275,6 +16295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 1477621332577112366}
   _musicSlider: {fileID: 957087302}
+  _toggleStandartPlaylist: {fileID: 0}
 --- !u!222 &6936964041615596035
 CanvasRenderer:
   m_ObjectHideFlags: 0
