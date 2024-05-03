@@ -93,12 +93,12 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
             }
         }
 
-        return !string.IsNullOrEmpty(name) && Regex.IsMatch(name, @"^[a-zA-Z_Р-пр-џЈИ]\w*$") && isNameUnique;
+        return !string.IsNullOrEmpty(name) && (Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") || Regex.IsMatch(name, @"^[Р-пр-џЈИ_]\w*$")) && isNameUnique;
     }
 
     private bool CheckPasswordForIssues(string password)
     {
-        return !string.IsNullOrEmpty(password) && Regex.IsMatch(password, @"^[a-zA-Z_Р-пр-џЈИ]\w*$");
+        return !string.IsNullOrEmpty(password) && (Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") || Regex.IsMatch(name, @"^[Р-пр-џЈИ_]\w*$"));
     }
 
     private void OnDestroy()

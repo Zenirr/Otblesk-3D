@@ -51,12 +51,15 @@ public class GameManager : MonoBehaviour
         {
             case GameState.GamePaused:
                 State = state;
+                Time.timeScale = 0f;
                 break;
             case GameState.GamePlaying:
                 State = state;
+                Time.timeScale = 1f;
                 break;
             case GameState.GameOver:
                 State = state;
+                Time.timeScale = 0f;
                 SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, playerPassword, musicVolume, useBuiltInMusic);
                 GameOver?.Invoke(this, EventArgs.Empty);
                 break;
@@ -65,6 +68,8 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameIsOnMainMenu:
                 State = state;
+
+                Time.timeScale = 1f;
                 break;
             default: break;
         }

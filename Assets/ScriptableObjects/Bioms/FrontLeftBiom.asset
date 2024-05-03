@@ -18,6 +18,9 @@ MonoBehaviour:
   - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
   straightChunk:
   - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
+  obstacles:
+  - {fileID: 118012777256684157, guid: 156c5b85abec8cb4b93e63bba7da0381, type: 3}
+  - {fileID: 8393928442268340264, guid: ed92812e3c54d1448a7da93c2a79f2ee, type: 3}
   environmentPrefabs:
   - {fileID: 6121659240978657954, guid: 7e24595c53228b8458de79186fb8dc7a, type: 3}
   - {fileID: 7706328237368217235, guid: 1c1542a7cdbd1eb499323715fc69d4e1, type: 3}

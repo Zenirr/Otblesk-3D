@@ -17,10 +17,10 @@ public class SettingsMenu : MonoBehaviour, IMenu
 
     private void Start()
     {
-        _closeButton.onClick.AddListener(CloseButton_clicked);
-        _musicSlider.onValueChanged.AddListener(OnMusicSliderValueChanged);
-        _toggleStandartPlaylist.onValueChanged.AddListener(OnStandartPLaylistToggle);
-        _DeleteSave.onClick.AddListener(OnSaveDeleteButtonPressed);
+        _closeButton?.onClick.AddListener(CloseButton_clicked);
+        _musicSlider?.onValueChanged.AddListener(OnMusicSliderValueChanged);
+        _toggleStandartPlaylist?.onValueChanged.AddListener(OnStandartPLaylistToggle);
+        _DeleteSave?.onClick.AddListener(OnSaveDeleteButtonPressed);
         _areYouSureMenu.SaveDeleted += AreYouSureMenu_SaveDeleted;
 
         GameManager.Instance.SaveSetted += GameManager_SaveSetted;
@@ -29,7 +29,7 @@ public class SettingsMenu : MonoBehaviour, IMenu
     private void AreYouSureMenu_SaveDeleted(object sender, EventArgs e)
     {
         _areYouSureMenu.ToggleVisible();
-        SaveDeleted.Invoke(this, new EventArgs());
+        SaveDeleted?.Invoke(this, new EventArgs());
     }
 
     private void OnSaveDeleteButtonPressed()

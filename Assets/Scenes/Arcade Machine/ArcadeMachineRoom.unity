@@ -4155,6 +4155,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6056236491092410618}
+  - {fileID: 1202488746}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &640333389
@@ -8499,6 +8500,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1198119555}
   m_CullTransparentMesh: 1
+--- !u!1 &1202488745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1202488746}
+  m_Layer: 0
+  m_Name: SoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1202488746
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202488745}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 636000764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1221186894
 GameObject:
   m_ObjectHideFlags: 0
@@ -15037,7 +15069,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _customPlaylist: []
-  _buildInPlaylist: []
+  _buildInPlaylist:
+  - {fileID: 8300000, guid: ffee8e9fdf4d5bf45ac89932da364457, type: 3}
+  - {fileID: 8300000, guid: 974de958db4a6b8428d4c7733b26e51d, type: 3}
+  - {fileID: 8300000, guid: 4ec205552d449c24f92ef7cd644710cf, type: 3}
+  - {fileID: 8300000, guid: 22e0e3f40b9d9ce438224d43a78c2cff, type: 3}
+  - {fileID: 8300000, guid: 904e4123d1f65cc4a86a7fd37d817bdd, type: 3}
 --- !u!114 &1221950209506726744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17462,7 +17499,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: dffdb368e3f8e3544a38b6e800649316, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.08
   m_Pitch: 1

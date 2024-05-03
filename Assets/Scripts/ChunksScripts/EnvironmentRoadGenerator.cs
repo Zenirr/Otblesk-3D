@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,6 +13,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     [Header("ѕараметры генерации")]
     [SerializeField] private Chunk[] _chunks;
     [SerializeField] private Chunk[] _straightChunks;
+    [SerializeField] private GameObject[] _obstacles;
     [SerializeField] private ChunkEnvironment[] _environment;
     [SerializeField] private float _newChunkGenerateOffset; //–ассто€ние от машины на котором будут спавнитьс€ новые чанки
     [SerializeField] private int _chunksCountGenerationLimit; //—колько чанков должно пройти чтобы по€вилась веро€тность заспавнить портал вместо следующего чанка
@@ -60,6 +62,10 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         {
             RoadGenerate();
         }
+        if (_car.transform.position.y < -5 )
+        {
+            GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameOver);
+        }
     }
 
     private void RoadGenerate()
@@ -68,13 +74,13 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         {
             if (_currentChunksLength < _startLineLength && _straightChunks.Length != 0)
             {
-                ChunkSpawn(_straightChunks);
+                ChunkSpawn(_straightChunks,false);
             }
             else
             {
                 if (_randomGenerationIsOn)
                 {
-                    ChunkSpawn(_chunks);
+                    ChunkSpawn(_chunks,true);
                 }
                 else
                 {
@@ -93,12 +99,14 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     /// “акже заносит его в очередь уже созданных чанков.
     /// </summary>
     /// <param name="chunks">ћассив чанков дл€ выбора случайного чанка</param>
-    private void ChunkSpawn(Chunk[] chunks)
+    private void ChunkSpawn(Chunk[] chunks,bool spawnObstacle)
     {
         Chunk chunk = Instantiate(chunks[Random.Range(0, chunks.Length)]);
         chunk.gameObject.SetActive(true);
         chunk.transform.position = _lastCreatedChunk._end.transform.position + (chunk.transform.position - chunk._start.transform.position);
         chunk.SetEnvironmentObjects(_environment);
+        if(spawnObstacle)
+            chunk.SetObstacles(_obstacles);
         _lastCreatedChunk = chunk;
         _chunksQueue.Enqueue(chunk);
         _chunksCreated++;
@@ -152,11 +160,12 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         return _lastCreatedChunk.transform.position.z < _car.transform.position.z + _newChunkGenerateOffset;
     }
 
-    public void SetCurrentBiomGenerationParametrs(Chunk[] straightChunk, Chunk[] chunks, ChunkEnvironment[] environments,int maxChunksCount,bool isGenerationRandom)
+    public void SetCurrentBiomGenerationParametrs(Chunk[] straightChunk, Chunk[] chunks, ChunkEnvironment[] environments,int maxChunksCount,bool isGenerationRandom, GameObject[]obstacles)
     {
         _straightChunks = straightChunk;
         _chunks = chunks;
         _environment = environments;
+        _obstacles = obstacles;
 
         if (isGenerationRandom)
         {

@@ -26,6 +26,8 @@ MonoBehaviour:
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   - {fileID: 7623011953724999578, guid: ed318d107ec8e22409f27c92bec95036, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: 446f81b4c6bdbf74caf4f7e2d54677a4, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   straightChunk: []
   environmentPrefabs: []

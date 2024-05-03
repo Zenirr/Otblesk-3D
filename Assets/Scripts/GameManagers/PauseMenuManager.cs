@@ -22,7 +22,6 @@ public class PauseMenuManager : MonoBehaviour
 
     private void GameManager_GameOver(object sender, System.EventArgs e)
     {
-        Time.timeScale = 0;
         _gameOverMenu.ToggleVisible();
         InputController.Instance.OnPauseButtonPressed -= InputController_OnPauseButtonPressed;
     }
@@ -32,7 +31,6 @@ public class PauseMenuManager : MonoBehaviour
         if (GameManager.State == GameManager.GameState.GamePlaying)
         {
             GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePaused);
-            Time.timeScale = 0;
             _pauseMenu.gameObject.SetActive(true);
         }
         else
@@ -44,7 +42,6 @@ public class PauseMenuManager : MonoBehaviour
     public void Continue()
     {
         _pauseMenu.gameObject.SetActive(false);
-        Time.timeScale = 1.0f;
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
     }
 

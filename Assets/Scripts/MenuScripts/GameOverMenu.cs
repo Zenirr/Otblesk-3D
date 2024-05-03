@@ -18,13 +18,11 @@ public class GameOverMenu : MonoBehaviour, IMenu
     private void OnExitButtonClicked()
     {
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
-        Time.timeScale = 1f;
         SceneLoader.Load(SceneLoader.Scenes.ArcadeMachineRoom);
     }
 
     private void OnRestartButtonClicked()
     {
-        Time.timeScale = 1f;
         SceneLoader.Load(SceneLoader.Scenes.MainGame);
     }
 

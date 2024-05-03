@@ -33,7 +33,7 @@ public class AreYouSureMenu : MonoBehaviour, IMenu
         if (CheckPassword(password) && save._playerPassword == password)
         {
             SaveManagerHandler.DeleteCurrentSave(save._saveName + ".json");
-            SaveDeleted.Invoke(this,EventArgs.Empty);
+            SaveDeleted?.Invoke(this,EventArgs.Empty);
         }
         _passwordTMP.text = string.Empty;
     }

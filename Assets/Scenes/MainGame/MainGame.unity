@@ -1730,7 +1730,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477648079}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14521313, y: 0.00000002948643, z: -0.000000004327688, w: 0.98940045}
+  m_LocalRotation: {x: 0.14521314, y: -5.291413e-15, z: 5.1590077e-16, w: 0.98940045}
   m_LocalPosition: {x: 0, y: 0.92, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1841,7 +1841,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529215515}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14521313, y: 0.00000002948643, z: -0.000000004327688, w: 0.98940045}
+  m_LocalRotation: {x: 0.14521314, y: -5.291413e-15, z: 5.1590077e-16, w: 0.98940045}
   m_LocalPosition: {x: 0, y: 0.92, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2402,6 +2402,9 @@ MonoBehaviour:
   - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
   _straightChunks:
   - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
+  _obstacles:
+  - {fileID: 118012777256684157, guid: 156c5b85abec8cb4b93e63bba7da0381, type: 3}
+  - {fileID: 8393928442268340264, guid: ed92812e3c54d1448a7da93c2a79f2ee, type: 3}
   _environment:
   - {fileID: 2727669541460043988, guid: e08731622057ce94fb417c1d99034270, type: 3}
   - {fileID: 6121659240978657954, guid: 7e24595c53228b8458de79186fb8dc7a, type: 3}

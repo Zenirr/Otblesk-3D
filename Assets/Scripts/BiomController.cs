@@ -55,7 +55,7 @@ public class BiomController : MonoBehaviour
     private void SetCurrentBiom(Bioms biom)
     {
         _currentBiom = biom;
-        _environmentGenerator.SetCurrentBiomGenerationParametrs(biom.straightChunk, biom.chunkPrefabs, biom.environmentPrefabs, biom.chunkMaxCount,biom.isRandomGenerated);
+        _environmentGenerator.SetCurrentBiomGenerationParametrs(biom.straightChunk, biom.chunkPrefabs, biom.environmentPrefabs, biom.chunkMaxCount,biom.isRandomGenerated, biom.obstacles);
         if (biom.skyboxMaterial != null) 
         {
             RenderSettings.skybox = biom.skyboxMaterial; 
@@ -75,7 +75,7 @@ public class BiomController : MonoBehaviour
             newBiom = _bioms[Random.Range(0, _bioms.Count)];
         }
         _currentBiom = newBiom;
-        _environmentGenerator.SetCurrentBiomGenerationParametrs(newBiom.straightChunk, newBiom.chunkPrefabs, newBiom.environmentPrefabs, newBiom.chunkMaxCount, newBiom.isRandomGenerated);
+        _environmentGenerator.SetCurrentBiomGenerationParametrs(newBiom.straightChunk, newBiom.chunkPrefabs, newBiom.environmentPrefabs, newBiom.chunkMaxCount, newBiom.isRandomGenerated,newBiom.obstacles);
         if (newBiom.skyboxMaterial != null)
         {
             RenderSettings.skybox = newBiom.skyboxMaterial;

@@ -9,6 +9,8 @@ public class Chunk : MonoBehaviour
     [field: SerializeField] public GameObject _end { get; private set; }
     [field: SerializeField] public int _linesCount { get; private set; }
     [field: SerializeField] public Transform[] _environmentObjectsPlacement { get; private set; }
+    [field: SerializeField] public Transform[] _obstaclePlacement { get; private set; }
+    [field: SerializeField] public List<GameObject> _obstacle { get; private set; }
     [field: SerializeField] public List<ChunkEnvironment> _environmentObjects { get; private set; }
     [field: SerializeField] public float _score { get; private set; }
 
@@ -37,6 +39,25 @@ public class Chunk : MonoBehaviour
         }
     }
 
+    public void SetObstacles(GameObject[] obstacles)
+    {
+        if (_obstaclePlacement.Length > 0)
+        {
+            _obstacle = new List<GameObject>();
+            for (int i = 0; i < _obstaclePlacement.Length; i++)
+            {
+                if (Random.value > 0.5)
+                {
+                    GameObject chunkObject = obstacles[Random.Range(0, obstacles.Length)];
+                    Transform transform = _obstaclePlacement[i].transform;
+                    Vector3 position = transform.position;
+                    GameObject currentObject = Instantiate(chunkObject, position, transform.rotation);
+                    _obstacle.Add(currentObject);
+                }
+            }
+        }
+    }
+
     private void OnDisable()
     {
         if (_environmentObjectsPlacement.Length > 0 && _environmentObjects.Count > 0)
@@ -47,7 +68,14 @@ public class Chunk : MonoBehaviour
                 if (chunkEnvironment != null)
                     Destroy(chunkEnvironment.gameObject);
             }
+            foreach (GameObject thisObject in _obstacle)
+            {
+                if (thisObject != null)
+                    Destroy(thisObject);
+
+            }
             _environmentObjects.Clear();
+            _obstacle.Clear();
         }
     }
 

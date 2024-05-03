@@ -38,7 +38,10 @@ public class MusicPanel : MonoBehaviour, IPanel
             StartCoroutine(FileManager.Instance.GetAudioClip(MusicPath, this));
             return AudioClip;
         }
-        else { return AudioClip; }
+        else 
+        {
+            return AudioClip;
+        }
     } 
 
     public void SetAudioClip(AudioClip clip)
