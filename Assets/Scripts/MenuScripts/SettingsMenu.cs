@@ -47,17 +47,22 @@ public class SettingsMenu : MonoBehaviour, IMenu
     private void OnStandartPLaylistToggle(bool newValue)
     {
         GameSave save = GameManager.Instance.currentSave;
-        SaveManagerHandler.Save(save._saveName,save._musicPath,save._playerName,save._highScore,save._isNew,save._playerPassword,save._musicVolume, _toggleStandartPlaylist.isOn);
+        SaveManagerHandler.Save(save._saveName,save._musicPath,save._playerName,save._highScore,save._isNew,save._playerPassword,_musicSlider.value, _toggleStandartPlaylist.isOn);
         GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
     }
 
     private void OnMusicSliderValueChanged(float volume)
     {
         MusicManager.Instance.SetCurrentAudioVolume(volume);
+        
     }
 
     private void CloseButton_clicked()
     {
+        GameSave save = GameManager.Instance.currentSave;
+        SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, save._highScore, save._isNew, save._playerPassword, _musicSlider.value, _toggleStandartPlaylist.isOn);
+        GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
+
         CloseButtonClicked?.Invoke(this, EventArgs.Empty);
     }
 

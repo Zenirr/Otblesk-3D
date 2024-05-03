@@ -59,16 +59,15 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GameOver:
                 State = state;
-                Time.timeScale = 0f;
                 SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, playerPassword, musicVolume, useBuiltInMusic);
                 GameOver?.Invoke(this, EventArgs.Empty);
+                Time.timeScale = 0f;
                 break;
             case GameState.CutscenePlaying:
                 State = state;
                 break;
             case GameState.GameIsOnMainMenu:
                 State = state;
-
                 Time.timeScale = 1f;
                 break;
             default: break;

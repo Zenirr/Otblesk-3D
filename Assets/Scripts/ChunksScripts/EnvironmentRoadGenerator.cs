@@ -62,7 +62,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         {
             RoadGenerate();
         }
-        if (_car.transform.position.y < -5 )
+        if (_car.transform.position.y < -5 && GameManager.State != GameManager.GameState.GameOver)
         {
             GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameOver);
         }
