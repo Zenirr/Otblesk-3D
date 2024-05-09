@@ -20,8 +20,8 @@ public class GamePauseMenu : MonoBehaviour, IMenu
     private void OnExitButtonClicked()
     {
         Time.timeScale = 1f;
-        SceneLoader.Load(SceneLoader.Scenes.ArcadeMachineRoom);
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
+        SceneLoader.Load(SceneLoader.Scenes.ArcadeMachineRoom);
     }
 
     private void OnContinueButtonClicked()

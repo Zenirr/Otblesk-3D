@@ -6,7 +6,7 @@ using UnityEngine;
 public class SpeedBoost : MonoBehaviour, IObstacle
 {
     public GameObject CurrentObstacleGameObject { get => this.gameObject; set => CurrentObstacleGameObject = this.gameObject; }
-    public bool isRotatable { get; set; }
+    public bool _isRotatable { get; set; }
     [SerializeField] private float speedBoost = 100;
     public void OnObstacleHit(GameObject gameObject)
     {

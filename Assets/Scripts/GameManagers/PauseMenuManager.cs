@@ -22,12 +22,14 @@ public class PauseMenuManager : MonoBehaviour
 
     private void GameManager_GameOver(object sender, System.EventArgs e)
     {
+        Debug.Log("Вот сейчас должно сработать окно проигрыша");
         _gameOverMenu.ToggleVisible();
         InputController.Instance.OnPauseButtonPressed -= InputController_OnPauseButtonPressed;
     }
 
     private void InputController_OnPauseButtonPressed(object sender, System.EventArgs e)
-    {//этот метод так реализован для того чтобы пользователь мог заходить и выходить из меню паузы через ESC
+    {
+        //этот метод так реализован для того чтобы пользователь мог заходить и выходить из меню паузы через ESC
         if (GameManager.State == GameManager.GameState.GamePlaying)
         {
             GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePaused);

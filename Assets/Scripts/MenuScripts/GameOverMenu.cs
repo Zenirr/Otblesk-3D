@@ -23,6 +23,7 @@ public class GameOverMenu : MonoBehaviour, IMenu
 
     private void OnRestartButtonClicked()
     {
+        GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
         SceneLoader.Load(SceneLoader.Scenes.MainGame);
     }
 

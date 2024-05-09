@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
                 State = state;
                 SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, playerPassword, musicVolume, useBuiltInMusic);
                 GameOver?.Invoke(this, EventArgs.Empty);
+                Debug.Log("Game Over NOW");
                 Time.timeScale = 0f;
                 break;
             case GameState.CutscenePlaying:
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
                 break;
             default: break;
         }
-        StateForInspector = State;
+        Debug.Log(State);
     }
 
     /// <summary>
