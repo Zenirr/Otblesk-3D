@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Этот класс отвечает за содержание музыки и её проигрывание, является singleton'ом и задаётся на начальном экране 
@@ -19,10 +20,9 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance;
 
     [SerializeField] private AudioClip[] _customPlaylist;
-
+    [SerializeField] private AudioClip[] _buildInPlaylist;
     public MusicState _currentState { get; private set; }
     private AudioSource _audioSource;
-    private Playlist _standartPlaylist;
     private bool _useStandartPlaylist;
     private float _startVolume;
     private int _currentTrackIndex;
@@ -46,7 +46,20 @@ public class MusicManager : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _currentState = MusicState.MusicIsPaused;
         _startVolume = _audioSource.volume;
+        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+        SceneLoader.SceneChanged += SceneLoader_SceneChanged;
+    }
 
+    private void SceneLoader_SceneChanged(object sender, System.EventArgs e)
+    {
+    }
+
+    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    {
+        if (GameManager.Instance.useBuiltInMusic)
+            SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
+        else if (_customPlaylist.Length > 0)
+            SetCurrentAudio(_customPlaylist[Random.Range(0, _customPlaylist.Length - 1)]);
     }
 
     #region pause and continue Methods
@@ -76,7 +89,12 @@ public class MusicManager : MonoBehaviour
         CurrentMusicTimeCourutine = StartCoroutine(MusicPlayingTimer(_audioSource.clip.length - _audioSource.time));
     }
     #endregion
-    
+
+    public void SetCurrentAudioVolume(float volume)
+    {
+        _audioSource.volume = volume;
+    }
+
     /// <summary>
     /// Включает прошлый трек из заданного плейлиста
     /// </summary>
@@ -132,7 +150,7 @@ public class MusicManager : MonoBehaviour
         switch (_currentState)
         {
             case MusicState.MusicIsPlaying:
-                _audioSource.clip = clip; 
+                _audioSource.clip = clip;
                 _audioSource.Play();
                 _currentState = MusicState.MusicIsPlaying;
                 Debug.Log("Music was Switched!");
@@ -149,6 +167,7 @@ public class MusicManager : MonoBehaviour
 
     public void SetCustomPlaylist(AudioClip[] clips)
     {
+        _customPlaylist = null;
         _customPlaylist = clips;
         _currentTrackIndex = 0;
     }
@@ -160,5 +179,7 @@ public class MusicManager : MonoBehaviour
 
         PlayNextTrack();
     }
+
+
 
 }

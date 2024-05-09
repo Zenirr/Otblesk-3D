@@ -5,20 +5,35 @@ using UnityEngine;
 public class PauseMenuManager : MonoBehaviour
 {
 
-    [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GamePauseMenu _pauseMenu;
+    [SerializeField] private GameOverMenu _gameOverMenu;
 
     private void Start()
     {
         InputController.Instance.OnPauseButtonPressed += InputController_OnPauseButtonPressed;
+        GameManager.Instance.GameOver += GameManager_GameOver;
+        _pauseMenu.ContinueButtonClicked += PauseMenu_ContinueButtonClicked;
+    }
+
+    private void PauseMenu_ContinueButtonClicked(object sender, System.EventArgs e)
+    {
+        Continue();
+    }
+
+    private void GameManager_GameOver(object sender, System.EventArgs e)
+    {
+        Debug.Log("Вот сейчас должно сработать окно проигрыша");
+        _gameOverMenu.ToggleVisible();
+        InputController.Instance.OnPauseButtonPressed -= InputController_OnPauseButtonPressed;
     }
 
     private void InputController_OnPauseButtonPressed(object sender, System.EventArgs e)
     {
+        //этот метод так реализован для того чтобы пользователь мог заходить и выходить из меню паузы через ESC
         if (GameManager.State == GameManager.GameState.GamePlaying)
         {
             GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePaused);
-            Time.timeScale = 0;
-            _pauseMenu.SetActive(true);
+            _pauseMenu.gameObject.SetActive(true);
         }
         else
         {
@@ -28,26 +43,14 @@ public class PauseMenuManager : MonoBehaviour
 
     public void Continue()
     {
-        _pauseMenu.SetActive(false);
-        Time.timeScale = 1.0f;
+        _pauseMenu.gameObject.SetActive(false);
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
-    }
-
-    public void Retry()
-    {
-        Time.timeScale = 1.0f;
-        SceneLoader.Load(SceneLoader.Scenes.MainGame);
-    }
-
-    public void Exit()
-    {
-        Time.timeScale = 1.0f;
-        GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
-        SceneLoader.Load(SceneLoader.Scenes.MainMenu);
     }
 
     private void OnDestroy()
     {
         InputController.Instance.OnPauseButtonPressed -= InputController_OnPauseButtonPressed;
+        GameManager.Instance.GameOver -= GameManager_GameOver;
+        _pauseMenu.ContinueButtonClicked -= PauseMenu_ContinueButtonClicked;
     }
 }

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: dc7c043866b34b24f8d42b1064826ebe
+timeCreated: 1512929946
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 106889
+  packageName: Bar Chair
+  packageVersion: 1.0
+  assetPath: Assets/Bar Chair/Prefabs/WoodenChair.prefab
+  uploadId: 223733

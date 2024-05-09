@@ -12,10 +12,12 @@ public class Bioms : ScriptableObject
     [Header("Environment Options")]
     public Chunk[] chunkPrefabs;
     public Chunk[] straightChunk;
+    public GameObject[] obstacles;
     public ChunkEnvironment[] environmentPrefabs;
-    
+    public int chunkMaxCount;
+    public bool isRandomGenerated;
 
     [Header("Visual Options")]
-    public Transform sunPosition;
-    
+    public Light lightOptions;
+    public Material skyboxMaterial;
 }

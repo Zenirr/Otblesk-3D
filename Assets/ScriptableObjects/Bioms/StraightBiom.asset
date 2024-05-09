@@ -17,9 +17,17 @@ MonoBehaviour:
   - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
   straightChunk:
   - {fileID: 1003273368867815762, guid: a34955123d68ed74abbf1928e0cc4226, type: 3}
+  obstacles:
+  - {fileID: 118012777256684157, guid: 156c5b85abec8cb4b93e63bba7da0381, type: 3}
+  - {fileID: 8393928442268340264, guid: ed92812e3c54d1448a7da93c2a79f2ee, type: 3}
   environmentPrefabs:
   - {fileID: 2271653266772487079, guid: 1d42ad963710a3143a64e2fc468e6d03, type: 3}
   - {fileID: 6162967994138022421, guid: 86cc0ec315c18734eb5847f0919f9ddf, type: 3}
   - {fileID: 8172665801570220066, guid: dd4d2309ebb24ca4eaa7292dbdc8fac5, type: 3}
   - {fileID: 7706328237368217235, guid: 1c1542a7cdbd1eb499323715fc69d4e1, type: 3}
-  sunPosition: {fileID: 0}
+  - {fileID: 4896088725339226453, guid: 71c5417e3ba772f429f244a4729f82c4, type: 3}
+  - {fileID: 1512604365665502536, guid: 598ea5beaee95c84b98bc2c391e9a9b3, type: 3}
+  chunkMaxCount: 150
+  isRandomGenerated: 1
+  lightOptions: {fileID: 0}
+  skyboxMaterial: {fileID: 2100000, guid: 993e757c3af28c44f8d06de5e9818a07, type: 2}

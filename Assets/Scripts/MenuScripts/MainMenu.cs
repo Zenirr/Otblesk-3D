@@ -3,18 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//¬есь этот компонент нужен дл€ получени€ данных с главного меню о нажатии кнопок
 public class MainMenu : MonoBehaviour,IMenu
 {
+    
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _playlistsButton;
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _changeSaveButton;
+    [SerializeField] private Button _leaderBoardButton;
 
     public event EventHandler SettingsButtonClicked;
     public event EventHandler MusicButtonClicked;
     public event EventHandler ChangeSaveButtonClicked;
+    public event EventHandler LeaderBoardButtonClicked;
 
     private void Start()
     {
@@ -23,9 +26,15 @@ public class MainMenu : MonoBehaviour,IMenu
         _exitButton.onClick.AddListener(ExitButton_clicked);
         _playlistsButton.onClick.AddListener(MusicButton_clicked);
         _changeSaveButton.onClick.AddListener(ChangeSaveButton_Clicked);
+        _leaderBoardButton.onClick.AddListener(OnLeaderBoardButtonClicked);
     }
 
     #region button actions
+    private void OnLeaderBoardButtonClicked()
+    {
+        LeaderBoardButtonClicked.Invoke(this, EventArgs.Empty);
+    }
+
     private void ChangeSaveButton_Clicked()
     {
         ChangeSaveButtonClicked?.Invoke(this,EventArgs.Empty);

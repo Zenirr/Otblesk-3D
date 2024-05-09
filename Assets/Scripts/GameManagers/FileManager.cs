@@ -127,7 +127,7 @@ public class FileManager : MonoBehaviour
         }
         catch (NullReferenceException)
         {
-        
+            Debug.LogError("А у вас папки с путём "+folderPath+" не существует!");
         }
     }
 
@@ -189,8 +189,11 @@ public class FileManager : MonoBehaviour
             AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
             myClip.LoadAudioData();
             myClip.name = FilePathHandler.GetFileName(file);
-            Debug.Log(myClip);
             clip[index] = myClip;
         }
+    }
+    private void OnDestroy()
+    {
+        GameManager.Instance.SaveSetted -= GameManager_SaveSetted;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +11,8 @@ public class SavePanel : MonoBehaviour, IPanel
     [SerializeField] private TextMeshProUGUI _userName;
     [SerializeField] private TextMeshProUGUI _highScore;
     private GameSave _gameSave;
+
+    public event EventHandler SaveChoosed;
 
     private void Start()
     {
@@ -26,6 +29,8 @@ public class SavePanel : MonoBehaviour, IPanel
     private void ChooseButtonPressed() 
     {
         GameManager.Instance.SetSave(_gameSave);
+        //вот эта строка кода является костылём который протянется аж до менеджера главного меню
+        SaveChoosed?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnDestroy()

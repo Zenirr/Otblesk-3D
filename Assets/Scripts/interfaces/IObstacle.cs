@@ -5,5 +5,6 @@ using UnityEngine;
 
 public interface IObstacle 
 {
-    void OnObstacleHit();
+    bool _isRotatable { get; set; }
+    void OnObstacleHit(GameObject gameObject);
 }
