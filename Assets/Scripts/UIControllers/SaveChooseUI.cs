@@ -50,10 +50,10 @@ public class SaveChooseUI : MonoBehaviour,IMenu
      //избавл€емс€ и оставл€ем только название файла которое включает его расширение
         foreach (string file in Directory.GetFiles(SaveManagerHandler.SAVE_FOLDER))
         {
-            if (FilePathHandler.GetFileExtension(file) == ".json")
+            if (Path.GetExtension(file) == ".json")
             {
                 SavePanel savePanel = Instantiate(_savePanel, _savePanelsContentHolder.transform);
-                savePanel.SetValues(SaveManagerHandler.Load(FilePathHandler.GetFileName(file)));
+                savePanel.SetValues(SaveManagerHandler.Load(Path.GetFileName(file)));
                 //прот€гиваем костыль по отключению дальше
                 savePanel.SaveChoosed += SavePanel_SaveChoosed;
             }

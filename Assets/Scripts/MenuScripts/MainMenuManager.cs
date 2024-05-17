@@ -8,7 +8,7 @@ public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private MainMenu _mainMenu;
     [SerializeField] private SettingsMenu _settingsMenu;
-    [SerializeField] private PlaylistMenu _musicMenu;
+    [SerializeField] private PlaylistMenu _playlistMenu;
     [SerializeField] private SaveMenu _saveMenu;
     [SerializeField] private LeaderBoardMenu _leaderBoardMenu;
 
@@ -18,10 +18,10 @@ public class MainMenuManager : MonoBehaviour
         _mainMenu.SettingsButtonClicked += MainMenu_SettingsButtonClicked;
         _mainMenu.ChangeSaveButtonClicked += MainMenu_ChangeSaveButtonClicked;
         _mainMenu.LeaderBoardButtonClicked += MainMenu_LeaderBoardButtonClicked;
-
+        _mainMenu.PlayButtonClicked += MainMenu_PlayButtonClicked;
         _settingsMenu.CloseButtonClicked += MainMenu_SettingsButtonClicked;
         _settingsMenu.SaveDeleted += SettingsMenu_SaveDeleted;
-        _musicMenu.CloseButtonClicked += MainMenu_MusicButtonClicked;
+        _playlistMenu.CloseButtonClicked += MainMenu_MusicButtonClicked;
         _leaderBoardMenu.CancelButtonClicked += MainMenu_LeaderBoardButtonClicked;
         _saveMenu._saveChooseMenu.SaveChoosed += SaveChooseMenu_SaveChoosed;
 
@@ -30,6 +30,11 @@ public class MainMenuManager : MonoBehaviour
             _saveMenu.ToggleVisible();
             _mainMenu.ToggleVisible();
         }
+    }
+
+    private void MainMenu_PlayButtonClicked(object sender, EventArgs e)
+    {
+        _playlistMenu.SetMusicPlaylistFromCurrentPath();
     }
 
     private void SettingsMenu_SaveDeleted(object sender, EventArgs e)
@@ -65,7 +70,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void MainMenu_MusicButtonClicked(object sender, System.EventArgs e)
     {
-        _musicMenu.ToggleVisible();
+        _playlistMenu.ToggleVisible();
         _mainMenu.ToggleVisible();
     }
     #endregion
@@ -75,7 +80,7 @@ public class MainMenuManager : MonoBehaviour
         _mainMenu.MusicButtonClicked -= MainMenu_MusicButtonClicked;
         _mainMenu.SettingsButtonClicked -= MainMenu_SettingsButtonClicked;
         _settingsMenu.CloseButtonClicked -= MainMenu_SettingsButtonClicked;
-        _musicMenu.CloseButtonClicked -= MainMenu_MusicButtonClicked;
+        _playlistMenu.CloseButtonClicked -= MainMenu_MusicButtonClicked;
         _mainMenu.ChangeSaveButtonClicked -= MainMenu_ChangeSaveButtonClicked;
         _leaderBoardMenu.CancelButtonClicked -= MainMenu_LeaderBoardButtonClicked;
         _saveMenu._saveChooseMenu.SaveChoosed -= SaveChooseMenu_SaveChoosed;

@@ -12,10 +12,7 @@ public static class SceneLoader
         ArcadeMachineRoom
     }
 
-    public static event EventHandler SceneChanged;
-
     public static void Load(Scenes scene){
         SceneManager.LoadScene(scene.ToString());
-        SceneChanged?.Invoke(null,EventArgs.Empty);
     }
 }

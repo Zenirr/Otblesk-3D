@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -20,29 +21,16 @@ public class MusicPanel : MonoBehaviour, IPanel
 
     public void OnButtonPressed()
     {
-        if (AudioClip != null)
+        if (AudioClip == null)
         {
-            MusicManager.Instance.SetCurrentAudio(AudioClip);
+            StartCoroutine(GetAudioClip(MusicPath));
+            MusicManager.Instance.SetCurrentAudio(MusicPath);
         }
         else
         {
-            StartCoroutine(FileManager.Instance.GetAudioClip(MusicPath,this));
-            MusicManager.Instance.SetCurrentAudio(AudioClip);
+            MusicManager.Instance.SetCurrentAudio(MusicPath);
         }
     }
-
-    public AudioClip GetAudioClip()
-    {
-        if(AudioClip == null)
-        {
-            StartCoroutine(FileManager.Instance.GetAudioClip(MusicPath, this));
-            return AudioClip;
-        }
-        else 
-        {
-            return AudioClip;
-        }
-    } 
 
     public void SetAudioClip(AudioClip clip)
     {
@@ -51,9 +39,28 @@ public class MusicPanel : MonoBehaviour, IPanel
 
     public void SetValues(string filePath)
     {
-        MusicName = FilePathHandler.GetFileName(filePath);
+        MusicName = Path.GetFileName(filePath);
         MusicPath = filePath;
         _textMeshPro.text = MusicName;
     }
 
+    private IEnumerator GetAudioClip(string file)
+    {
+        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.UNKNOWN);
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.LogError(www.error);
+        }
+        else if (www.result == UnityWebRequest.Result.Success)
+        {
+            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+            myClip.LoadAudioData();
+            myClip.name = Path.GetFileName(file);
+
+            SetAudioClip(myClip);
+            MusicManager.Instance.SetCurrentAudio(myClip);
+        }
+    }
 }
