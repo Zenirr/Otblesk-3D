@@ -34,7 +34,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void MainMenu_PlayButtonClicked(object sender, EventArgs e)
     {
-        _playlistMenu.SetMusicPlaylistFromCurrentPath();
+        MusicManager.Instance.SetMusicPlaylistFromCurrentPath();
     }
 
     private void SettingsMenu_SaveDeleted(object sender, EventArgs e)

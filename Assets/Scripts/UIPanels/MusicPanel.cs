@@ -17,14 +17,14 @@ public class MusicPanel : MonoBehaviour, IPanel
     private void Start()
     {
         _button.onClick.AddListener(OnButtonPressed);
+        StartCoroutine(GetAudioClip(MusicPath));
     }
 
     public void OnButtonPressed()
     {
-        if (AudioClip == null)
+        if (AudioClip != null)
         {
-            StartCoroutine(GetAudioClip(MusicPath));
-            MusicManager.Instance.SetCurrentAudio(MusicPath);
+            MusicManager.Instance.SetCurrentAudio(AudioClip);
         }
         else
         {
@@ -46,21 +46,16 @@ public class MusicPanel : MonoBehaviour, IPanel
 
     private IEnumerator GetAudioClip(string file)
     {
-        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.UNKNOWN);
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError)
+        MusicManager.Instance._audioDecoder.Import(file);
+        while (!MusicManager.Instance._audioDecoder.isInitialized && !MusicManager.Instance._audioDecoder.isError)
         {
-            Debug.LogError(www.error);
+            yield return null;
         }
-        else if (www.result == UnityWebRequest.Result.Success)
+        if (MusicManager.Instance._audioDecoder.isError)
         {
-            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
-            myClip.LoadAudioData();
-            myClip.name = Path.GetFileName(file);
-
-            SetAudioClip(myClip);
-            MusicManager.Instance.SetCurrentAudio(myClip);
+            Debug.LogError(MusicManager.Instance._audioDecoder.error);
         }
+        AudioClip = MusicManager.Instance._audioDecoder.audioClip;
+        yield break;
     }
 }

@@ -15076,6 +15076,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 34a9e635e54b18b46a07cadcb2a5a09c, type: 3}
   - {fileID: 8300000, guid: 40b710f60db43ee41a33fa3fcfccfc8a, type: 3}
   - {fileID: 8300000, guid: 456f4c33a9d72ad4bba03e3de05803c5, type: 3}
+  _currentPlaylistPath: 
 --- !u!114 &1221950209506726744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15235,6 +15236,7 @@ GameObject:
   - component: {fileID: 2775207815302946288}
   - component: {fileID: 4877317537261323893}
   - component: {fileID: 1102250418756030181}
+  - component: {fileID: 4877317537261323894}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -17558,6 +17560,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4877317537261323894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473035456405924404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3885a15007c4b4a90742df456106c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4928798619699026807
 Transform:
   m_ObjectHideFlags: 0

@@ -166,16 +166,11 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         {
             Destroy(child.gameObject);
         }
-        SetMusicPanels(folderPath);
         _currentPlaylistPath = folderPath;
+        Debug.Log(_currentPlaylistPath);
+        SetMusicPanels(folderPath);
     }
 
-
-    public void SetMusicPlaylistFromCurrentPath()
-    {
-        List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
-        MusicManager.Instance.SetCustomPlaylist(clips);
-    }
 
     public void ChangeMusicFolder(string folderPath)
     {
@@ -191,8 +186,6 @@ public class PlaylistMenu : MonoBehaviour, IMenu
             Debug.LogError("А у вас папки с путём " + folderPath + " не существует!");
         }
     }
-
-
 
     /// <summary>
     /// Создаёт музыкальную панель и устанавливает значения ей

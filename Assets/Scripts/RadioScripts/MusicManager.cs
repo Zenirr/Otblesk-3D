@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -26,8 +28,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioClip[] _buildInPlaylist;
 
     public MusicState _currentState { get; private set; }
+    public NAudioDecoder _audioDecoder { get; private set; }
     private AudioSource _audioSource;
-    private float _startVolume;
+    public string _currentPlaylistPath;
     private int _currentTrackIndex;
     private Coroutine CurrentMusicTimeCourutine;
 
@@ -49,19 +52,79 @@ public class MusicManager : MonoBehaviour
         if (_audioSource == null)
         {
             _audioSource = GetComponent<AudioSource>();
+            _audioDecoder = GetComponent<NAudioDecoder>();
+            _currentState = MusicState.MusicIsPaused;
+            GameManager.Instance.SaveSetted += GameManager_SaveSetted;
         }
-        _currentState = MusicState.MusicIsPaused;
-        _startVolume = _audioSource.volume;
-        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
     }
 
-
-    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    public void SetMusicPlaylistFromCurrentPath()
     {
         if (GameManager.Instance.useBuiltInMusic)
+        {
+            PlayNextTrack();
+        }
+        else if (_currentPlaylistPath == null)
+        {
+            _currentPlaylistPath = GameManager.Instance.musicPath;
+            _customPlaylistPaths = GetMusicFilesPaths(_currentPlaylistPath).ToArray();
+            SetCustomPlaylist(clips);
+            PlayNextTrack();
+        }
+        else if (_currentPlaylistPath != null)
+        {
+            List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
+            SetCustomPlaylist(clips);
+            PlayNextTrack();
+        }
+    }
+    private List<string> GetMusicFilesPaths(string folderPath)
+    {
+        List<string> musicPaths = new List<string>();
+        foreach (string file in Directory.GetFiles(folderPath))
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".mp3":
+                    musicPaths.Add(file);
+                    break;
+                case ".ogg":
+                    musicPaths.Add(file);
+                    break;
+                case ".aiff":
+                    musicPaths.Add(file);
+                    break;
+                case ".wav":
+                    musicPaths.Add(file);
+                    break;
+                case ".mod":
+                    musicPaths.Add(file);
+                    break;
+                case ".it":
+                    musicPaths.Add(file);
+                    break;
+                case ".s3m":
+                    musicPaths.Add(file);
+                    break;
+                case ".xm":
+                    musicPaths.Add(file);
+                    break;
+                default: break;
+            }
+        }
+        return musicPaths;
+    }
+    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    {
+        SetCurrentMusicVolume(GameManager.Instance.musicVolume);
+        _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
+        _currentTrackIndex = 0;
+
+        if (GameManager.Instance.useBuiltInMusic || _customPlaylistPaths.Length < 0)
             SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
         else if (_customPlaylistPaths.Length > 0)
             SetCurrentAudio(_customPlaylistPaths[Random.Range(0, _customPlaylistPaths.Length - 1)]);
+        
     }
 
     #region pause and continue Methods
@@ -92,7 +155,7 @@ public class MusicManager : MonoBehaviour
     }
     #endregion
 
-    public void SetCurrentAudioVolume(float volume)
+    public void SetCurrentMusicVolume(float volume)
     {
         _audioSource.volume = volume;
     }
@@ -102,17 +165,33 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void PlayPreviousTrack()
     {
-        if (_customPlaylistPaths is null)
-            return;
-        if (0 < _currentTrackIndex)
+        if (GameManager.Instance.useBuiltInMusic)
         {
-            _currentTrackIndex--;
-            SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            if (0 < _currentTrackIndex)
+            {
+                _currentTrackIndex--;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
+            else
+            {
+                _currentTrackIndex = _buildInPlaylist.Length - 1;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
         }
         else
         {
-            _currentTrackIndex = _customPlaylistPaths.Length - 1;
-            SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            if (_customPlaylistPaths is null)
+                return;
+            if (0 < _currentTrackIndex)
+            {
+                _currentTrackIndex--;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
+            else
+            {
+                _currentTrackIndex = _customPlaylistPaths.Length - 1;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
         }
     }
 
@@ -121,17 +200,33 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void PlayNextTrack()
     {
-        if (_customPlaylistPaths is null)
-            return;
-        if (_customPlaylistPaths.Length > _currentTrackIndex + 1)
+        if (GameManager.Instance.useBuiltInMusic)
         {
-            _currentTrackIndex++;
-            SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            if (_buildInPlaylist.Length > _currentTrackIndex + 1)
+            {
+                _currentTrackIndex++;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
+            else if (_buildInPlaylist.Length == _currentTrackIndex + 1)
+            {
+                _currentTrackIndex = 0;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
         }
-        else if (_customPlaylistPaths.Length == _currentTrackIndex + 1)
+        else
         {
-            _currentTrackIndex = 0;
-            SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            if (_customPlaylistPaths is null)
+                return;
+            if (_customPlaylistPaths.Length > _currentTrackIndex + 1)
+            {
+                _currentTrackIndex++;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
+            else if (_customPlaylistPaths.Length == _currentTrackIndex + 1)
+            {
+                _currentTrackIndex = 0;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
         }
     }
 
@@ -144,15 +239,16 @@ public class MusicManager : MonoBehaviour
         switch (_currentState)
         {
             case MusicState.MusicIsPlaying:
-                StartCoroutine(GetAndSetAudioClipToAudioSource(clipPath));
+                GetAndSetAudioClipToAudioSource(clipPath);
                 _currentState = MusicState.MusicIsPlaying;
-                Debug.Log("Music was Switched to " +clipPath);
+                Debug.Log("Music was Switched to " + clipPath);
                 break;
             case MusicState.MusicIsPaused:
-                StartCoroutine(GetAndSetAudioClipToAudioSource(clipPath));
-                
+                GetAndSetAudioClipToAudioSource(clipPath);
+
                 _currentState = MusicState.MusicIsPlaying;
                 Debug.Log("Music was Paused, but now is Playing!");
+                Debug.Log("Music was Switched to " + clipPath);
                 break;
             default: break;
         }
@@ -185,7 +281,7 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    public void SetCustomPlaylist(List<string> clipPaths)
+    private void SetCustomPlaylist(List<string> clipPaths)
     {
         _customPlaylistPaths = null;
         _customPlaylistPaths = clipPaths.ToArray();
@@ -205,24 +301,20 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     /// <param name="filepath"> Путь к аудио файлу</param>
     /// <returns></returns>
-    public IEnumerator GetAndSetAudioClipToAudioSource(string filepath)
+    public async void GetAndSetAudioClipToAudioSource(string filepath)
     {
-        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(filepath, AudioType.UNKNOWN);
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError)
+        _audioDecoder.Import(filepath);
+        while (!_audioDecoder.isInitialized && !_audioDecoder.isError)
         {
-            Debug.LogError(www.error);
+            await Task.Yield();
         }
-        else if (www.result == UnityWebRequest.Result.Success)
+        if (_audioDecoder.isError)
         {
-            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
-            myClip.LoadAudioData();
-            myClip.name = Path.GetFileName(filepath);
-            _audioSource.clip = myClip;
-            StartCoroutine(MusicPlayingTimer(myClip.length));
-            _audioSource.Play();
+            Debug.LogError(_audioDecoder.error);
         }
+        _audioSource.clip = _audioDecoder.audioClip;
+        _audioSource.Play();
+        StartCoroutine(MusicPlayingTimer(_audioSource.clip.length));
     }
 
 }
