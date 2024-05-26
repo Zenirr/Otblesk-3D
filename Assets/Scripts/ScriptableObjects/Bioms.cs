@@ -18,6 +18,6 @@ public class Bioms : ScriptableObject
     public bool isRandomGenerated;
 
     [Header("Visual Options")]
-    public Light lightOptions;
+    public LightingSettings lightOptions;
     public Material skyboxMaterial;
 }

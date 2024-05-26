@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,7 +19,6 @@ public class BiomController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Teleporter _teleportFrom;
     [SerializeField] private EnvironmentRoadGenerator _environmentGenerator;
-    [SerializeField] private Light _lightObject;
 
     public event EventHandler<EventArgs> BiomsChanged;
 
@@ -62,7 +62,7 @@ public class BiomController : MonoBehaviour
         }
         if (biom.lightOptions != null)
         {
-            _lightObject = biom.lightOptions;
+            Lightmapping.lightingSettings = biom.lightOptions;
         }
         BiomsChanged?.Invoke(_currentBiom, EventArgs.Empty);
     }
@@ -82,7 +82,7 @@ public class BiomController : MonoBehaviour
         }
         if (newBiom.lightOptions != null)
         {
-            _lightObject = newBiom.lightOptions;
+            Lightmapping.lightingSettings = newBiom.lightOptions;
         }
         BiomsChanged?.Invoke(this, EventArgs.Empty);
     }
