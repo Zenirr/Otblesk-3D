@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,6 +17,7 @@ public class MusicPanel : MonoBehaviour, IPanel
     private void Start()
     {
         _button.onClick.AddListener(OnButtonPressed);
+        StartCoroutine(GetAudioClip(MusicPath));
     }
 
     public void OnButtonPressed()
@@ -26,23 +28,9 @@ public class MusicPanel : MonoBehaviour, IPanel
         }
         else
         {
-            StartCoroutine(FileManager.Instance.GetAudioClip(MusicPath,this));
-            MusicManager.Instance.SetCurrentAudio(AudioClip);
+            MusicManager.Instance.SetCurrentAudio(MusicPath);
         }
     }
-
-    public AudioClip GetAudioClip()
-    {
-        if(AudioClip == null)
-        {
-            StartCoroutine(FileManager.Instance.GetAudioClip(MusicPath, this));
-            return AudioClip;
-        }
-        else 
-        {
-            return AudioClip;
-        }
-    } 
 
     public void SetAudioClip(AudioClip clip)
     {
@@ -51,9 +39,23 @@ public class MusicPanel : MonoBehaviour, IPanel
 
     public void SetValues(string filePath)
     {
-        MusicName = FilePathHandler.GetFileName(filePath);
+        MusicName = Path.GetFileName(filePath);
         MusicPath = filePath;
         _textMeshPro.text = MusicName;
     }
 
+    private IEnumerator GetAudioClip(string file)
+    {
+        MusicManager.Instance._audioDecoder.Import(file);
+        while (!MusicManager.Instance._audioDecoder.isInitialized && !MusicManager.Instance._audioDecoder.isError)
+        {
+            yield return null;
+        }
+        if (MusicManager.Instance._audioDecoder.isError)
+        {
+            Debug.LogError(MusicManager.Instance._audioDecoder.error);
+        }
+        AudioClip = MusicManager.Instance._audioDecoder.audioClip;
+        yield break;
+    }
 }

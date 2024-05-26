@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -19,12 +23,13 @@ public class MusicManager : MonoBehaviour
 
     public static MusicManager Instance;
 
-    [SerializeField] private AudioClip[] _customPlaylist;
+    [SerializeField] private string[] _customPlaylistPaths;
     [SerializeField] private AudioClip[] _buildInPlaylist;
+
     public MusicState _currentState { get; private set; }
+    public NAudioDecoder _audioDecoder { get; private set; }
     private AudioSource _audioSource;
-    private bool _useStandartPlaylist;
-    private float _startVolume;
+    public string _currentPlaylistPath;
     private int _currentTrackIndex;
     private Coroutine CurrentMusicTimeCourutine;
 
@@ -43,23 +48,63 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _currentState = MusicState.MusicIsPaused;
-        _startVolume = _audioSource.volume;
-        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
-        SceneLoader.SceneChanged += SceneLoader_SceneChanged;
+        if (_audioSource == null)
+        {
+            _audioSource = GetComponent<AudioSource>();
+            _audioDecoder = GetComponent<NAudioDecoder>();
+            _currentState = MusicState.MusicIsPaused;
+            GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+        }
     }
 
-    private void SceneLoader_SceneChanged(object sender, System.EventArgs e)
-    {
-    }
-
-    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    public void SetMusicPlaylistFromCurrentPath()
     {
         if (GameManager.Instance.useBuiltInMusic)
+        {
+            PlayNextTrack();
+        }
+        else if (_currentPlaylistPath == null)
+        {
+            Debug.Log("Текущий плейлист не выбран, но мухыка пытается взяться из сейва");
+            _currentPlaylistPath = GameManager.Instance.musicPath;
+            List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
+            SetCustomPlaylist(clips);
+            PlayNextTrack();
+        }
+        else if (_currentPlaylistPath != null)
+        {
+            Debug.Log("Текущий плейлист выбран, мухыка пытается взяться из плейлиста");
+            List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
+            SetCustomPlaylist(clips);
+            PlayNextTrack();
+        }
+    }
+    private List<string> GetMusicFilesPaths(string folderPath)
+    {
+        List<string> musicPaths = new List<string>();
+        foreach (string file in Directory.GetFiles(folderPath))
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".mp3":
+                    musicPaths.Add(file);
+                    break;
+                default: break;
+            }
+        }
+        return musicPaths;
+    }
+    private void GameManager_SaveSetted(object sender, System.EventArgs e)
+    {
+        _customPlaylistPaths = null;
+        SetCurrentMusicVolume(GameManager.Instance.musicVolume);
+        _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
+        _currentTrackIndex = 0;
+        
+        if (GameManager.Instance.useBuiltInMusic)
             SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
-        else if (_customPlaylist.Length > 0)
-            SetCurrentAudio(_customPlaylist[Random.Range(0, _customPlaylist.Length - 1)]);
+        else
+            SetMusicPlaylistFromCurrentPath();
     }
 
     #region pause and continue Methods
@@ -90,7 +135,7 @@ public class MusicManager : MonoBehaviour
     }
     #endregion
 
-    public void SetCurrentAudioVolume(float volume)
+    public void SetCurrentMusicVolume(float volume)
     {
         _audioSource.volume = volume;
     }
@@ -100,21 +145,33 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void PlayPreviousTrack()
     {
-        if (_customPlaylist is null)
-            return;
-        if (0 < _currentTrackIndex)
+        if (GameManager.Instance.useBuiltInMusic)
         {
-            _currentTrackIndex--;
-            AudioClip clip = _customPlaylist[_currentTrackIndex];
-            SetCurrentAudio(_customPlaylist[_currentTrackIndex]);
-            StartCoroutine(MusicPlayingTimer(clip.length));
+            if (0 < _currentTrackIndex)
+            {
+                _currentTrackIndex--;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
+            else
+            {
+                _currentTrackIndex = _buildInPlaylist.Length - 1;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
         }
         else
         {
-            _currentTrackIndex = _customPlaylist.Length - 1;
-            AudioClip clip = _customPlaylist[_currentTrackIndex];
-            SetCurrentAudio(_customPlaylist[_currentTrackIndex]);
-            StartCoroutine(MusicPlayingTimer(clip.length));
+            if (_customPlaylistPaths is null)
+                return;
+            if (0 < _currentTrackIndex)
+            {
+                _currentTrackIndex--;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
+            else
+            {
+                _currentTrackIndex = _customPlaylistPaths.Length - 1;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
         }
     }
 
@@ -123,41 +180,80 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void PlayNextTrack()
     {
-        if (_customPlaylist is null)
-            return;
-        if (_customPlaylist.Length > _currentTrackIndex + 1)
+        if (GameManager.Instance.useBuiltInMusic)
         {
-            _currentTrackIndex++;
-            AudioClip clip = _customPlaylist[_currentTrackIndex];
-            SetCurrentAudio(clip);
-            StartCoroutine(MusicPlayingTimer(clip.length));
+            if (_buildInPlaylist.Length > _currentTrackIndex + 1)
+            {
+                _currentTrackIndex++;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
+            else if (_buildInPlaylist.Length == _currentTrackIndex + 1)
+            {
+                _currentTrackIndex = 0;
+                SetCurrentAudio(_buildInPlaylist[_currentTrackIndex]);
+            }
         }
-        else if (_customPlaylist.Length == _currentTrackIndex + 1)
+        else
         {
-            _currentTrackIndex = 0;
-            AudioClip clip = _customPlaylist[_currentTrackIndex];
-            SetCurrentAudio(clip);
-            StartCoroutine(MusicPlayingTimer(clip.length));
+            if (_customPlaylistPaths is null)
+                return;
+            if (_customPlaylistPaths.Length > _currentTrackIndex + 1)
+            {
+                _currentTrackIndex++;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
+            else if (_customPlaylistPaths.Length == _currentTrackIndex + 1)
+            {
+                _currentTrackIndex = 0;
+                SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
+            }
         }
     }
 
     /// <summary>
-    /// Устанавливают переданный аудио файл в соответствии с текущим состоянием музыки.
+    /// Устанавливают аудио файл находящийс по переданному пути в соответствии с текущим состоянием музыки.
     /// </summary>
-    /// <param name="clip">Аудио файл</param>
+    /// <param name="clipPath">Путь до аудио файла</param>
+    public void SetCurrentAudio(string clipPath)
+    {
+        switch (_currentState)
+        {
+            case MusicState.MusicIsPlaying:
+                GetAndSetAudioClipToAudioSource(clipPath);
+                _currentState = MusicState.MusicIsPlaying;
+                Debug.Log("Music was Switched to " + clipPath);
+                break;
+            case MusicState.MusicIsPaused:
+                GetAndSetAudioClipToAudioSource(clipPath);
+
+                _currentState = MusicState.MusicIsPlaying;
+                Debug.Log("Music was Paused, but now is Playing!");
+                Debug.Log("Music was Switched to " + clipPath);
+                break;
+            default: break;
+        }
+    }
+
+    /// <summary>
+    /// Устанавливают аудио файл находящийс по переданному пути в соответствии с текущим состоянием музыки.
+    /// </summary>
+    /// <param name="clip">Путь до аудио файла</param>
     public void SetCurrentAudio(AudioClip clip)
     {
         switch (_currentState)
         {
             case MusicState.MusicIsPlaying:
+                PauseContinueMusic();
                 _audioSource.clip = clip;
                 _audioSource.Play();
+                StartCoroutine(MusicPlayingTimer(clip.length));
                 _currentState = MusicState.MusicIsPlaying;
                 Debug.Log("Music was Switched!");
                 break;
             case MusicState.MusicIsPaused:
                 _audioSource.clip = clip;
                 _audioSource.Play();
+                StartCoroutine(MusicPlayingTimer(clip.length));
                 _currentState = MusicState.MusicIsPlaying;
                 Debug.Log("Music was Paused, but now is Playing!");
                 break;
@@ -165,10 +261,10 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-    public void SetCustomPlaylist(AudioClip[] clips)
+    private void SetCustomPlaylist(List<string> clipPaths)
     {
-        _customPlaylist = null;
-        _customPlaylist = clips;
+        _customPlaylistPaths = null;
+        _customPlaylistPaths = clipPaths.ToArray();
         _currentTrackIndex = 0;
     }
 
@@ -180,6 +276,25 @@ public class MusicManager : MonoBehaviour
         PlayNextTrack();
     }
 
-
+    /// <summary>
+    /// Получает путь к аудиофайлу и запускает его в текущем audioSource
+    /// </summary>
+    /// <param name="filepath"> Путь к аудио файлу</param>
+    /// <returns></returns>
+    public async void GetAndSetAudioClipToAudioSource(string filepath)
+    {
+        _audioDecoder.Import(filepath);
+        while (!_audioDecoder.isInitialized && !_audioDecoder.isError)
+        {
+            await Task.Yield();
+        }
+        if (_audioDecoder.isError)
+        {
+            Debug.LogError(_audioDecoder.error);
+        }
+        _audioSource.clip = _audioDecoder.audioClip;
+        _audioSource.Play();
+        StartCoroutine(MusicPlayingTimer(_audioSource.clip.length));
+    }
 
 }

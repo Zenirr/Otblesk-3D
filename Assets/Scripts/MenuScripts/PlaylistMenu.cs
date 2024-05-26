@@ -5,25 +5,39 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.Networking;
 
 public class PlaylistMenu : MonoBehaviour, IMenu
 {
+    [Header("Компоненты основного меню музыки")]
     [SerializeField] private Button _closeButton;
     [SerializeField] private Button _changeMusicFolderButton;
     [SerializeField] private TMP_InputField _folderInputField;
+    [Header("Компоненты для списка треков")]
+    [SerializeField] private MusicPanel _musicPanel;
+    [SerializeField] private MusicFileManagerUI _MusicfileManagerUI;
 
     public event EventHandler CloseButtonClicked;
+    private string _currentPlaylistPath;
+    private readonly string InitialMusicFolderPath = (Application.dataPath + "/Music/");
+    private bool IsMusicPathChanged;
 
     private void Start()
     {
+        if (!Directory.Exists(InitialMusicFolderPath))
+        {
+            Directory.CreateDirectory(InitialMusicFolderPath);
+        }
+
         if (GameManager.Instance.currentSave != null)
         {
-            _folderInputField.text = GameManager.Instance.musicPath;
-        }
-        else
-        {
+            string musicPath = GameManager.Instance.musicPath;
+            _folderInputField.text = musicPath;
+            _currentPlaylistPath = musicPath; 
             GameManager.Instance.SaveSetted += GameManager_SaveSetted;
         }
+
+
         _closeButton.onClick.AddListener(CloseButton_clicked);
         _changeMusicFolderButton.onClick.AddListener(ChangeFolder);
     }
@@ -31,6 +45,10 @@ public class PlaylistMenu : MonoBehaviour, IMenu
     private void GameManager_SaveSetted(object sender, EventArgs e)
     {
         _folderInputField.text = GameManager.Instance.musicPath;
+        if (!GameManager.Instance.currentSave._useBuiltInPlaylist)
+        {
+            UpdateMusicData(_folderInputField.text);
+        }
     }
 
     private void CloseButton_clicked()
@@ -51,7 +69,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
             return;
         }
 
-        FileManager.Instance.UpdateMusicData(_folderInputField.text);
+        UpdateMusicData(_folderInputField.text);
     }
 
     public void ToggleVisible()
@@ -64,4 +82,157 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         _closeButton.onClick.RemoveAllListeners();
         GameManager.Instance.SaveSetted -= GameManager_SaveSetted;
     }
+
+    #region Взял из FileManager
+    #region Get folder content
+    private void SetMusicPanels(string folderPath)
+    {
+        Debug.Log(folderPath);
+        //В этом foreach переменная file содержит весь путь, включая путь 
+        foreach (string file in Directory.GetFiles(folderPath))
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".mp3":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".ogg":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".aiff":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".wav":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".mod":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".it":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".s3m":
+                    InstantiateMusicPanel(file);
+                    break;
+                case ".xm":
+                    InstantiateMusicPanel(file);
+                    break;
+                default: break;
+            }
+        }
+    }
+    #endregion
+
+    private List<string> GetMusicFilesPaths(string folderPath)
+    {
+        List<string> musicPaths = new List<string>();
+        foreach (string file in Directory.GetFiles(folderPath))
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".mp3":
+                    musicPaths.Add(file);
+                    break;
+                case ".ogg":
+                    musicPaths.Add(file);
+                    break;
+                case ".aiff":
+                    musicPaths.Add(file);
+                    break;
+                case ".wav":
+                    musicPaths.Add(file);
+                    break;
+                case ".mod":
+                    musicPaths.Add(file);
+                    break;
+                case ".it":
+                    musicPaths.Add(file);
+                    break;
+                case ".s3m":
+                    musicPaths.Add(file);
+                    break;
+                case ".xm":
+                    musicPaths.Add(file);
+                    break;
+                default: break;
+            }
+        }
+        return musicPaths;
+    }
+
+    public void UpdateMusicData(string folderPath)
+    {
+        foreach (Transform child in _MusicfileManagerUI.GetComponentInChildren<Transform>())
+        {
+            Destroy(child.gameObject);
+        }
+        _currentPlaylistPath = folderPath;
+        Debug.Log(_currentPlaylistPath);
+        SetMusicPanels(folderPath);
+    }
+
+
+    public void ChangeMusicFolder(string folderPath)
+    {
+        try
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(InitialMusicFolderPath);
+            }
+        }
+        catch (NullReferenceException)
+        {
+            Debug.LogError("А у вас папки с путём " + folderPath + " не существует!");
+        }
+    }
+
+    /// <summary>
+    /// Создаёт музыкальную панель и устанавливает значения ей
+    /// </summary>
+    /// <param name="filePath"></param>
+    private void InstantiateMusicPanel(string filePath)
+    {
+        MusicPanel panel = Instantiate(_musicPanel, _MusicfileManagerUI.transform);
+        panel.SetValues(filePath);
+    }
+
+    public IEnumerator GetAudioClip(string file, MusicPanel panel)
+    {
+        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.UNKNOWN);
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.LogError(www.error);
+        }
+        else if (www.result == UnityWebRequest.Result.Success)
+        {
+            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+            myClip.LoadAudioData();
+            myClip.name = Path.GetFileName(file);
+
+            panel.SetAudioClip(myClip);
+            MusicManager.Instance.SetCurrentAudio(myClip);
+        }
+    }
+
+    public IEnumerator GetAudioClip(string file, AudioClip[] clip, int index)
+    {
+        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.UNKNOWN);
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.LogError(www.error);
+        }
+        else if (www.result == UnityWebRequest.Result.Success)
+        {
+            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
+            myClip.LoadAudioData();
+            myClip.name = Path.GetFileName(file);
+            clip[index] = myClip;
+        }
+    }
+    #endregion
 }

@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour,IMenu
     public event EventHandler MusicButtonClicked;
     public event EventHandler ChangeSaveButtonClicked;
     public event EventHandler LeaderBoardButtonClicked;
+    public event EventHandler PlayButtonClicked;
 
     private void Start()
     {
@@ -42,7 +43,7 @@ public class MainMenu : MonoBehaviour,IMenu
 
     private void PlayButton_clicked()
     {
-        FileManager.Instance.GetMusicFromFiles();
+        PlayButtonClicked?.Invoke(this, EventArgs.Empty);
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
         SceneLoader.Load(SceneLoader.Scenes.MainGame);
     }

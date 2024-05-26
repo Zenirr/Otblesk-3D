@@ -84,9 +84,9 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
         bool isNameUnique = true;
         foreach (string file in Directory.GetFiles(SaveManagerHandler.SAVE_FOLDER))
         {
-            if (FilePathHandler.GetFileExtension(file) == ".json")
+            if (Path.GetExtension(file) == ".json")
             {
-                isNameUnique = !(SaveManagerHandler.Load(FilePathHandler.GetFileName(file))._playerName == name.Trim());
+                isNameUnique = !(SaveManagerHandler.Load(Path.GetFileName(file))._playerName == name.Trim());
                 if (!isNameUnique)
                     break;
 

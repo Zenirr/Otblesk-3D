@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         musicVolume = save._musicVolume;
         playerPassword = save._playerPassword;
         useBuiltInMusic = save._useBuiltInPlaylist;
-        MusicManager.Instance.SetCurrentAudioVolume(save._musicVolume);
+        MusicManager.Instance.SetCurrentMusicVolume(save._musicVolume);
         currentSave = save;
 
         SaveSetted?.Invoke(this, EventArgs.Empty);

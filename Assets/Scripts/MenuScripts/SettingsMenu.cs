@@ -17,11 +17,13 @@ public class SettingsMenu : MonoBehaviour, IMenu
 
     private void Start()
     {
+        _toggleStandartPlaylist.isOn = GameManager.Instance.useBuiltInMusic;
         _closeButton?.onClick.AddListener(CloseButton_clicked);
         _musicSlider?.onValueChanged.AddListener(OnMusicSliderValueChanged);
         _toggleStandartPlaylist?.onValueChanged.AddListener(OnStandartPLaylistToggle);
         _DeleteSave?.onClick.AddListener(OnSaveDeleteButtonPressed);
         _areYouSureMenu.SaveDeleted += AreYouSureMenu_SaveDeleted;
+        
 
         GameManager.Instance.SaveSetted += GameManager_SaveSetted;
     }
@@ -40,7 +42,7 @@ public class SettingsMenu : MonoBehaviour, IMenu
     private void GameManager_SaveSetted(object sender, EventArgs e)
     {
         float volume = GameManager.Instance.musicVolume;
-        MusicManager.Instance.SetCurrentAudioVolume(volume);
+        MusicManager.Instance.SetCurrentMusicVolume(volume);
         _musicSlider.value = volume;
     }
 
@@ -53,7 +55,7 @@ public class SettingsMenu : MonoBehaviour, IMenu
 
     private void OnMusicSliderValueChanged(float volume)
     {
-        MusicManager.Instance.SetCurrentAudioVolume(volume);
+        MusicManager.Instance.SetCurrentMusicVolume(volume);
         
     }
 

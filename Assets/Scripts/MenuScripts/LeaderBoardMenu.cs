@@ -42,10 +42,10 @@ public class LeaderBoardMenu : MonoBehaviour, IMenu
 
         foreach (string file in Directory.GetFiles(SaveManagerHandler.SAVE_FOLDER))
         {
-            if (FilePathHandler.GetFileExtension(file) == ".json")
+            if (Path.GetExtension(file) == ".json")
             {
                 
-                list.Add(SaveManagerHandler.Load(FilePathHandler.GetFileName(file)));
+                list.Add(SaveManagerHandler.Load(Path.GetFileName(file)));
                 
             }
         }
