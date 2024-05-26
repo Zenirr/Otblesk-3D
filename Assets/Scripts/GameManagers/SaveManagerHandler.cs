@@ -15,7 +15,7 @@ public static class SaveManagerHandler
     /// <param name="musicPath">Строка пути к музыки выбранной пользователем</param>
     /// <param name="playerName">Строка имени пользователя</param>
     /// <param name="highScore">Лучший счёт игрока</param>
-    public static void Save(string musicPath, string playerName, float highScore, string playerPassword, float musicVolume = 0.1f, bool useBuiltInPlaylist = false)
+    public static void Save(string musicPath, string playerName, float highScore, string playerPassword, float musicVolume = 0.1f, bool useBuiltInPlaylist = true)
     {
         int saveCount = 1;
 

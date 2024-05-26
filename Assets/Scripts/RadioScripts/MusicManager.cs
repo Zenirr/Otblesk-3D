@@ -24,7 +24,6 @@ public class MusicManager : MonoBehaviour
     public static MusicManager Instance;
 
     [SerializeField] private string[] _customPlaylistPaths;
-    [SerializeField] private string[] _customPlaylistAudioclips;
     [SerializeField] private AudioClip[] _buildInPlaylist;
 
     public MusicState _currentState { get; private set; }
@@ -66,13 +65,15 @@ public class MusicManager : MonoBehaviour
         }
         else if (_currentPlaylistPath == null)
         {
+            Debug.Log("Текущий плейлист не выбран, но мухыка пытается взяться из сейва");
             _currentPlaylistPath = GameManager.Instance.musicPath;
-            _customPlaylistPaths = GetMusicFilesPaths(_currentPlaylistPath).ToArray();
+            List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
             SetCustomPlaylist(clips);
             PlayNextTrack();
         }
         else if (_currentPlaylistPath != null)
         {
+            Debug.Log("Текущий плейлист выбран, мухыка пытается взяться из плейлиста");
             List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
             SetCustomPlaylist(clips);
             PlayNextTrack();
@@ -88,27 +89,6 @@ public class MusicManager : MonoBehaviour
                 case ".mp3":
                     musicPaths.Add(file);
                     break;
-                case ".ogg":
-                    musicPaths.Add(file);
-                    break;
-                case ".aiff":
-                    musicPaths.Add(file);
-                    break;
-                case ".wav":
-                    musicPaths.Add(file);
-                    break;
-                case ".mod":
-                    musicPaths.Add(file);
-                    break;
-                case ".it":
-                    musicPaths.Add(file);
-                    break;
-                case ".s3m":
-                    musicPaths.Add(file);
-                    break;
-                case ".xm":
-                    musicPaths.Add(file);
-                    break;
                 default: break;
             }
         }
@@ -116,15 +96,15 @@ public class MusicManager : MonoBehaviour
     }
     private void GameManager_SaveSetted(object sender, System.EventArgs e)
     {
+        _customPlaylistPaths = null;
         SetCurrentMusicVolume(GameManager.Instance.musicVolume);
         _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
         _currentTrackIndex = 0;
-
-        if (GameManager.Instance.useBuiltInMusic || _customPlaylistPaths.Length < 0)
-            SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
-        else if (_customPlaylistPaths.Length > 0)
-            SetCurrentAudio(_customPlaylistPaths[Random.Range(0, _customPlaylistPaths.Length - 1)]);
         
+        if (GameManager.Instance.useBuiltInMusic)
+            SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
+        else
+            SetMusicPlaylistFromCurrentPath();
     }
 
     #region pause and continue Methods
