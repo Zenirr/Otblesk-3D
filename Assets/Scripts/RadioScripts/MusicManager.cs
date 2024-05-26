@@ -61,17 +61,16 @@ public class MusicManager : MonoBehaviour
     {
         if (GameManager.Instance.useBuiltInMusic)
         {
+            _currentPlaylistPath = string.Empty;
+            _customPlaylistPaths = new string[0];
             PlayNextTrack();
         }
-        else if (_currentPlaylistPath == null)
+        else 
         {
+            _currentPlaylistPath = string.Empty;
+            _customPlaylistPaths = new string[0];
+
             _currentPlaylistPath = GameManager.Instance.musicPath;
-            List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
-            SetCustomPlaylist(clips);
-            PlayNextTrack();
-        }
-        else if (_currentPlaylistPath != null)
-        {
             List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
             SetCustomPlaylist(clips);
             PlayNextTrack();
@@ -101,7 +100,6 @@ public class MusicManager : MonoBehaviour
             _customPlaylistPaths = null;
             _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
             _currentTrackIndex = 0;
-            Debug.Log("");
             if (GameManager.Instance.useBuiltInMusic)
                 SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
             else
@@ -229,7 +227,6 @@ public class MusicManager : MonoBehaviour
                 GetAndSetAudioClipToAudioSource(clipPath);
 
                 _currentState = MusicState.MusicIsPlaying;
-                Debug.Log("Music was Paused, but now is Playing!");
                 Debug.Log("Music was Switched to " + clipPath);
                 break;
             default: break;
@@ -274,8 +271,7 @@ public class MusicManager : MonoBehaviour
     {
         Debug.Log(audioClipLength);
         yield return new WaitForSeconds(audioClipLength);
-        Debug.Log(audioClipLength);
-        PauseContinueMusic();
+        
 
         PlayNextTrack();
     }

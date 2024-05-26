@@ -64,6 +64,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         if (Directory.Exists(_folderInputField.text))
         {
             SaveManagerHandler.Save(save._saveName, _folderInputField.text, save._playerName, save._highScore, save._isNew, save._playerPassword, save._musicVolume, save._useBuiltInPlaylist);
+            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
             MusicManager.Instance.SetMusicPlaylistFromCurrentPath();
         }
         else
@@ -113,22 +114,6 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         _currentPlaylistPath = folderPath;
         Debug.Log(_currentPlaylistPath);
         SetMusicPanels(folderPath);
-    }
-
-
-    public void ChangeMusicFolder(string folderPath)
-    {
-        try
-        {
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(InitialMusicFolderPath);
-            }
-        }
-        catch (NullReferenceException)
-        {
-            Debug.LogError("А у вас папки с путём " + folderPath + " не существует!");
-        }
     }
 
     /// <summary>
