@@ -64,6 +64,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         if (Directory.Exists(_folderInputField.text))
         {
             SaveManagerHandler.Save(save._saveName, _folderInputField.text, save._playerName, save._highScore, save._isNew, save._playerPassword, save._musicVolume, save._useBuiltInPlaylist);
+            MusicManager.Instance.SetMusicPlaylistFromCurrentPath();
         }
         else
         {
@@ -140,42 +141,5 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         panel.SetValues(filePath);
     }
 
-    public IEnumerator GetAudioClip(string file, MusicPanel panel)
-    {
-        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.UNKNOWN);
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError)
-        {
-            Debug.LogError(www.error);
-        }
-        else if (www.result == UnityWebRequest.Result.Success)
-        {
-            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
-            myClip.LoadAudioData();
-            myClip.name = Path.GetFileName(file);
-
-            panel.SetAudioClip(myClip);
-            MusicManager.Instance.SetCurrentAudio(myClip);
-        }
-    }
-
-    public IEnumerator GetAudioClip(string file, AudioClip[] clip, int index)
-    {
-        using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.UNKNOWN);
-        yield return www.SendWebRequest();
-
-        if (www.result == UnityWebRequest.Result.ConnectionError)
-        {
-            Debug.LogError(www.error);
-        }
-        else if (www.result == UnityWebRequest.Result.Success)
-        {
-            AudioClip myClip = DownloadHandlerAudioClip.GetContent(www);
-            myClip.LoadAudioData();
-            myClip.name = Path.GetFileName(file);
-            clip[index] = myClip;
-        }
-    }
     #endregion
 }
