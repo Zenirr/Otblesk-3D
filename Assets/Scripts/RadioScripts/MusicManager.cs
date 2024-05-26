@@ -65,7 +65,6 @@ public class MusicManager : MonoBehaviour
         }
         else if (_currentPlaylistPath == null)
         {
-            Debug.Log("Текущий плейлист не выбран, но мухыка пытается взяться из сейва");
             _currentPlaylistPath = GameManager.Instance.musicPath;
             List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
             SetCustomPlaylist(clips);
@@ -73,7 +72,6 @@ public class MusicManager : MonoBehaviour
         }
         else if (_currentPlaylistPath != null)
         {
-            Debug.Log("Текущий плейлист выбран, мухыка пытается взяться из плейлиста");
             List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
             SetCustomPlaylist(clips);
             PlayNextTrack();
@@ -94,6 +92,7 @@ public class MusicManager : MonoBehaviour
         }
         return musicPaths;
     }
+
     private void GameManager_SaveSetted(object sender, System.EventArgs e)
     {
         SetCurrentMusicVolume(GameManager.Instance.musicVolume);
@@ -102,7 +101,7 @@ public class MusicManager : MonoBehaviour
             _customPlaylistPaths = null;
             _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
             _currentTrackIndex = 0;
-
+            Debug.Log("");
             if (GameManager.Instance.useBuiltInMusic)
                 SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
             else
@@ -273,7 +272,9 @@ public class MusicManager : MonoBehaviour
 
     private IEnumerator MusicPlayingTimer(float audioClipLength)
     {
+        Debug.Log(audioClipLength);
         yield return new WaitForSeconds(audioClipLength);
+        Debug.Log(audioClipLength);
         PauseContinueMusic();
 
         PlayNextTrack();

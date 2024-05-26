@@ -37,6 +37,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
             GameManager.Instance.SaveSetted += GameManager_SaveSetted;
         }
 
+        UpdateMusicData(_folderInputField.text);
 
         _closeButton.onClick.AddListener(CloseButton_clicked);
         _changeMusicFolderButton.onClick.AddListener(ChangeFolder);
@@ -96,70 +97,12 @@ public class PlaylistMenu : MonoBehaviour, IMenu
                 case ".mp3":
                     InstantiateMusicPanel(file);
                     break;
-                case ".ogg":
-                    InstantiateMusicPanel(file);
-                    break;
-                case ".aiff":
-                    InstantiateMusicPanel(file);
-                    break;
-                case ".wav":
-                    InstantiateMusicPanel(file);
-                    break;
-                case ".mod":
-                    InstantiateMusicPanel(file);
-                    break;
-                case ".it":
-                    InstantiateMusicPanel(file);
-                    break;
-                case ".s3m":
-                    InstantiateMusicPanel(file);
-                    break;
-                case ".xm":
-                    InstantiateMusicPanel(file);
-                    break;
                 default: break;
             }
         }
     }
     #endregion
-
-    private List<string> GetMusicFilesPaths(string folderPath)
-    {
-        List<string> musicPaths = new List<string>();
-        foreach (string file in Directory.GetFiles(folderPath))
-        {
-            switch (Path.GetExtension(file))
-            {
-                case ".mp3":
-                    musicPaths.Add(file);
-                    break;
-                case ".ogg":
-                    musicPaths.Add(file);
-                    break;
-                case ".aiff":
-                    musicPaths.Add(file);
-                    break;
-                case ".wav":
-                    musicPaths.Add(file);
-                    break;
-                case ".mod":
-                    musicPaths.Add(file);
-                    break;
-                case ".it":
-                    musicPaths.Add(file);
-                    break;
-                case ".s3m":
-                    musicPaths.Add(file);
-                    break;
-                case ".xm":
-                    musicPaths.Add(file);
-                    break;
-                default: break;
-            }
-        }
-        return musicPaths;
-    }
-
+    
     public void UpdateMusicData(string folderPath)
     {
         foreach (Transform child in _MusicfileManagerUI.GetComponentInChildren<Transform>())

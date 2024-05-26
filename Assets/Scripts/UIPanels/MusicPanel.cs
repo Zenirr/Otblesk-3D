@@ -17,19 +17,11 @@ public class MusicPanel : MonoBehaviour, IPanel
     private void Start()
     {
         _button.onClick.AddListener(OnButtonPressed);
-        StartCoroutine(GetAudioClip(MusicPath));
     }
 
     public void OnButtonPressed()
     {
-        if (AudioClip != null)
-        {
-            MusicManager.Instance.SetCurrentAudio(AudioClip);
-        }
-        else
-        {
-            MusicManager.Instance.SetCurrentAudio(MusicPath);
-        }
+        MusicManager.Instance.SetCurrentAudio(MusicPath);
     }
 
     public void SetAudioClip(AudioClip clip)
@@ -46,6 +38,7 @@ public class MusicPanel : MonoBehaviour, IPanel
 
     private IEnumerator GetAudioClip(string file)
     {
+        Debug.Log(file);
         MusicManager.Instance._audioDecoder.Import(file);
         while (!MusicManager.Instance._audioDecoder.isInitialized && !MusicManager.Instance._audioDecoder.isError)
         {

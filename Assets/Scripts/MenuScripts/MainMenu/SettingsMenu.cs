@@ -64,7 +64,7 @@ public class SettingsMenu : MonoBehaviour, IMenu
         GameSave save = GameManager.Instance.currentSave;
         SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, save._highScore, save._isNew, save._playerPassword, _musicSlider.value, _toggleStandartPlaylist.isOn);
         GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
-
+        Debug.Log(_toggleStandartPlaylist.isOn);
         CloseButtonClicked?.Invoke(this, EventArgs.Empty);
     }
 

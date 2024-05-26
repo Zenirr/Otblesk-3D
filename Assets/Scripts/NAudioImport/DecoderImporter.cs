@@ -7,6 +7,27 @@ using UnityEngine;
 
 public abstract class DecoderImporter : AudioImporter
 {
+    protected abstract void Initialize();
+    protected abstract void Cleanup();
+    protected abstract int GetSamples(float[] buffer, int offset, int count);
+    protected abstract AudioInfo GetInfo();
+
+    private AudioInfo info;
+
+    private int bufferSize;
+
+    private float[] buffer;
+
+    private AutoResetEvent waitForMainThread;
+
+    private Thread import;
+
+    private int index;
+
+    private bool abort;
+
+    private Queue<Action> executionQueue = new Queue<Action>();
+    private object _lock = new object();
     public override void Abort()
     {
         if (abort)
@@ -81,7 +102,8 @@ public abstract class DecoderImporter : AudioImporter
 
     private void CreateClip()
     {
-        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(base.uri.LocalPath);
+        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(uri.LocalPath);
+        Debug.Log(fileNameWithoutExtension);
         audioClip = AudioClip.Create(fileNameWithoutExtension, info.lengthSamples / info.channels, info.channels, info.sampleRate, false);
         waitForMainThread.Set();
     }
@@ -93,6 +115,7 @@ public abstract class DecoderImporter : AudioImporter
             Abort();
             return;
         }
+
         audioClip.SetData(buffer, index / info.channels);
         if (!isInitialized)
         {
@@ -129,28 +152,6 @@ public abstract class DecoderImporter : AudioImporter
             }
         }
     }
-
-    protected abstract void Initialize();
-    protected abstract void Cleanup();
-    protected abstract int GetSamples(float[] buffer, int offset, int count);
-    protected abstract DecoderImporter.AudioInfo GetInfo();
-
-    private DecoderImporter.AudioInfo info;
-
-    private int bufferSize;
-
-    private float[] buffer;
-
-    private AutoResetEvent waitForMainThread;
-
-    private Thread import;
-
-    private int index;
-
-    private bool abort;
-
-    private Queue<Action> executionQueue = new Queue<Action>();
-    private object _lock = new object();
     protected class AudioInfo
     {
         public int lengthSamples { get; private set; }
