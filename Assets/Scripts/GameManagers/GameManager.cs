@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        State = GameState.GameIsOnMainMenu;
+    }
+
     public void SetCurrentGameState(GameState state)
     {
         switch (state)

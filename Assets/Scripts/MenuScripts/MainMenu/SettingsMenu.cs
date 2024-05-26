@@ -87,6 +87,4 @@ public class SettingsMenu : MonoBehaviour, IMenu
     {
         _musicSlider.value = GameManager.Instance.musicVolume;
     }
-
-
 }

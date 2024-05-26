@@ -96,15 +96,18 @@ public class MusicManager : MonoBehaviour
     }
     private void GameManager_SaveSetted(object sender, System.EventArgs e)
     {
-        _customPlaylistPaths = null;
         SetCurrentMusicVolume(GameManager.Instance.musicVolume);
-        _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
-        _currentTrackIndex = 0;
-        
-        if (GameManager.Instance.useBuiltInMusic)
-            SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
-        else
-            SetMusicPlaylistFromCurrentPath();
+        if (!(GameManager.State == GameManager.GameState.GamePlaying || GameManager.State == GameManager.GameState.GamePaused || GameManager.State == GameManager.GameState.GameOver))
+        {
+            _customPlaylistPaths = null;
+            _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
+            _currentTrackIndex = 0;
+
+            if (GameManager.Instance.useBuiltInMusic)
+                SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
+            else
+                SetMusicPlaylistFromCurrentPath();
+        }
     }
 
     #region pause and continue Methods
