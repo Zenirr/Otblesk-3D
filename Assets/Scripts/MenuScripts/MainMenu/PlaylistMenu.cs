@@ -33,7 +33,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         {
             string musicPath = GameManager.Instance.musicPath;
             _folderInputField.text = musicPath;
-            _currentPlaylistPath = musicPath; 
+            _currentPlaylistPath = musicPath;
             GameManager.Instance.SaveSetted += GameManager_SaveSetted;
         }
 
@@ -64,7 +64,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
         if (Directory.Exists(_folderInputField.text))
         {
             SaveManagerHandler.Save(save._saveName, _folderInputField.text, save._playerName, save._highScore, save._isNew, save._playerPassword, save._musicVolume, save._useBuiltInPlaylist);
-            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
+            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
             MusicManager.Instance.SetMusicPlaylistFromCurrentPath();
         }
         else
@@ -92,19 +92,22 @@ public class PlaylistMenu : MonoBehaviour, IMenu
     {
         Debug.Log(folderPath);
         //В этом foreach переменная file содержит весь путь, включая путь 
-        foreach (string file in Directory.GetFiles(folderPath))
-        {
-            switch (Path.GetExtension(file))
+        if (File.Exists(folderPath))
+            foreach (string file in Directory.GetFiles(folderPath))
             {
-                case ".mp3":
-                    InstantiateMusicPanel(file);
-                    break;
-                default: break;
+                switch (Path.GetExtension(file))
+                {
+                    case ".mp3":
+                        InstantiateMusicPanel(file);
+                        break;
+                    default: break;
+                }
             }
-        }
+        else
+            return;
     }
     #endregion
-    
+
     public void UpdateMusicData(string folderPath)
     {
         foreach (Transform child in _MusicfileManagerUI.GetComponentInChildren<Transform>())
