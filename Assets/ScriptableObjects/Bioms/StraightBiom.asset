@@ -29,5 +29,6 @@ MonoBehaviour:
   - {fileID: 1512604365665502536, guid: 598ea5beaee95c84b98bc2c391e9a9b3, type: 3}
   chunkMaxCount: 150
   isRandomGenerated: 1
-  lightOptions: {fileID: 0}
+  lightOptions: {fileID: 4890085278179872738, guid: aa8d49e0e92eae546b448c330b68e52c,
+    type: 2}
   skyboxMaterial: {fileID: 2100000, guid: 993e757c3af28c44f8d06de5e9818a07, type: 2}
