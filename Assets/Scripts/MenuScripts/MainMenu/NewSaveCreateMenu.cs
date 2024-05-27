@@ -60,7 +60,6 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
 
         while (true)
         {
-            timeSinceStarted = Time.time - timeStartedLerping;
             percentageComplete /= lerpTime;
 
             float currentValue = Mathf.Lerp(start, end, percentageComplete);
@@ -93,12 +92,16 @@ public class NewSaveCreateMenu : MonoBehaviour, IMenu
             }
         }
 
-        return !string.IsNullOrEmpty(name) && (Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") || Regex.IsMatch(name, @"^[А-Яа-яЁё_]\w*$")) && isNameUnique;
+        return !string.IsNullOrEmpty(name) && (Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") || Regex.IsMatch(name, @"^[А-Яа-яЁё_]\w*$")) && isNameUnique && name.Length < 40;
     }
-
+    /// <summary>
+    /// Возвращает true если с именем всё в порядке, и оно ещё не записано в других сохранениях
+    /// </summary>
+    /// <param name="password"></param>
+    /// <returns></returns>
     private bool CheckPasswordForIssues(string password)
     {
-        return !string.IsNullOrEmpty(password) && (Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") || Regex.IsMatch(name, @"^[А-Яа-яЁё_]\w*$"));
+        return !string.IsNullOrEmpty(password) && (Regex.IsMatch(name, @"^[a-zA-Z_]\w*$") || Regex.IsMatch(name, @"^[А-Яа-яЁё_]\w*$")) && password.Length < 40;
     }
 
     private void OnDestroy()

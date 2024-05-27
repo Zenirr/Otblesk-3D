@@ -11,11 +11,10 @@ public class Speedometr : MonoBehaviour
     private void Start()
     {
         body = machine.GetComponent<Rigidbody>();
-
     }
 
     private void Update()
     {
-        text.text = body.velocity.magnitude.ToString();
+        text.text = Mathf.FloorToInt(body.velocity.magnitude*3.6f).ToString();
     }
 }
