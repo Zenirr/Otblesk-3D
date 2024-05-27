@@ -86,6 +86,7 @@ public class BiomController : MonoBehaviour
         }
         if (newBiom.lightmapData != null)
         {
+            Lightmapping.ClearLightingDataAsset();
             Lightmapping.lightingDataAsset = newBiom.lightmapData;
         }
         BiomsChanged?.Invoke(this, EventArgs.Empty);
