@@ -35,9 +35,9 @@ public class BiomController : MonoBehaviour
     private void Teleport_Teleported(object sender, System.EventArgs e)
     {
         GameSave save = GameManager.Instance.currentSave;
-        if (save._highScore < _scoreManager.currentScore)
+        if (save._highScore < _scoreManager._currentScore)
         {
-            SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, _scoreManager.currentScore, false,save._playerPassword, save._musicVolume,save._useBuiltInPlaylist);
+            SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, _scoreManager._currentScore, false,save._playerPassword, save._musicVolume,save._useBuiltInPlaylist);
             GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
         }
 

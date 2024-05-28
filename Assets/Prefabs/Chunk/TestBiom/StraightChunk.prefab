@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 7705921617318191487}
   - component: {fileID: 9018972421183536478}
   - component: {fileID: 2633028051200385651}
-  - component: {fileID: 4669402764481834615}
+  - component: {fileID: 4021890622904256180}
   m_Layer: 0
   m_Name: RoadSegmentStraight
   m_TagString: Untagged
@@ -146,8 +146,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4669402764481834615
-BoxCollider:
+--- !u!64 &4021890622904256180
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -164,9 +164,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10.0251255, y: 0.30060446, z: 5.0000186}
-  m_Center: {x: -0.98741627, y: -0.097672224, z: -1.4999907}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 7369868421038003898, guid: 847f1de6af5ae5340b8ff6b4bec8e3e7, type: 3}
 --- !u!1 &2720567138522855888
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +420,7 @@ MonoBehaviour:
   - {fileID: 2467494805189750100}
   - {fileID: 2019272078279225252}
   - {fileID: 3200761818662951198}
+  <_obstacle>k__BackingField: []
   <_environmentObjects>k__BackingField: []
   <_score>k__BackingField: 20
 --- !u!1 &7929410284633257872
