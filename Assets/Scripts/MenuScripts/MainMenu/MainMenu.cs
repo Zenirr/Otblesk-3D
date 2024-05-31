@@ -13,12 +13,14 @@ public class MainMenu : MonoBehaviour,IMenu
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _changeSaveButton;
     [SerializeField] private Button _leaderBoardButton;
+    [SerializeField] private Button _loreButton;
 
     public event EventHandler SettingsButtonClicked;
     public event EventHandler MusicButtonClicked;
     public event EventHandler ChangeSaveButtonClicked;
     public event EventHandler LeaderBoardButtonClicked;
     public event EventHandler PlayButtonClicked;
+    public event EventHandler LoreButtonClicked;
 
     private void Start()
     {
@@ -28,9 +30,15 @@ public class MainMenu : MonoBehaviour,IMenu
         _playlistsButton.onClick.AddListener(MusicButton_clicked);
         _changeSaveButton.onClick.AddListener(ChangeSaveButton_Clicked);
         _leaderBoardButton.onClick.AddListener(OnLeaderBoardButtonClicked);
+        _loreButton.onClick.AddListener(OnLoreBoardButtonClicked);
     }
 
     #region button actions
+    private void OnLoreBoardButtonClicked()
+    {
+        LoreButtonClicked.Invoke(this, EventArgs.Empty);
+    }
+
     private void OnLeaderBoardButtonClicked()
     {
         LeaderBoardButtonClicked.Invoke(this, EventArgs.Empty);

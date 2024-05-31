@@ -27,7 +27,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     [SerializeField] private BiomController _biomeController;
     [SerializeField] private Chunk _zeroPointChunk; // Чанк который стоит в нулевой точке и является точкой отсчёта для всех других
     [SerializeField] private ScoreManager _scoreManager;
-
+    [SerializeField] private ToPortalProgress _toPortalProgress;
     public event EventHandler<Chunk> ChunkCreated;
 
     private float _currentChunksLength;
@@ -61,10 +61,6 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         if (IsVehicleAtTheBorder())
         {
             RoadGenerate();
-        }
-        if (_car.transform.position.y < -5 && GameManager.State != GameManager.GameState.GameOver)
-        {
-            GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameOver);
         }
     }
 
@@ -113,6 +109,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         ChunkCreated?.Invoke(this,chunk);
         _currentChunksLength += _lastCreatedChunk.GetLength();
         _scoreManager.AddToCurrentScore(chunk._score);
+        _toPortalProgress.UpdateCurrentProgress(_chunksCreated, _chunksCountGenerationLimit);
     }
 
     /// <summary>
@@ -133,6 +130,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
         ChunkCreated?.Invoke(this, chunk);
         _currentChunksLength += _lastCreatedChunk.GetLength();
         _scoreManager.AddToCurrentScore(chunk._score);
+        _toPortalProgress.UpdateCurrentProgress(_chunksCreated, _chunksCountGenerationLimit);
     }
 
     /// <summary>

@@ -24,7 +24,7 @@ public class Barrier : MonoBehaviour, IObstacle
 
     private void Collider_ColliderTouched(object sender, System.EventArgs e)
     {
-        if (_speedOnTriggerEnter > _speedToGameOver && GameManager.State != GameManager.GameState.GameOver)
+        if (_speedOnTriggerEnter > _speedToGameOver && GameManager.State != GameManager.GameState.GameOver )
             GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameOver);
     }
 
@@ -42,12 +42,12 @@ public class Barrier : MonoBehaviour, IObstacle
             //почему-то при столкновении с внутренними коллайдерами барьера значение скорости сбрасывалось,
             //так что если скорость смертельная, то скорость устанавливается окончательно, что не даст сменить
             //заданную скорость, только при выходе из триггера оно будет сброшено
-            if(_speedOnTriggerEnter > 3)
+            if(_speedOnTriggerEnter > 3 )
             {
                 _isSpeedSetted = true;
             }
 
-            if (!machineRigidbody.gameObject.TryGetComponent(out Vehicle vehicle))
+            if (machineRigidbody.gameObject.TryGetComponent(out Player player) && player.isInvincible)
             {
                 _speedOnTriggerEnter = 0;
                 Debug.Log(machineRigidbody.velocity.magnitude + " - скорость больше одного");

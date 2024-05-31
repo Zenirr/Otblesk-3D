@@ -60,7 +60,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
     public void ChangeFolder()
     {
         GameSave save = GameManager.Instance.currentSave;
-
+        Debug.Log(Directory.Exists(_folderInputField.text));
         if (Directory.Exists(_folderInputField.text))
         {
             SaveManagerHandler.Save(save._saveName, _folderInputField.text, save._playerName, save._highScore, save._isNew, save._playerPassword, save._musicVolume, save._useBuiltInPlaylist);
@@ -90,15 +90,18 @@ public class PlaylistMenu : MonoBehaviour, IMenu
     #region Get folder content
     private void SetMusicPanels(string folderPath)
     {
-        Debug.Log(folderPath);
+        Debug.Log("File.Exists(folderPath) "+File.Exists(folderPath));
         //В этом foreach переменная file содержит весь путь, включая путь 
-        if (File.Exists(folderPath))
+        if (Directory.Exists(folderPath))
             foreach (string file in Directory.GetFiles(folderPath))
             {
+                Debug.Log("Получил расширение");
                 switch (Path.GetExtension(file))
                 {
                     case ".mp3":
                         InstantiateMusicPanel(file);
+
+                        Debug.Log("Получил file " + file);
                         break;
                     default: break;
                 }

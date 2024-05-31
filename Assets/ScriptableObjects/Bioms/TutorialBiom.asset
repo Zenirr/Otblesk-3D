@@ -20,18 +20,25 @@ MonoBehaviour:
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   - {fileID: 7623011953724999578, guid: 54d772d4bf05df14fa7c0cf0f98cced3, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
-  - {fileID: 7623011953724999578, guid: b271f221bf87d054abbcd436455bf612, type: 3}
+  - {fileID: 7623011953724999578, guid: 618f634cf1a06f746835d8fce2977e1c, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
-  - {fileID: 7623011953724999578, guid: f46c5febbf7127a4bb85e6f9025deacb, type: 3}
+  - {fileID: 7623011953724999578, guid: b271f221bf87d054abbcd436455bf612, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   - {fileID: 7623011953724999578, guid: ed318d107ec8e22409f27c92bec95036, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: be277c1bbd8781141bdecbe096e1a84a, type: 3}
   - {fileID: 7623011953724999578, guid: 446f81b4c6bdbf74caf4f7e2d54677a4, type: 3}
+  - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
+  - {fileID: 7623011953724999578, guid: 12ecc2957812089439cedabebaf44acb, type: 3}
+  - {fileID: 7623011953724999578, guid: 446f81b4c6bdbf74caf4f7e2d54677a4, type: 3}
+  - {fileID: 7623011953724999578, guid: f46c5febbf7127a4bb85e6f9025deacb, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   - {fileID: 7623011953724999578, guid: da110c26315fe46479d1a8072454e5af, type: 3}
   straightChunk: []
+  obstacles: []
   environmentPrefabs: []
   chunkMaxCount: 50
   isRandomGenerated: 0
-  lightOptions: {fileID: 0}
+  lightOptions: {fileID: 4890085278179872738, guid: 89c32583b4ecb6a4c82a4d91c93e1b0b,
+    type: 2}
   skyboxMaterial: {fileID: 2100000, guid: 0d14747fa4cd58f4f868caaad777d957, type: 2}

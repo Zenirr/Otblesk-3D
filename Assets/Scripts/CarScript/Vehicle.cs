@@ -75,7 +75,6 @@ public class Vehicle : MonoBehaviour
         UpdateAirResistance();
     }
 
-
     public float GetSpringCurrentLength(Wheel wheel)
     {
         return m_SpringDatas[wheel].CurrentLength;

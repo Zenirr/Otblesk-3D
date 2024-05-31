@@ -22,7 +22,6 @@ public class PauseMenuManager : MonoBehaviour
 
     private void GameManager_GameOver(object sender, System.EventArgs e)
     {
-        Debug.Log("¬от сейчас должно сработать окно проигрыша");
         _gameOverMenu.ToggleVisible();
         InputController.Instance.OnPauseButtonPressed -= InputController_OnPauseButtonPressed;
     }

@@ -20,6 +20,5 @@ public class Bioms : ScriptableObject
 
     [Header("Visual Options")]
     public LightingSettings lightOptions;
-    public LightingDataAsset lightmapData;
     public Material skyboxMaterial;
 }

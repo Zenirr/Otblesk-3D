@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 public class BiomController : MonoBehaviour
@@ -60,10 +61,6 @@ public class BiomController : MonoBehaviour
         {
             RenderSettings.skybox = biom.skyboxMaterial; 
         }
-        if (biom.lightOptions != null)
-        {
-            Lightmapping.lightingSettings = biom.lightOptions;
-        }
         BiomsChanged?.Invoke(_currentBiom, EventArgs.Empty);
     }
 
@@ -80,15 +77,7 @@ public class BiomController : MonoBehaviour
         {
             RenderSettings.skybox = newBiom.skyboxMaterial;
         }
-        if (newBiom.lightOptions != null)
-        {
-            Lightmapping.lightingSettings = newBiom.lightOptions;
-        }
-        if (newBiom.lightmapData != null)
-        {
-            Lightmapping.ClearLightingDataAsset();
-            Lightmapping.lightingDataAsset = newBiom.lightmapData;
-        }
+        
         BiomsChanged?.Invoke(this, EventArgs.Empty);
     }
 

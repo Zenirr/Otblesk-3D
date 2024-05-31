@@ -57,16 +57,23 @@ public class GameManager : MonoBehaviour
             case GameState.GamePaused:
                 State = state;
                 Time.timeScale = 0f;
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 break;
             case GameState.GamePlaying:
                 State = state;
                 Time.timeScale = 1f;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
                 break;
             case GameState.GameOver:
                 State = state;
                 SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, playerPassword, musicVolume, useBuiltInMusic);
                 GameOver?.Invoke(this, EventArgs.Empty);
-                Debug.Log("Game Over NOW");
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 Time.timeScale = 0f;
                 break;
             case GameState.CutscenePlaying:
@@ -75,6 +82,9 @@ public class GameManager : MonoBehaviour
             case GameState.GameIsOnMainMenu:
                 State = state;
                 Time.timeScale = 1f;
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 break;
             default: break;
         }

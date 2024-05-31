@@ -25,6 +25,7 @@ public class GameOverMenu : MonoBehaviour, IMenu
     {
         GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
         SceneLoader.Load(SceneLoader.Scenes.MainGame);
+        Debug.Log(Time.timeScale);
     }
 
     public void ToggleVisible()
