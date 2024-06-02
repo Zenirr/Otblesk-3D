@@ -19525,7 +19525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _closeButton: {fileID: 1477621332577112366}
   _musicSlider: {fileID: 957087302}
-  _toggleStandartPlaylist: {fileID: 0}
+  _toggleStandartPlaylist: {fileID: 1807377542}
   _DeleteSave: {fileID: 457873719}
   _areYouSureMenu: {fileID: 1094898136}
 --- !u!222 &6936964041615596035
