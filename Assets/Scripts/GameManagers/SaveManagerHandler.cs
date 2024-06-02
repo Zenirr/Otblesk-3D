@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Application = UnityEngine.Application;
 
 public static class SaveManagerHandler
 {
@@ -22,7 +23,11 @@ public static class SaveManagerHandler
         while (File.Exists(SAVE_FOLDER + SAVE_NAME + saveCount + ".json"))
         {
             saveCount++;
+        }
 
+        if (!Directory.Exists(musicPath))
+        {
+            Directory.CreateDirectory(musicPath);
         }
 
         GameSave gameSave = new GameSave()
@@ -54,6 +59,12 @@ public static class SaveManagerHandler
     /// <param name="highScore">Лучший счёт игрока</param>
     public static void Save(string saveName, string musicPath, string playerName, float highScore, bool isNew, string playerPassword, float musicVolume = 0.1f, bool useBuiltInPlaylist = false)
     {
+
+        if (!Directory.Exists(musicPath))
+        {
+            Directory.CreateDirectory(musicPath);
+        }
+
         GameSave gameSave = new GameSave()
         {
             _saveName = saveName,
@@ -98,7 +109,7 @@ public static class SaveManagerHandler
         {
             File.Delete(SAVE_FOLDER + saveName);
         }
-        catch 
+        catch
         {
             return;
         }

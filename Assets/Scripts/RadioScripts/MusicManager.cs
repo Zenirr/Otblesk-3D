@@ -65,7 +65,7 @@ public class MusicManager : MonoBehaviour
             _customPlaylistPaths = new string[0];
             PlayNextTrack();
         }
-        else 
+        else
         {
             _currentPlaylistPath = string.Empty;
             _customPlaylistPaths = new string[0];
@@ -123,6 +123,7 @@ public class MusicManager : MonoBehaviour
 
     private void PauseMusic()
     {
+        StopAndStartTimeCoroutineCoroutine(_audioSource.clip.length);
         _currentState = MusicState.MusicIsPaused;
         _audioSource.Pause();
     }
@@ -131,7 +132,7 @@ public class MusicManager : MonoBehaviour
     {
         _currentState = MusicState.MusicIsPlaying;
         _audioSource.Play();
-        CurrentMusicTimeCourutine = StartCoroutine(MusicPlayingTimer(_audioSource.clip.length - _audioSource.time));
+        StopAndStartTimeCoroutineCoroutine(_audioSource.clip.length - _audioSource.time);
     }
     #endregion
 
@@ -200,11 +201,13 @@ public class MusicManager : MonoBehaviour
             if (_customPlaylistPaths.Length > _currentTrackIndex + 1)
             {
                 _currentTrackIndex++;
+                Debug.Log(_customPlaylistPaths[_currentTrackIndex]);
                 SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
             }
             else if (_customPlaylistPaths.Length == _currentTrackIndex + 1)
             {
                 _currentTrackIndex = 0;
+                Debug.Log(_customPlaylistPaths[_currentTrackIndex]);
                 SetCurrentAudio(_customPlaylistPaths[_currentTrackIndex]);
             }
         }
@@ -221,13 +224,14 @@ public class MusicManager : MonoBehaviour
             case MusicState.MusicIsPlaying:
                 GetAndSetAudioClipToAudioSource(clipPath);
                 _currentState = MusicState.MusicIsPlaying;
+
                 Debug.Log("Music was Switched to " + clipPath);
                 break;
             case MusicState.MusicIsPaused:
                 GetAndSetAudioClipToAudioSource(clipPath);
 
                 _currentState = MusicState.MusicIsPlaying;
-                Debug.Log("Music was Switched to " + clipPath);
+                Debug.Log("Music was paused, but now Switched to " + clipPath);
                 break;
             default: break;
         }
@@ -245,14 +249,14 @@ public class MusicManager : MonoBehaviour
                 PauseContinueMusic();
                 _audioSource.clip = clip;
                 _audioSource.Play();
-                StartCoroutine(MusicPlayingTimer(clip.length));
+                StopAndStartTimeCoroutineCoroutine(clip.length);
                 _currentState = MusicState.MusicIsPlaying;
                 Debug.Log("Music was Switched!");
                 break;
             case MusicState.MusicIsPaused:
                 _audioSource.clip = clip;
                 _audioSource.Play();
-                StartCoroutine(MusicPlayingTimer(clip.length));
+                StopAndStartTimeCoroutineCoroutine(clip.length);
                 _currentState = MusicState.MusicIsPlaying;
                 Debug.Log("Music was Paused, but now is Playing!");
                 break;
@@ -270,10 +274,18 @@ public class MusicManager : MonoBehaviour
     private IEnumerator MusicPlayingTimer(float audioClipLength)
     {
         Debug.Log(audioClipLength);
+
         yield return new WaitForSeconds(audioClipLength);
-        
 
         PlayNextTrack();
+    }
+
+    private void StopAndStartTimeCoroutineCoroutine(float musicTime)
+    {
+        if (CurrentMusicTimeCourutine != null)
+            StopCoroutine(CurrentMusicTimeCourutine);
+
+        CurrentMusicTimeCourutine = StartCoroutine(MusicPlayingTimer(musicTime));
     }
 
     /// <summary>
@@ -294,7 +306,8 @@ public class MusicManager : MonoBehaviour
         }
         _audioSource.clip = _audioDecoder.audioClip;
         _audioSource.Play();
-        StartCoroutine(MusicPlayingTimer(_audioSource.clip.length));
+
+        StopAndStartTimeCoroutineCoroutine(_audioDecoder.audioClip.length);
     }
 
 }

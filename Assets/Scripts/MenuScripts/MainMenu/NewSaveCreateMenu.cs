@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
 
 public class NewSaveCreateMenu : MonoBehaviour, IMenu
 {
