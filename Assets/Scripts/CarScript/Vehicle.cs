@@ -2,6 +2,7 @@ using AfterGlow;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 public class Vehicle : MonoBehaviour
 {
     private class SpringData
@@ -27,10 +28,11 @@ public class Vehicle : MonoBehaviour
 
     private float m_SteerInput;
     private float m_AccelerateInput;
-
+    private bool m_IsBrake;
     public VehicleSettings Settings => m_Settings;
     public Vector3 Forward => m_Transform.forward;
     public Vector3 Velocity => m_Rigidbody.velocity;
+    public bool IsBrake => m_IsBrake;
 
     private void Awake()
     {
@@ -48,6 +50,18 @@ public class Vehicle : MonoBehaviour
     private void Start()
     {
         InputController.Instance.OnMovementInput += InputController_OnMovementInput;
+        InputController.Instance.OnBrakePerformed += Instance_OnBrakePerformed;
+        InputController.Instance.OnBrakeCanceled += Instance_OnBrakeCanceled;
+    }
+
+    private void Instance_OnBrakeCanceled(object sender, System.EventArgs e)
+    {
+        m_IsBrake = false;
+    }
+
+    private void Instance_OnBrakePerformed(object sender, System.EventArgs e)
+    {
+        m_IsBrake = true;
     }
 
     private void InputController_OnMovementInput(object sender, InputController.InputMovementEventArgs e)
@@ -59,7 +73,8 @@ public class Vehicle : MonoBehaviour
     private void OnDestroy()
     {
         InputController.Instance.OnMovementInput -= InputController_OnMovementInput;
-    
+        InputController.Instance.OnBrakePerformed -= Instance_OnBrakePerformed;
+        InputController.Instance.OnBrakeCanceled -= Instance_OnBrakeCanceled;
     }
 
     private void FixedUpdate()
@@ -265,7 +280,7 @@ public class Vehicle : MonoBehaviour
 
     private void UpdateAccelerate()
     {
-        if (Mathf.Approximately(m_AccelerateInput, 0.0f))
+        if (Mathf.Approximately(m_AccelerateInput, 0.0f) || m_IsBrake)
         {
             return;
         }
@@ -305,7 +320,7 @@ public class Vehicle : MonoBehaviour
 
         const float ALMOST_STOPPING_SPEED = 2.0f;
         bool almostStopping = speed < ALMOST_STOPPING_SPEED;
-        if (almostStopping)
+        if (almostStopping|| m_IsBrake)
         {
             brakesRatio = 1.0f;
         }

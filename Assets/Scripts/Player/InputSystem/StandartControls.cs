@@ -62,6 +62,15 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""628da922-c128-4a03-bab1-3cb0d6dd13ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -273,6 +282,17 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
                     ""action"": ""Restart(DeleteLater)"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98a86887-a992-4c03-b310-877c2f037e15"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -392,6 +412,7 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
         m_DriveControl_LookBack = m_DriveControl.FindAction("LookBack", throwIfNotFound: true);
         m_DriveControl_ChangeCameraView = m_DriveControl.FindAction("ChangeCameraView", throwIfNotFound: true);
         m_DriveControl_RestartDeleteLater = m_DriveControl.FindAction("Restart(DeleteLater)", throwIfNotFound: true);
+        m_DriveControl_Brake = m_DriveControl.FindAction("Brake", throwIfNotFound: true);
         // UIControl
         m_UIControl = asset.FindActionMap("UIControl", throwIfNotFound: true);
         m_UIControl_PauseButton = m_UIControl.FindAction("PauseButton", throwIfNotFound: true);
@@ -465,6 +486,7 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_DriveControl_LookBack;
     private readonly InputAction m_DriveControl_ChangeCameraView;
     private readonly InputAction m_DriveControl_RestartDeleteLater;
+    private readonly InputAction m_DriveControl_Brake;
     public struct DriveControlActions
     {
         private @StandartControls m_Wrapper;
@@ -473,6 +495,7 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
         public InputAction @LookBack => m_Wrapper.m_DriveControl_LookBack;
         public InputAction @ChangeCameraView => m_Wrapper.m_DriveControl_ChangeCameraView;
         public InputAction @RestartDeleteLater => m_Wrapper.m_DriveControl_RestartDeleteLater;
+        public InputAction @Brake => m_Wrapper.m_DriveControl_Brake;
         public InputActionMap Get() { return m_Wrapper.m_DriveControl; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -494,6 +517,9 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
             @RestartDeleteLater.started += instance.OnRestartDeleteLater;
             @RestartDeleteLater.performed += instance.OnRestartDeleteLater;
             @RestartDeleteLater.canceled += instance.OnRestartDeleteLater;
+            @Brake.started += instance.OnBrake;
+            @Brake.performed += instance.OnBrake;
+            @Brake.canceled += instance.OnBrake;
         }
 
         private void UnregisterCallbacks(IDriveControlActions instance)
@@ -510,6 +536,9 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
             @RestartDeleteLater.started -= instance.OnRestartDeleteLater;
             @RestartDeleteLater.performed -= instance.OnRestartDeleteLater;
             @RestartDeleteLater.canceled -= instance.OnRestartDeleteLater;
+            @Brake.started -= instance.OnBrake;
+            @Brake.performed -= instance.OnBrake;
+            @Brake.canceled -= instance.OnBrake;
         }
 
         public void RemoveCallbacks(IDriveControlActions instance)
@@ -641,6 +670,7 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
         void OnLookBack(InputAction.CallbackContext context);
         void OnChangeCameraView(InputAction.CallbackContext context);
         void OnRestartDeleteLater(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
     public interface IUIControlActions
     {

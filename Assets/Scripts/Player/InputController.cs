@@ -18,6 +18,9 @@ public class InputController : MonoBehaviour
     public event EventHandler<EventArgs> OnPlayPreviousTrackButtonPressed;
     public event EventHandler<EventArgs> OnPauseMusicButtonPressed;
 
+    public event EventHandler<EventArgs> OnBrakePerformed;
+    public event EventHandler<EventArgs> OnBrakeCanceled;
+
 
     public event EventHandler<InputMovementEventArgs> OnMovementInput;
     public class InputMovementEventArgs : EventArgs
@@ -37,6 +40,11 @@ public class InputController : MonoBehaviour
         _inputActions.DriveControl.Movement.performed += Movement_performed;
         _inputActions.DriveControl.Movement.canceled += Movement_canceled;
         #endregion
+        #region Brake
+        _inputActions.DriveControl.Brake.Enable();
+        _inputActions.DriveControl.Brake.performed += Brake_performed;
+        _inputActions.DriveControl.Brake.canceled += Brake_canceled;
+        #endregion
         #region Restart action
         _inputActions.DriveControl.RestartDeleteLater.Enable();
         _inputActions.DriveControl.RestartDeleteLater.performed += RestartDeleteLater_performed;
@@ -55,6 +63,16 @@ public class InputController : MonoBehaviour
         _inputActions.MusicControl.PreviousMusicTrack.started += PreviousMusicTrack_started;
         _inputActions.MusicControl.NextMusicTrack.started += NextMusicTrack_started;
         #endregion
+    }
+
+    private void Brake_canceled(InputAction.CallbackContext obj)
+    {
+        OnBrakeCanceled?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Brake_performed(InputAction.CallbackContext obj)
+    {
+        OnBrakePerformed?.Invoke(this, EventArgs.Empty);
     }
 
     private void NextMusicTrack_started(InputAction.CallbackContext obj)
