@@ -402,6 +402,34 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""FPSButton"",
+            ""id"": ""faa778ed-59a2-4bbb-9b5b-18e1c072c181"",
+            ""actions"": [
+                {
+                    ""name"": ""FPS"",
+                    ""type"": ""Button"",
+                    ""id"": ""328334a0-8242-4b22-a5be-82a0ab93752e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""4ca73e92-8ae7-481d-b4d8-3f1281165849"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FPS"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -421,6 +449,9 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
         m_MusicControl_NextMusicTrack = m_MusicControl.FindAction("NextMusicTrack", throwIfNotFound: true);
         m_MusicControl_PreviousMusicTrack = m_MusicControl.FindAction("PreviousMusicTrack", throwIfNotFound: true);
         m_MusicControl_PauseMusic = m_MusicControl.FindAction("PauseMusic", throwIfNotFound: true);
+        // FPSButton
+        m_FPSButton = asset.FindActionMap("FPSButton", throwIfNotFound: true);
+        m_FPSButton_FPS = m_FPSButton.FindAction("FPS", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -664,6 +695,52 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
         }
     }
     public MusicControlActions @MusicControl => new MusicControlActions(this);
+
+    // FPSButton
+    private readonly InputActionMap m_FPSButton;
+    private List<IFPSButtonActions> m_FPSButtonActionsCallbackInterfaces = new List<IFPSButtonActions>();
+    private readonly InputAction m_FPSButton_FPS;
+    public struct FPSButtonActions
+    {
+        private @StandartControls m_Wrapper;
+        public FPSButtonActions(@StandartControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @FPS => m_Wrapper.m_FPSButton_FPS;
+        public InputActionMap Get() { return m_Wrapper.m_FPSButton; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(FPSButtonActions set) { return set.Get(); }
+        public void AddCallbacks(IFPSButtonActions instance)
+        {
+            if (instance == null || m_Wrapper.m_FPSButtonActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_FPSButtonActionsCallbackInterfaces.Add(instance);
+            @FPS.started += instance.OnFPS;
+            @FPS.performed += instance.OnFPS;
+            @FPS.canceled += instance.OnFPS;
+        }
+
+        private void UnregisterCallbacks(IFPSButtonActions instance)
+        {
+            @FPS.started -= instance.OnFPS;
+            @FPS.performed -= instance.OnFPS;
+            @FPS.canceled -= instance.OnFPS;
+        }
+
+        public void RemoveCallbacks(IFPSButtonActions instance)
+        {
+            if (m_Wrapper.m_FPSButtonActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IFPSButtonActions instance)
+        {
+            foreach (var item in m_Wrapper.m_FPSButtonActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_FPSButtonActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public FPSButtonActions @FPSButton => new FPSButtonActions(this);
     public interface IDriveControlActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -681,5 +758,9 @@ public partial class @StandartControls: IInputActionCollection2, IDisposable
         void OnNextMusicTrack(InputAction.CallbackContext context);
         void OnPreviousMusicTrack(InputAction.CallbackContext context);
         void OnPauseMusic(InputAction.CallbackContext context);
+    }
+    public interface IFPSButtonActions
+    {
+        void OnFPS(InputAction.CallbackContext context);
     }
 }

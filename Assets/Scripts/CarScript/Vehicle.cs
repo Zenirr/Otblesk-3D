@@ -320,7 +320,7 @@ public class Vehicle : MonoBehaviour
 
         const float ALMOST_STOPPING_SPEED = 2.0f;
         bool almostStopping = speed < ALMOST_STOPPING_SPEED;
-        if (almostStopping|| m_IsBrake)
+        if (almostStopping || m_IsBrake)
         {
             brakesRatio = 1.0f;
         }

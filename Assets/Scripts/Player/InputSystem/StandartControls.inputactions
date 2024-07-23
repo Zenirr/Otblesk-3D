@@ -380,6 +380,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "FPSButton",
+            "id": "faa778ed-59a2-4bbb-9b5b-18e1c072c181",
+            "actions": [
+                {
+                    "name": "FPS",
+                    "type": "Button",
+                    "id": "328334a0-8242-4b22-a5be-82a0ab93752e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4ca73e92-8ae7-481d-b4d8-3f1281165849",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FPS",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

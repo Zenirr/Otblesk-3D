@@ -13,9 +13,14 @@ public class GameManager : MonoBehaviour
         GameIsOnMainMenu,
         CutscenePlaying,
     }
-
+    public event EventHandler<StateChangedEventArgs> OnGameStateChanged;
     public event EventHandler SaveSetted;
     public event EventHandler GameOver;
+
+    public class StateChangedEventArgs : EventArgs
+    {
+        public GameState newState;
+    }
 
     public string saveName { get; private set; }
     public string musicPath { get; private set; }
@@ -55,6 +60,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.GamePaused:
+                OnGameStateChanged?.Invoke(this,new StateChangedEventArgs{ newState = state });
                 State = state;
                 Time.timeScale = 0f;
 
@@ -62,12 +68,14 @@ public class GameManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 break;
             case GameState.GamePlaying:
+                OnGameStateChanged?.Invoke(this, new StateChangedEventArgs { newState = state });
                 State = state;
                 Time.timeScale = 1f;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Confined;
                 break;
             case GameState.GameOver:
+                OnGameStateChanged?.Invoke(this, new StateChangedEventArgs { newState = state });
                 State = state;
                 SaveManagerHandler.Save(saveName, musicPath, playerName, highScore, isNew, playerPassword, musicVolume, useBuiltInMusic);
                 GameOver?.Invoke(this, EventArgs.Empty);
@@ -77,9 +85,11 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0f;
                 break;
             case GameState.CutscenePlaying:
+                OnGameStateChanged?.Invoke(this, new StateChangedEventArgs { newState = state });
                 State = state;
                 break;
             case GameState.GameIsOnMainMenu:
+                OnGameStateChanged?.Invoke(this, new StateChangedEventArgs { newState = state });
                 State = state;
                 Time.timeScale = 1f;
 
