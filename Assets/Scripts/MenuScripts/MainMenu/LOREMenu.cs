@@ -8,7 +8,7 @@ public class LOREMenu : MonoBehaviour, IMenu
 {
     [SerializeField] private Button _closeButton;
 
-    public event EventHandler CloseButtonClicked;
+    public event EventHandler<MainMenu.MenuSwitchEventArgs> ButtonClicked;
 
     private void Start()
     {
@@ -17,7 +17,7 @@ public class LOREMenu : MonoBehaviour, IMenu
 
     private void OnCloseClickButton()
     {
-        CloseButtonClicked?.Invoke(this, EventArgs.Empty);
+        ButtonClicked?.Invoke(this, new MainMenu.MenuSwitchEventArgs() { MenuOff = "LoreMenu" });
 
     }
 

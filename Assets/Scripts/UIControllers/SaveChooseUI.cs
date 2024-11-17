@@ -13,7 +13,7 @@ public class SaveChooseUI : MonoBehaviour,IMenu
     [SerializeField] private GameObject _savePanelsContentHolder;
     [SerializeField] private Button _exitButton;
 
-    public event EventHandler SaveChoosed;
+    public event EventHandler<MainMenu.MenuSwitchEventArgs> ButtonClicked;
     private void Start()
     {
         if (!Directory.Exists(SaveManagerHandler.SAVE_FOLDER))
@@ -62,7 +62,7 @@ public class SaveChooseUI : MonoBehaviour,IMenu
 
     private void SavePanel_SaveChoosed(object sender, System.EventArgs e)
     {
-        SaveChoosed?.Invoke(this, EventArgs.Empty);
+        ButtonClicked?.Invoke(this, new MainMenu.MenuSwitchEventArgs() { MenuOff = "SaveChooseUI" });
     }
 
     private void OnDestroy()

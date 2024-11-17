@@ -15,6 +15,6 @@ public class Speedometr : MonoBehaviour
 
     private void Update()
     {
-        text.text = Mathf.FloorToInt(body.velocity.magnitude*3.6f).ToString();
+        text.text = Mathf.FloorToInt(body.linearVelocity.magnitude*3.6f).ToString();
     }
 }

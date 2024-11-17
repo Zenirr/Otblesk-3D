@@ -21,7 +21,7 @@ public class MusicPanel : MonoBehaviour, IPanel
 
     public void OnButtonPressed()
     {
-        MusicManager.Instance.SetCurrentAudio(MusicPath);
+        MusicManager.GetInstance().SetCurrentAudio(MusicPath);
     }
 
     public void SetAudioClip(AudioClip clip)
@@ -39,16 +39,16 @@ public class MusicPanel : MonoBehaviour, IPanel
     private IEnumerator GetAudioClip(string file)
     {
         Debug.Log(file);
-        MusicManager.Instance._audioDecoder.Import(file);
-        while (!MusicManager.Instance._audioDecoder.isInitialized && !MusicManager.Instance._audioDecoder.isError)
+        MusicManager.GetInstance()._audioDecoder.Import(file);
+        while (!MusicManager.GetInstance()._audioDecoder.isInitialized && !MusicManager.GetInstance()._audioDecoder.isError)
         {
             yield return null;
         }
-        if (MusicManager.Instance._audioDecoder.isError)
+        if (MusicManager.GetInstance()._audioDecoder.isError)
         {
-            Debug.LogError(MusicManager.Instance._audioDecoder.error);
+            Debug.LogError(MusicManager.GetInstance()._audioDecoder.error);
         }
-        AudioClip = MusicManager.Instance._audioDecoder.audioClip;
+        AudioClip = MusicManager.GetInstance()._audioDecoder.audioClip;
         yield break;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager 
 {
     public enum GameState
     {
@@ -32,35 +32,29 @@ public class GameManager : MonoBehaviour
     public bool useBuiltInMusic { get; private set; }
     public GameSave currentSave { get; private set; }
 
-    public static GameManager Instance { get; private set; }
+    private static GameManager Instance;
     public static GameState State { get; private set; }
 
     [SerializeField] private GameState StateForInspector;
 
-    private void Awake()
+
+    
+
+    public static GameManager GetInstance()
     {
         if (Instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Instance = new GameManager();
+            
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        return Instance;
     }
-
-    private void Start()
-    {
-        State = GameState.GameIsOnMainMenu;
-    }
-
     public void SetCurrentGameState(GameState state)
     {
         switch (state)
         {
             case GameState.GamePaused:
-                OnGameStateChanged?.Invoke(this,new StateChangedEventArgs{ newState = state });
+                OnGameStateChanged?.Invoke(this, new StateChangedEventArgs { newState = state });
                 State = state;
                 Time.timeScale = 0f;
 
@@ -116,7 +110,7 @@ public class GameManager : MonoBehaviour
         musicVolume = save._musicVolume;
         playerPassword = save._playerPassword;
         useBuiltInMusic = save._useBuiltInPlaylist;
-        MusicManager.Instance.SetCurrentMusicVolume(save._musicVolume);
+        MusicManager.GetInstance().SetCurrentMusicVolume(save._musicVolume);
         currentSave = save;
 
         SaveSetted?.Invoke(this, EventArgs.Empty);

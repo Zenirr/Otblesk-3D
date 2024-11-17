@@ -13,7 +13,7 @@ public class LeaderBoardMenu : MonoBehaviour, IMenu
     [SerializeField] private GameObject _content;
     [SerializeField] private LeaderBoardPanel _panel;
 
-    public event EventHandler CancelButtonClicked;
+    public event EventHandler<MainMenu.MenuSwitchEventArgs> ButtonClicked;
 
     private void Start()
     {
@@ -63,7 +63,7 @@ public class LeaderBoardMenu : MonoBehaviour, IMenu
 
     private void OnCancelButtonCliked()
     {
-        CancelButtonClicked?.Invoke(this, EventArgs.Empty);
+        ButtonClicked?.Invoke(this, new MainMenu.MenuSwitchEventArgs() {MenuOff= "LeaderBoardMenu" });
     }
 
     private void OnDestroy()

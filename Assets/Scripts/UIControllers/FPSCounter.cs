@@ -19,8 +19,6 @@ public class FPSCounter : MonoBehaviour
         _controls.FPSButton.FPS.performed += FPS_performed;
     }
 
-
-
     private void FPS_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         _isFPSCounterEnabled = !_isFPSCounterEnabled;

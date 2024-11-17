@@ -10,28 +10,28 @@ using Random = UnityEngine.Random;
 
 public class EnvironmentRoadGenerator : MonoBehaviour
 {
-    [Header("Параметры генерации")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     [SerializeField] private Chunk[] _chunks;
     [SerializeField] private Chunk[] _straightChunks;
     [SerializeField] private GameObject[] _obstacles;
     [SerializeField] private ChunkEnvironment[] _environment;
-    [SerializeField] private float _newChunkGenerateOffset; //Расстояние от машины на котором будут спавниться новые чанки
-    [SerializeField] private int _chunksCountGenerationLimit; //Сколько чанков должно пройти чтобы появилась вероятность заспавнить портал вместо следующего чанка
-    [SerializeField] private float _startLineLength; //Длина стартовой линии из прямых чвнков, советую ставить где0то 100 - 150
+    [SerializeField] private float _newChunkGenerateOffset; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private int _chunksCountGenerationLimit; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    [SerializeField] private float _startLineLength; //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ0пїЅпїЅ 100 - 150
     [SerializeField] private bool _randomGenerationIsOn;
 
-    [Header("Объекты на сцене")]
-    [SerializeField] private Chunk _lastCreatedChunk;//последний созданный чанк, в самом начале - нулевой
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
+    [SerializeField] private Chunk _lastCreatedChunk;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField] private Vehicle _car;
-    [SerializeField] private Teleporter _teleporter; // Телепорт который будет спавнится в конце дороги
+    [SerializeField] private Teleporter _teleporter; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField] private BiomController _biomeController;
-    [SerializeField] private Chunk _zeroPointChunk; // Чанк который стоит в нулевой точке и является точкой отсчёта для всех других
+    [SerializeField] private Chunk _zeroPointChunk; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private ToPortalProgress _toPortalProgress;
     public event EventHandler<Chunk> ChunkCreated;
 
     private float _currentChunksLength;
-    private int _chunksCreated; //сколько за текущий биом заспавнено чанков
+    private int _chunksCreated; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     private Queue<Chunk> _chunksQueue;
 
     private void OnDestroy()
@@ -91,10 +91,10 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Создаёт и размещает случайный чанк, выбранный из переданного массива, в игровом пространстве. 
-    /// Также заносит его в очередь уже созданных чанков.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. 
+    /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </summary>
-    /// <param name="chunks">Массив чанков для выбора случайного чанка</param>
+    /// <param name="chunks">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ</param>
     private void ChunkSpawn(Chunk[] chunks,bool spawnObstacle)
     {
         Chunk chunk = Instantiate(chunks[Random.Range(0, chunks.Length)]);
@@ -113,11 +113,11 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Создаёт и размещает чанк который определён индексом. 
-    /// Также заносит его в очередь уже созданных чанков.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. 
+    /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </summary>
-    /// <param name="chunks">Массив чанков для выбора случайного чанка</param>
-    /// <param name="index">Индекс чанка, для реализации параметра есть список существующих чанков</param>
+    /// <param name="chunks">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ</param>
+    /// <param name="index">пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ</param>
     private void ChunkSpawn(Chunk[] chunks,int index)
     {
         Chunk chunk = Instantiate(chunks[index]);
@@ -134,7 +134,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Уничтожает все чанки со сцены и очищает список чанков, также задаёт нулевой чанк - последним созданным
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     /// </summary>
     private void ClearSceneFromChunks()
     {
@@ -181,7 +181,7 @@ public class EnvironmentRoadGenerator : MonoBehaviour
     {
         Chunk currentChunk = _chunksQueue.First();
         _car.transform.SetPositionAndRotation(currentChunk._start.transform.position + Vector3.forward + Vector3.up, Quaternion.Euler(0, 0, 0));
-        _car.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _car.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
     }
 
 }

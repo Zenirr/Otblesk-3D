@@ -27,6 +27,10 @@ public class InputController : MonoBehaviour
     {
         public Vector2 inputValues;
     }
+    public class InputTorqueEventArgs : EventArgs
+    {
+        public float inputTorque;
+    }
 
     StandartControls _inputActions;
 

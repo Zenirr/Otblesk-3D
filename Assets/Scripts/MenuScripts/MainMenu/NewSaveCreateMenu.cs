@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class NewSaveCreateMenu : MonoBehaviour, IMenu
+public class NewSaveCreateMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _loginInputField;
     [SerializeField] private TMP_InputField _passwordInputField;

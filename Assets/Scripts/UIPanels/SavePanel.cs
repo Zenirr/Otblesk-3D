@@ -28,7 +28,7 @@ public class SavePanel : MonoBehaviour, IPanel
 
     private void ChooseButtonPressed() 
     {
-        GameManager.Instance.SetSave(_gameSave);
+        GameManager.GetInstance().SetSave(_gameSave);
         //вот эта строка кода является костылём который протянется аж до менеджера главного меню
         SaveChoosed?.Invoke(this, EventArgs.Empty);
     }

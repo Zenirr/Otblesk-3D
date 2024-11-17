@@ -24,17 +24,17 @@ public class RadioController : MonoBehaviour
     #region input controller events
     private void InputController_OnPlayNextTrackButtonPressed(object sender, System.EventArgs e)
     {
-        MusicManager.Instance.PlayNextTrack();
+        MusicManager.GetInstance().PlayNextTrack();
     }
 
     private void InputController_OnPlayPreviousTrackButtonPressed(object sender, System.EventArgs e)
     {
-        MusicManager.Instance.PlayPreviousTrack();
+        MusicManager.GetInstance().PlayPreviousTrack();
     }
 
     private void InputController_OnPauseMusicButtonPressed(object sender, System.EventArgs e)
     {
-        MusicManager.Instance.PauseContinueMusic();
+        MusicManager.GetInstance().PauseContinueMusic();
     }
     #endregion
 

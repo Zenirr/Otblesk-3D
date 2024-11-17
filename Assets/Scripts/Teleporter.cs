@@ -24,7 +24,7 @@ public class Teleporter : MonoBehaviour
         //position
         Vector3 localPos = transform.worldToLocalMatrix.MultiplyPoint3x4(obj.position);
         localPos = new Vector3(-localPos.x,localPos.y,-localPos.z);
-        obj.position = _otherTeleporter.transform.localToWorldMatrix.MultiplyPoint3x4(localPos);
+        obj.position = _otherTeleporter.transform.localToWorldMatrix.MultiplyPoint3x4(localPos)+ Vector3.up*0.5f;
 
         //rotation
         Quaternion difference = _otherTeleporter.transform.rotation * Quaternion.Inverse(transform.rotation * Quaternion.Euler(0, 180, 0));

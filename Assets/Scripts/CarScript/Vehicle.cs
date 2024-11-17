@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 public class Vehicle : MonoBehaviour
 {
+
     private class SpringData
     {
         public float CurrentLength;
@@ -28,10 +29,11 @@ public class Vehicle : MonoBehaviour
 
     private float m_SteerInput;
     private float m_AccelerateInput;
+    private float m_TorqueInput;
     private bool m_IsBrake;
     public VehicleSettings Settings => m_Settings;
     public Vector3 Forward => m_Transform.forward;
-    public Vector3 Velocity => m_Rigidbody.velocity;
+    public Vector3 Velocity => m_Rigidbody.linearVelocity;
     public bool IsBrake => m_IsBrake;
 
     private void Awake()
@@ -88,6 +90,7 @@ public class Vehicle : MonoBehaviour
         UpdateBrakes();
 
         UpdateAirResistance();
+
     }
 
     public float GetSpringCurrentLength(Wheel wheel)
@@ -100,7 +103,7 @@ public class Vehicle : MonoBehaviour
     }
     public float GetWheelRotationAngle()
     {
-        return m_Settings.SteerCurve.Evaluate(m_Rigidbody.velocity.magnitude);
+        return m_Settings.SteerCurve.Evaluate(m_Rigidbody.linearVelocity.magnitude);
     }
     #region vehicle initialization
     private void InitializeCollider()
@@ -127,8 +130,8 @@ public class Vehicle : MonoBehaviour
         m_Rigidbody.mass = m_Settings.ChassiMass + m_Settings.TireMass * WHEELS_COUNT;
         m_Rigidbody.isKinematic = false;
         m_Rigidbody.useGravity = true;
-        m_Rigidbody.drag = 0.0f;
-        m_Rigidbody.angularDrag = 0.0f;
+        m_Rigidbody.linearDamping = 0.0f;
+        m_Rigidbody.angularDamping = 0.0f;
         m_Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         m_Rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
         m_Rigidbody.constraints = RigidbodyConstraints.None;
@@ -192,7 +195,7 @@ public class Vehicle : MonoBehaviour
 
         if (frontWheel)
         {
-            var steerQuaternion = Quaternion.AngleAxis(m_SteerInput * m_Settings.SteerCurve.Evaluate(m_Rigidbody.velocity.magnitude), Vector3.up);
+            var steerQuaternion = Quaternion.AngleAxis(m_SteerInput * m_Settings.SteerCurve.Evaluate(m_Rigidbody.linearVelocity.magnitude), Vector3.up);
             return steerQuaternion * m_Transform.forward;
         }
         else
@@ -285,7 +288,7 @@ public class Vehicle : MonoBehaviour
             return;
         }
 
-        float forwardSpeed = Vector3.Dot(m_Transform.forward, m_Rigidbody.velocity);
+        float forwardSpeed = Vector3.Dot(m_Transform.forward, m_Rigidbody.linearVelocity);
         bool movingForward = forwardSpeed > 0.0f;
         float speed = Mathf.Abs(forwardSpeed);
 
@@ -313,7 +316,7 @@ public class Vehicle : MonoBehaviour
 
     private void UpdateBrakes()
     {
-        float forwardSpeed = Vector3.Dot(m_Transform.forward, m_Rigidbody.velocity);
+        float forwardSpeed = Vector3.Dot(m_Transform.forward, m_Rigidbody.linearVelocity);
         float speed = Mathf.Abs(forwardSpeed);
 
         float brakesRatio;
@@ -328,7 +331,7 @@ public class Vehicle : MonoBehaviour
         {
             bool accelerateContrary =
                 !Mathf.Approximately(m_AccelerateInput, 0.0f) &&
-                Vector3.Dot(m_AccelerateInput * m_Transform.forward, m_Rigidbody.velocity) < 0.0f;
+                Vector3.Dot(m_AccelerateInput * m_Transform.forward, m_Rigidbody.linearVelocity) < 0.0f;
             if (accelerateContrary)
             {
                 brakesRatio = 1.0f;
@@ -365,8 +368,10 @@ public class Vehicle : MonoBehaviour
 
     private void UpdateAirResistance()
     {
-        m_Rigidbody.AddForce(m_BoxCollider.size.magnitude * m_Settings.AirResistance * -m_Rigidbody.velocity);
+        m_Rigidbody.AddForce(m_BoxCollider.size.magnitude * m_Settings.AirResistance * -m_Rigidbody.linearVelocity);
     }
+
+   
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

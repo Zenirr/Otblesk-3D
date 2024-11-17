@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Lose = " +_isLosed);
             _isLosed = false;
-            GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameOver);
+            GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GameOver);
         }
     }
     public void SetInvincible(float InvincibleTime)

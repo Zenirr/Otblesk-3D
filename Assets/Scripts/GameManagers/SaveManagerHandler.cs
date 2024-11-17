@@ -43,7 +43,7 @@ public static class SaveManagerHandler
         };
 
         string resultPath = SAVE_FOLDER + SAVE_NAME + saveCount + ".json";
-        Debug.Log(resultPath);
+
 
         string jsonString = JsonUtility.ToJson(gameSave);
 

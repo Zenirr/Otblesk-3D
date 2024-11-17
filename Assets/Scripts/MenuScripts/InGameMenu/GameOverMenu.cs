@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOverMenu : MonoBehaviour, IMenu
+public class GameOverMenu : MonoBehaviour
 {
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _exitButton;
@@ -17,13 +17,13 @@ public class GameOverMenu : MonoBehaviour, IMenu
 
     private void OnExitButtonClicked()
     {
-        GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
+        GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
         SceneLoader.Load(SceneLoader.Scenes.ArcadeMachineRoom);
     }
 
     private void OnRestartButtonClicked()
     {
-        GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
+        GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GamePlaying);
         SceneLoader.Load(SceneLoader.Scenes.MainGame);
         Debug.Log(Time.timeScale);
     }

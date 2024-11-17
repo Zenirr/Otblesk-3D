@@ -21,7 +21,7 @@ public class MusicManager : MonoBehaviour
         MusicIsStarts
     }
 
-    public static MusicManager Instance;
+    private static MusicManager Instance;
 
     [SerializeField] private string[] _customPlaylistPaths;
     [SerializeField] private AudioClip[] _buildInPlaylist;
@@ -46,6 +46,11 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    public static MusicManager GetInstance()
+    {
+        return Instance;
+    }
+
     private void Start()
     {
         if (_audioSource == null)
@@ -53,13 +58,13 @@ public class MusicManager : MonoBehaviour
             _audioSource = GetComponent<AudioSource>();
             _audioDecoder = GetComponent<NAudioDecoder>();
             _currentState = MusicState.MusicIsPaused;
-            GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+            GameManager.GetInstance().SaveSetted += GameManager_SaveSetted;
         }
     }
 
     public void SetMusicPlaylistFromCurrentPath()
     {
-        if (GameManager.Instance.useBuiltInMusic)
+        if (GameManager.GetInstance().useBuiltInMusic)
         {
             _currentPlaylistPath = string.Empty;
             _customPlaylistPaths = new string[0];
@@ -70,7 +75,7 @@ public class MusicManager : MonoBehaviour
             _currentPlaylistPath = string.Empty;
             _customPlaylistPaths = new string[0];
 
-            _currentPlaylistPath = GameManager.Instance.musicPath;
+            _currentPlaylistPath = GameManager.GetInstance().musicPath;
             List<string> clips = GetMusicFilesPaths(_currentPlaylistPath);
             SetCustomPlaylist(clips);
             PlayNextTrack();
@@ -94,13 +99,13 @@ public class MusicManager : MonoBehaviour
 
     private void GameManager_SaveSetted(object sender, System.EventArgs e)
     {
-        SetCurrentMusicVolume(GameManager.Instance.musicVolume);
+        SetCurrentMusicVolume(GameManager.GetInstance().musicVolume);
         if (!(GameManager.State == GameManager.GameState.GamePlaying || GameManager.State == GameManager.GameState.GamePaused || GameManager.State == GameManager.GameState.GameOver))
         {
             _customPlaylistPaths = null;
-            _currentPlaylistPath = GameManager.Instance.currentSave._musicPath;
+            _currentPlaylistPath = GameManager.GetInstance().currentSave._musicPath;
             _currentTrackIndex = 0;
-            if (GameManager.Instance.useBuiltInMusic)
+            if (GameManager.GetInstance().useBuiltInMusic)
                 SetCurrentAudio(_buildInPlaylist[Random.Range(0, _buildInPlaylist.Length - 1)]);
             else
                 SetMusicPlaylistFromCurrentPath();
@@ -146,7 +151,7 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void PlayPreviousTrack()
     {
-        if (GameManager.Instance.useBuiltInMusic)
+        if (GameManager.GetInstance().useBuiltInMusic)
         {
             if (0 < _currentTrackIndex)
             {
@@ -181,7 +186,7 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     public void PlayNextTrack()
     {
-        if (GameManager.Instance.useBuiltInMusic)
+        if (GameManager.GetInstance().useBuiltInMusic)
         {
             if (_buildInPlaylist.Length > _currentTrackIndex + 1)
             {

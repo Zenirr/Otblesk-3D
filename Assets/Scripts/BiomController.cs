@@ -27,7 +27,7 @@ public class BiomController : MonoBehaviour
     private void Start()
     {
         _teleportFrom.Teleported += Teleport_Teleported;
-        if (GameManager.Instance.isNew)
+        if (GameManager.GetInstance().isNew)
         {
             SetCurrentBiom(tutorialBiom);
         }
@@ -35,11 +35,11 @@ public class BiomController : MonoBehaviour
 
     private void Teleport_Teleported(object sender, System.EventArgs e)
     {
-        GameSave save = GameManager.Instance.currentSave;
+        GameSave save =     GameManager.GetInstance().currentSave;
         if (save._highScore < _scoreManager._currentScore)
         {
             SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, _scoreManager._currentScore, false,save._playerPassword, save._musicVolume,save._useBuiltInPlaylist);
-            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
+            GameManager.GetInstance().SetSave(SaveManagerHandler.Load(save._saveName+".json"));
         }
 
         if (_isEndlessRegime)

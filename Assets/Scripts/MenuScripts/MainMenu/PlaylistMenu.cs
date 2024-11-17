@@ -17,7 +17,8 @@ public class PlaylistMenu : MonoBehaviour, IMenu
     [SerializeField] private MusicPanel _musicPanel;
     [SerializeField] private MusicFileManagerUI _MusicfileManagerUI;
 
-    public event EventHandler CloseButtonClicked;
+
+    public event EventHandler<MainMenu.MenuSwitchEventArgs> ButtonClicked;
     private string _currentPlaylistPath;
     private readonly string InitialMusicFolderPath = (Application.dataPath + "/Music/");
     private bool IsMusicPathChanged;
@@ -29,12 +30,12 @@ public class PlaylistMenu : MonoBehaviour, IMenu
             Directory.CreateDirectory(InitialMusicFolderPath);
         }
 
-        if (GameManager.Instance.currentSave != null)
+        if (GameManager.GetInstance().currentSave != null)
         {
-            string musicPath = GameManager.Instance.musicPath;
+            string musicPath = GameManager.GetInstance().musicPath;
             _folderInputField.text = musicPath;
             _currentPlaylistPath = musicPath;
-            GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+            GameManager.GetInstance().SaveSetted += GameManager_SaveSetted;
         }
 
         UpdateMusicData(_folderInputField.text);
@@ -45,8 +46,8 @@ public class PlaylistMenu : MonoBehaviour, IMenu
 
     private void GameManager_SaveSetted(object sender, EventArgs e)
     {
-        _folderInputField.text = GameManager.Instance.musicPath;
-        if (!GameManager.Instance.currentSave._useBuiltInPlaylist)
+        _folderInputField.text = GameManager.GetInstance().musicPath;
+        if (!GameManager.GetInstance().currentSave._useBuiltInPlaylist)
         {
             UpdateMusicData(_folderInputField.text);
         }
@@ -54,18 +55,18 @@ public class PlaylistMenu : MonoBehaviour, IMenu
 
     private void CloseButton_clicked()
     {
-        CloseButtonClicked?.Invoke(this, EventArgs.Empty);
+        ButtonClicked?.Invoke(this, new MainMenu.MenuSwitchEventArgs() { MenuOff = "MusicMenu"});
     }
 
     public void ChangeFolder()
     {
-        GameSave save = GameManager.Instance.currentSave;
+        GameSave save = GameManager.GetInstance().currentSave;
         Debug.Log(Directory.Exists(_folderInputField.text));
         if (Directory.Exists(_folderInputField.text))
         {
             SaveManagerHandler.Save(save._saveName, _folderInputField.text, save._playerName, save._highScore, save._isNew, save._playerPassword, save._musicVolume, save._useBuiltInPlaylist);
-            GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
-            MusicManager.Instance.SetMusicPlaylistFromCurrentPath();
+            GameManager.GetInstance().SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
+            MusicManager.GetInstance().SetMusicPlaylistFromCurrentPath();
         }
         else
         {
@@ -83,7 +84,7 @@ public class PlaylistMenu : MonoBehaviour, IMenu
     private void OnDestroy()
     {
         _closeButton.onClick.RemoveAllListeners();
-        GameManager.Instance.SaveSetted -= GameManager_SaveSetted;
+        GameManager.GetInstance().SaveSetted -= GameManager_SaveSetted;
     }
 
     #region Взял из FileManager

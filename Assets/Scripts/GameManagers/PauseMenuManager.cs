@@ -11,7 +11,7 @@ public class PauseMenuManager : MonoBehaviour
     private void Start()
     {
         InputController.Instance.OnPauseButtonPressed += InputController_OnPauseButtonPressed;
-        GameManager.Instance.GameOver += GameManager_GameOver;
+        GameManager.GetInstance().GameOver += GameManager_GameOver;
         _pauseMenu.ContinueButtonClicked += PauseMenu_ContinueButtonClicked;
     }
 
@@ -31,7 +31,7 @@ public class PauseMenuManager : MonoBehaviour
         //этот метод так реализован для того чтобы пользователь мог заходить и выходить из меню паузы через ESC
         if (GameManager.State == GameManager.GameState.GamePlaying)
         {
-            GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePaused);
+            GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GamePaused);
             _pauseMenu.gameObject.SetActive(true);
         }
         else
@@ -43,13 +43,13 @@ public class PauseMenuManager : MonoBehaviour
     public void Continue()
     {
         _pauseMenu.gameObject.SetActive(false);
-        GameManager.Instance.SetCurrentGameState(GameManager.GameState.GamePlaying);
+        GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GamePlaying);
     }
 
     private void OnDestroy()
     {
         InputController.Instance.OnPauseButtonPressed -= InputController_OnPauseButtonPressed;
-        GameManager.Instance.GameOver -= GameManager_GameOver;
+        GameManager.GetInstance().GameOver -= GameManager_GameOver;
         _pauseMenu.ContinueButtonClicked -= PauseMenu_ContinueButtonClicked;
     }
 }

@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AreYouSureMenu : MonoBehaviour, IMenu
+public class AreYouSureMenu : MonoBehaviour
 {
     [SerializeField] private TMP_InputField _passwordTMP;
     [SerializeField] private Button _confirmButton;
@@ -29,7 +29,7 @@ public class AreYouSureMenu : MonoBehaviour, IMenu
     private void OnConfirmButtonClicked()
     {
         string password = _passwordTMP.text.Trim();
-        GameSave save = GameManager.Instance.currentSave;
+        GameSave save = GameManager.GetInstance().currentSave;
         if (CheckPassword(password) && save._playerPassword == password)
         {
             SaveManagerHandler.DeleteCurrentSave(save._saveName + ".json");

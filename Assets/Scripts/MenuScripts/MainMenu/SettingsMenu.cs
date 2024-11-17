@@ -10,28 +10,28 @@ public class SettingsMenu : MonoBehaviour, IMenu
     [SerializeField] private Slider _musicSlider;
     [SerializeField] private Toggle _toggleStandartPlaylist;
     [SerializeField] private Button _DeleteSave;
-    [SerializeField] private AreYouSureMenu _areYouSureMenu; 
+    [SerializeField] private AreYouSureMenu _areYouSureMenu;
 
-    public event EventHandler CloseButtonClicked;
-    public event EventHandler SaveDeleted;
+
+    public event EventHandler<MainMenu.MenuSwitchEventArgs> ButtonClicked;
 
     private void Start()
     {
-        _toggleStandartPlaylist.isOn = GameManager.Instance.useBuiltInMusic;
+        _toggleStandartPlaylist.isOn = GameManager.GetInstance().useBuiltInMusic;
         _closeButton?.onClick.AddListener(CloseButton_clicked);
         _musicSlider?.onValueChanged.AddListener(OnMusicSliderValueChanged);
         _toggleStandartPlaylist?.onValueChanged.AddListener(OnStandartPLaylistToggle);
         _DeleteSave?.onClick.AddListener(OnSaveDeleteButtonPressed);
-        _areYouSureMenu.SaveDeleted += AreYouSureMenu_SaveDeleted;
-        
+        _areYouSureMenu.SaveDeleted += AreYouSureMenu_ButtonClicked;
 
-        GameManager.Instance.SaveSetted += GameManager_SaveSetted;
+
+        GameManager.GetInstance().SaveSetted += GameManager_SaveSetted;
     }
 
-    private void AreYouSureMenu_SaveDeleted(object sender, EventArgs e)
+
+    private void AreYouSureMenu_ButtonClicked(object sender, EventArgs e)
     {
-        _areYouSureMenu.ToggleVisible();
-        SaveDeleted?.Invoke(this, new EventArgs());
+        ButtonClicked?.Invoke(this, new MainMenu.MenuSwitchEventArgs() { MenuOff = "SettingsMenu" });
     }
 
     private void OnSaveDeleteButtonPressed()
@@ -41,31 +41,30 @@ public class SettingsMenu : MonoBehaviour, IMenu
 
     private void GameManager_SaveSetted(object sender, EventArgs e)
     {
-        float volume = GameManager.Instance.musicVolume;
-        MusicManager.Instance.SetCurrentMusicVolume(volume);
+        float volume = GameManager.GetInstance().musicVolume;
+        MusicManager.GetInstance().SetCurrentMusicVolume(volume);
         _musicSlider.value = volume;
     }
 
     private void OnStandartPLaylistToggle(bool newValue)
     {
-        GameSave save = GameManager.Instance.currentSave;
-        SaveManagerHandler.Save(save._saveName,save._musicPath,save._playerName,save._highScore,save._isNew,save._playerPassword,_musicSlider.value, _toggleStandartPlaylist.isOn);
-        GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName+".json"));
+        GameSave save = GameManager.GetInstance().currentSave;
+        SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, save._highScore, save._isNew, save._playerPassword, _musicSlider.value, _toggleStandartPlaylist.isOn);
+        GameManager.GetInstance().SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
     }
 
     private void OnMusicSliderValueChanged(float volume)
     {
-        MusicManager.Instance.SetCurrentMusicVolume(volume);
-        
+        MusicManager.GetInstance().SetCurrentMusicVolume(volume);
     }
 
     private void CloseButton_clicked()
     {
-        GameSave save = GameManager.Instance.currentSave;
+        GameSave save = GameManager.GetInstance().currentSave;
         SaveManagerHandler.Save(save._saveName, save._musicPath, save._playerName, save._highScore, save._isNew, save._playerPassword, _musicSlider.value, _toggleStandartPlaylist.isOn);
-        GameManager.Instance.SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
+        GameManager.GetInstance().SetSave(SaveManagerHandler.Load(save._saveName + ".json"));
         Debug.Log(_toggleStandartPlaylist.isOn);
-        CloseButtonClicked?.Invoke(this, EventArgs.Empty);
+        ButtonClicked?.Invoke(this, new MainMenu.MenuSwitchEventArgs() { MenuOff = "SettingsMenu" });
     }
 
     public void ToggleVisible()
@@ -78,13 +77,13 @@ public class SettingsMenu : MonoBehaviour, IMenu
         _closeButton.onClick.RemoveAllListeners();
         _musicSlider.onValueChanged.RemoveAllListeners();
         _toggleStandartPlaylist.onValueChanged.RemoveAllListeners();
-        GameManager.Instance.SaveSetted -= GameManager_SaveSetted;
+        GameManager.GetInstance().SaveSetted -= GameManager_SaveSetted;
         _DeleteSave.onClick.RemoveAllListeners();
-        _areYouSureMenu.SaveDeleted -= AreYouSureMenu_SaveDeleted;
+        _areYouSureMenu.SaveDeleted -= AreYouSureMenu_ButtonClicked;
     }
 
     private void OnEnable()
     {
-        _musicSlider.value = GameManager.Instance.musicVolume;
+        _musicSlider.value = GameManager.GetInstance().musicVolume;
     }
 }

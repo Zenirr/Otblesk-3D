@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GamePauseMenu : MonoBehaviour, IMenu
+public class GamePauseMenu : MonoBehaviour
 {
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _optionsButton;
@@ -35,7 +35,7 @@ public class GamePauseMenu : MonoBehaviour, IMenu
     private void OnExitButtonClicked()
     {
         Time.timeScale = 1f;
-        GameManager.Instance.SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
+        GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GameIsOnMainMenu);
         SceneLoader.Load(SceneLoader.Scenes.ArcadeMachineRoom);
     }
 

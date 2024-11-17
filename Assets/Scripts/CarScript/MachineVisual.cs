@@ -1,6 +1,7 @@
 using AfterGlow;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem.XR.Haptics;
 
@@ -51,6 +52,37 @@ public class MachineVisual : MonoBehaviour
     {
         SetCurrentVehicleState();
 
+        SetWheelsRotation();
+
+        SetWheelPosition();
+    }
+
+    private void SetWheelPosition()
+    {
+        float springFrontLeftRatio = SpringsCurrentLength[Wheel.FrontLeft] / SpringsRestLength;
+        float springFrontRightRatio = SpringsCurrentLength[Wheel.FrontRight] / SpringsRestLength;
+        float springBackLeftRatio = SpringsCurrentLength[Wheel.BackLeft] / SpringsRestLength;
+        float springBackRightRatio = SpringsCurrentLength[Wheel.BackRight] / SpringsRestLength;
+
+        m_WheelFrontLeft.localPosition = new Vector3(m_WheelFrontLeft.localPosition.x,
+            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springFrontLeftRatio,
+            m_WheelFrontLeft.localPosition.z);
+
+        m_WheelFrontRight.localPosition = new Vector3(m_WheelFrontRight.localPosition.x,
+            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springFrontRightRatio,
+            m_WheelFrontRight.localPosition.z);
+
+        m_WheelBackRight.localPosition = new Vector3(m_WheelBackRight.localPosition.x,
+            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springBackRightRatio,
+            m_WheelBackRight.localPosition.z);
+
+        m_WheelBackLeft.localPosition = new Vector3(m_WheelBackLeft.localPosition.x,
+            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springBackLeftRatio,
+            m_WheelBackLeft.localPosition.z);
+    }
+
+    private void SetWheelsRotation()
+    {
         if (SpringsCurrentLength[Wheel.FrontLeft] < SpringsRestLength)
         {
             m_WheelFrontLeftRoll *= Quaternion.AngleAxis(ForwardSpeed * m_WheelsSpinSpeed * Time.deltaTime, Vector3.right);
@@ -74,26 +106,6 @@ public class MachineVisual : MonoBehaviour
         m_WheelFrontLeft.localRotation = Quaternion.AngleAxis(SteerInput * (SteerAngle * _torqueMultiplier), Vector3.up) * m_WheelFrontLeftRoll;
         m_WheelFrontRight.localRotation = Quaternion.AngleAxis(SteerInput * (SteerAngle * _torqueMultiplier), Vector3.up) * m_WheelFrontRightRoll;
 
-        float springFrontLeftRatio = SpringsCurrentLength[Wheel.FrontLeft] / SpringsRestLength;
-        float springFrontRightRatio = SpringsCurrentLength[Wheel.FrontRight] / SpringsRestLength;
-        float springBackLeftRatio = SpringsCurrentLength[Wheel.BackLeft] / SpringsRestLength;
-        float springBackRightRatio = SpringsCurrentLength[Wheel.BackRight] / SpringsRestLength;
-
-        m_WheelFrontLeft.localPosition = new Vector3(m_WheelFrontLeft.localPosition.x,
-            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springFrontLeftRatio,
-            m_WheelFrontLeft.localPosition.z);
-
-        m_WheelFrontRight.localPosition = new Vector3(m_WheelFrontRight.localPosition.x,
-            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springFrontRightRatio,
-            m_WheelFrontRight.localPosition.z);
-
-        m_WheelBackRight.localPosition = new Vector3(m_WheelBackRight.localPosition.x,
-            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springBackRightRatio,
-            m_WheelBackRight.localPosition.z);
-
-        m_WheelBackLeft.localPosition = new Vector3(m_WheelBackLeft.localPosition.x,
-            m_WheelYWhenSpringMin + (m_WheelYWhenSpringMax - m_WheelYWhenSpringMin) * springBackLeftRatio,
-            m_WheelBackLeft.localPosition.z);
     }
 
     private void SetCurrentVehicleState()
