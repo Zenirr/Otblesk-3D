@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 //¬есь этот компонент нужен дл€ получени€ данных с главного меню о нажатии кнопок
+// INHERITANCE
 public class MainMenu : MonoBehaviour, IMenu
 {
 

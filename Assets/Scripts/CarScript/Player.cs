@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
             GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GameOver);
         }
     }
+
     public void SetInvincible(float InvincibleTime)
     {
         isInvincible = true;

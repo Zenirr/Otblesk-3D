@@ -10,6 +10,8 @@ public static class SaveManagerHandler
     public static readonly string SAVE_FOLDER = Application.persistentDataPath + "/Saves/";
     public static readonly string SAVE_NAME = "NewSave";
 
+
+    // POLYMORPHISM
     /// <summary>
     /// »спользуетс€ дл€ создани€ нового сохранени€
     /// </summary>

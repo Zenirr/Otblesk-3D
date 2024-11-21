@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
     Dictionary<string, IMenu> menuNames;
 
     IMenu[] menus;
-    
+
     private void Start()
     {
         menuNames = new Dictionary<string, IMenu> {
@@ -60,7 +60,6 @@ public class MainMenuManager : MonoBehaviour
 
     private void SwitchMenu_ButtonClicked(object sender, MainMenu.MenuSwitchEventArgs e)
     {
-        Debug.Log("off "+ menuNames.GetValueOrDefault(e.MenuOff)+ " on "+ menuNames.GetValueOrDefault(e.MenuOn));
         menuNames.GetValueOrDefault(e.MenuOff).ToggleVisible();
         menuNames.GetValueOrDefault(e.MenuOn).ToggleVisible();
     }

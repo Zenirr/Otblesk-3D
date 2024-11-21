@@ -19,6 +19,7 @@ public class Teleporter : MonoBehaviour
         }
     }
 
+    // ABSTRACTION
     private void Teleport(Transform obj)
     {
         //position

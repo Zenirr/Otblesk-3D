@@ -25,9 +25,11 @@ public class MusicManager : MonoBehaviour
 
     [SerializeField] private string[] _customPlaylistPaths;
     [SerializeField] private AudioClip[] _buildInPlaylist;
-
+    
+    // ENCAPSULATION
     public MusicState _currentState { get; private set; }
     public NAudioDecoder _audioDecoder { get; private set; }
+    
     private AudioSource _audioSource;
     public string _currentPlaylistPath;
     private int _currentTrackIndex;
@@ -81,6 +83,7 @@ public class MusicManager : MonoBehaviour
             PlayNextTrack();
         }
     }
+
     private List<string> GetMusicFilesPaths(string folderPath)
     {
         List<string> musicPaths = new List<string>();
