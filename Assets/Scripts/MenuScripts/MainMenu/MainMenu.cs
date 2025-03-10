@@ -41,7 +41,6 @@ public class MainMenu : MonoBehaviour, IMenu
         }
     }
 
-
     private void Start()
     {
         _playButton.onClick.AddListener(PlayButton_clicked);
@@ -75,7 +74,6 @@ public class MainMenu : MonoBehaviour, IMenu
         MusicManager.GetInstance().SetMusicPlaylistFromCurrentPath();
         GameManager.GetInstance().SetCurrentGameState(GameManager.GameState.GamePlaying);
         SceneLoader.Load(SceneLoader.Scenes.MainGame);
-
     }
 
     private void SettingsButton_clicked()
