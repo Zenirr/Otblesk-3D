@@ -41,9 +41,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424215157570831437}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 2
-  m_Shape: 0
   m_Color: {r: 1, g: 0.7931468, b: 0.5518868, a: 1}
   m_Intensity: 0.004
   m_Range: 0.13230488
@@ -93,8 +92,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!114 &8315456001877648962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +179,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -242,9 +248,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 965947655161630915}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 2
-  m_Shape: 0
   m_Color: {r: 1, g: 0.7931468, b: 0.5518868, a: 1}
   m_Intensity: 0.004
   m_Range: 0.17815596
@@ -294,8 +299,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!114 &7765818404842657895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +386,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -460,6 +472,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -526,9 +541,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4760818721892401080}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 0
-  m_Shape: 0
   m_Color: {r: 1, g: 0.9934211, b: 0.9858491, a: 1}
   m_Intensity: 15
   m_Range: 5
@@ -578,8 +592,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!114 &2791574646180729774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,9 +662,8 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6438512435793513012}
   m_Enabled: 1
-  serializedVersion: 10
+  serializedVersion: 11
   m_Type: 0
-  m_Shape: 0
   m_Color: {r: 1, g: 0.9934211, b: 0.9858491, a: 1}
   m_Intensity: 15
   m_Range: 5
@@ -696,8 +713,12 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!114 &3328832319304191805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,6 +800,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -852,6 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7ac7f8fd92b444bd67c028cab2320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recoverySpeed: 96
   m_Settings: {fileID: 11400000, guid: 6ee8e906144d59d418d46386adb3155f, type: 2}
 --- !u!114 &7663722187665485638
 MonoBehaviour:
@@ -905,6 +930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b643907b7fbe52c45b68ce7d18b81f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _invincibleBuffActive: {fileID: 0}
 --- !u!1 &7904791875118793550
 GameObject:
   m_ObjectHideFlags: 0
@@ -963,6 +989,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1120,6 +1149,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

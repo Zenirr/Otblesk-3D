@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 public class Vehicle : MonoBehaviour
 {
+    public float recoverySpeed = 96f;
 
     private class SpringData
     {
@@ -26,6 +27,7 @@ public class Vehicle : MonoBehaviour
     private BoxCollider m_BoxCollider;
     private Rigidbody m_Rigidbody;
     private Dictionary<Wheel, SpringData> m_SpringDatas;
+
 
     private float m_SteerInput;
     private float m_AccelerateInput;
@@ -91,6 +93,21 @@ public class Vehicle : MonoBehaviour
 
         UpdateAirResistance();
 
+        UpdateRecovery();
+
+    }
+
+    private void UpdateRecovery()
+    {
+        float angle = Vector3.Angle(transform.up, Vector3.up);
+        if (angle > 89f)
+        {
+            Vector3 recoveryTorque = Vector3.Cross(transform.up, Vector3.up);
+
+
+            recoveryTorque.Normalize();
+            m_Rigidbody.AddTorque(recoveryTorque * recoverySpeed, ForceMode.Acceleration);
+        }
     }
 
     public float GetSpringCurrentLength(Wheel wheel)
@@ -371,7 +388,7 @@ public class Vehicle : MonoBehaviour
         m_Rigidbody.AddForce(m_BoxCollider.size.magnitude * m_Settings.AirResistance * -m_Rigidbody.linearVelocity);
     }
 
-   
+
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
