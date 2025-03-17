@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 18dc9514631cd79499f7b54104cfc461
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 0caf4223a9610b04e928f09e23288b5c
+    m_Address: Assets/Sounds/MenuButtons/low.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e33e9e453f477164fa0f0618bf44f40b, type: 2}
   m_SchemaSet:
