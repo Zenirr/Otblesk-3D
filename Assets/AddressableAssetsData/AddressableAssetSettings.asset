@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 18dc9514631cd79499f7b54104cfc461
   m_currentHash:
     serializedVersion: 2
-    Hash: 5f859df6f050857a35fe9dee7daa9e57
+    Hash: 0d0ac13ab2f0beeac8408be7b84d6932
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
   m_CatalogRequestsTimeout: 0
@@ -69,22 +69,6 @@ MonoBehaviour:
   m_ProfileSettings:
     m_Profiles:
     - m_InheritedParent: 
-      m_Id: 31ece17a7a7ae6c459742f649fb16815
-      m_ProfileName: New Profile
-      m_Values:
-      - m_Id: 2a94439a51d46324b8fdda97e47c4e48
-        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
-      - m_Id: 2ff94414e812be5489c462bfe59e6d54
-        m_Value: CCDBuildData/ef261172-f102-4139-8892-0a961035450a/9b538561-94b6-4ad7-a14e-7addf6036a4d/latest
-      - m_Id: 58db12ab84287e542a78ef36b72b1f96
-        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
-      - m_Id: bbe08ef4ed84a4c41ad1225b9f8c07e7
-        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
-      - m_Id: cba90a3f354190041a555fcf034f64ac
-        m_Value: production
-      - m_Id: d5a176cee4dedca4e9a0c4a453502cff
-        m_Value: https://d503ac36-0ae2-4870-b833-e32f9e73f6ed.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/9b538561-94b6-4ad7-a14e-7addf6036a4d/release_by_badge/latest/entry_by_path/content/?path=
-    - m_InheritedParent: 
       m_Id: b9b79a0da899f8941b5d058c115ed3e5
       m_ProfileName: Default
       m_Values:
@@ -100,6 +84,22 @@ MonoBehaviour:
         m_Value: 
       - m_Id: d5a176cee4dedca4e9a0c4a453502cff
         m_Value: <undefined>
+    - m_InheritedParent: 
+      m_Id: 31ece17a7a7ae6c459742f649fb16815
+      m_ProfileName: New Profile
+      m_Values:
+      - m_Id: 2a94439a51d46324b8fdda97e47c4e48
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: 2ff94414e812be5489c462bfe59e6d54
+        m_Value: CCDBuildData/ef261172-f102-4139-8892-0a961035450a/9b538561-94b6-4ad7-a14e-7addf6036a4d/latest
+      - m_Id: 58db12ab84287e542a78ef36b72b1f96
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: bbe08ef4ed84a4c41ad1225b9f8c07e7
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: cba90a3f354190041a555fcf034f64ac
+        m_Value: production
+      - m_Id: d5a176cee4dedca4e9a0c4a453502cff
+        m_Value: https://d503ac36-0ae2-4870-b833-e32f9e73f6ed.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/9b538561-94b6-4ad7-a14e-7addf6036a4d/release_by_badge/latest/entry_by_path/content/?path=
     m_ProfileEntryNames:
     - m_Id: 2a94439a51d46324b8fdda97e47c4e48
       m_Name: Local.BuildPath
