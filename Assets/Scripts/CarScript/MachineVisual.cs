@@ -1,9 +1,6 @@
 using AfterGlow;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.InputSystem.XR.Haptics;
 
 [RequireComponent(typeof(Vehicle))]
 public class MachineVisual : MonoBehaviour

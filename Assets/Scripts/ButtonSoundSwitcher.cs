@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 public class ButtonSoundSwitcher : MonoBehaviour
 {
-    [SerializeField] private AssetReferenceAudioClip audioClip;
+    [SerializeField] private string key;
     private AudioSource _currentAudioSource;
 
     private void Awake()
@@ -13,7 +13,7 @@ public class ButtonSoundSwitcher : MonoBehaviour
     }
     private void Start()
     {
-        audioClip.LoadAssetAsync<AudioClip>().Completed += OnAudioClipLoaded; ;
+        Addressables.LoadAssetAsync<AudioClip>(key).Completed += OnAudioClipLoaded; ;
 
     }
 
@@ -26,13 +26,4 @@ public class ButtonSoundSwitcher : MonoBehaviour
     }
 }
 
-[Serializable]
-public class AssetReferenceAudioClip : AssetReferenceT<AudioClip>
-{
-
-    public AssetReferenceAudioClip(string guid):base(guid)
-    {
-    }
-
-}
 

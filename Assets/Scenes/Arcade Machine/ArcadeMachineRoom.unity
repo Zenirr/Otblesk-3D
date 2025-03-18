@@ -9465,6 +9465,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1202488746}
   - component: {fileID: 1202488747}
+  - component: {fileID: 1202488748}
   m_Layer: 0
   m_Name: ButtonSoundPlayer
   m_TagString: Untagged
@@ -9584,6 +9585,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1202488748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202488745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8029923228d6b44487130b91751bddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Assets/Sounds/MenuButtons/high.wav
 --- !u!1 &1221186894
 GameObject:
   m_ObjectHideFlags: 0
